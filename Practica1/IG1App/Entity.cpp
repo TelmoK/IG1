@@ -94,3 +94,26 @@ RGBTriangle::RGBTriangle(GLdouble r)
 	mMesh = Mesh::createRGBTriangle(r);
 	load();
 }
+
+void
+RGBTriangle::render(mat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		mShader->use();
+		upload(aMat);
+
+		glEnable(GL_CULL_FACE);
+
+		glCullFace(GL_BACK);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		mMesh->render();
+
+		glCullFace(GL_FRONT);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		mMesh->render();
+
+		glDisable(GL_CULL_FACE);
+
+	}
+}

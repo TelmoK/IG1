@@ -71,6 +71,7 @@ class RGBTriangle : public EntityWithColors
 {
 public:
 	explicit RGBTriangle(GLdouble r);
+	void render(const glm::mat4& modelViewMat) const override;
 };
 
 
