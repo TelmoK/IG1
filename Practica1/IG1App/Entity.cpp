@@ -49,6 +49,8 @@ SingleColorEntity::SingleColorEntity(const dvec4& color)
 	: mColor(color)
 {
 	mShader = Shader::get("simple");
+	mMesh = Mesh::generateRegularPolygon(4, 20);
+	load();
 }
 
 void
@@ -56,9 +58,9 @@ SingleColorEntity::render(mat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
-		std::string c = "color";
+		
 		mShader->use();
-		//mShader->setUniform(c, dvec4(mColor));
+		mShader->setUniform("color", (glm::vec4)mColor);
 		upload(aMat);
 		mMesh->render();
 	}
