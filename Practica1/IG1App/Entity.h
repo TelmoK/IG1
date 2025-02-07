@@ -48,7 +48,6 @@ class SingleColorEntity : public Abs_Entity
 {
 	glm::dvec4 mColor;
 
-
 public:
 	explicit SingleColorEntity(const glm::dvec4& color = glm::dvec4(1));
 	void render(const glm::mat4& modelViewMat) const override;
@@ -62,10 +61,10 @@ public:
 	explicit RGBAxes(GLdouble l);
 };
 
-class RegularPolygon : public EntityWithColors
+class RegularPolygon : public SingleColorEntity
 {
 public:
-	explicit RegularPolygon(GLuint num, GLdouble r);
+	explicit RegularPolygon(GLuint num, GLdouble r, const glm::dvec4& color);
 };
 
 

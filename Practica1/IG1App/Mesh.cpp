@@ -122,7 +122,7 @@ Mesh* Mesh::generateRegularPolygon(GLuint num, GLdouble r)
 
 	mesh->vVertices.reserve(mesh->mNumVertices);
 
-	double alpha = glm::radians(90.0);
+	constexpr double alpha = glm::radians(90.0);
 	const double delta = glm::radians(360.0 / num);
 
 	for (int i = 0; i < num; ++i)

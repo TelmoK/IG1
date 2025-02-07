@@ -49,8 +49,6 @@ SingleColorEntity::SingleColorEntity(const dvec4& color)
 	: mColor(color)
 {
 	mShader = Shader::get("simple");
-	mMesh = Mesh::generateRegularPolygon(4, 20);
-	load();
 }
 
 void
@@ -81,7 +79,8 @@ RGBAxes::RGBAxes(GLdouble l)
 	load();
 }
 
-RegularPolygon::RegularPolygon(GLuint num, GLdouble r)
+RegularPolygon::RegularPolygon(GLuint num, GLdouble r, const glm::dvec4& color) 
+	: SingleColorEntity(color)
 {
 	mMesh = Mesh::generateRegularPolygon(num, r);
 	load();
