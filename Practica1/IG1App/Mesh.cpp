@@ -135,3 +135,37 @@ Mesh* Mesh::generateRegularPolygon(GLuint num, GLdouble r)
 
 	return mesh;
 }
+
+Mesh*
+Mesh::createRGBTriangle(GLdouble r)
+{
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLES;
+
+	constexpr int num = 3;
+	mesh->mNumVertices = num;
+
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+	constexpr double alpha = glm::radians(90.0);
+	const double delta = glm::radians(360.0 / num);
+
+	for (int i = 0; i < num; ++i)
+	{
+		mesh->vVertices.emplace_back(
+			r * glm::cos(alpha + delta * i),
+			r * glm::sin(alpha + delta * i),
+			0.0);
+	}
+
+	mesh->vColors.reserve(mesh->mNumVertices);
+	// X axis color: red  (Alpha = 1 : fully opaque)
+	mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+	// Y axis color: green
+	mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
+	// Z axis color: blue
+	mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
+
+	return mesh;
+}

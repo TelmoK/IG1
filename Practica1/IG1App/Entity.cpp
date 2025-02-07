@@ -85,3 +85,12 @@ RegularPolygon::RegularPolygon(GLuint num, GLdouble r, const glm::dvec4& color)
 	mMesh = Mesh::generateRegularPolygon(num, r);
 	load();
 }
+
+RGBTriangle::RGBTriangle(GLdouble r)
+	: EntityWithColors()
+{
+	constexpr int num = 3;
+
+	mMesh = Mesh::createRGBTriangle(r);
+	load();
+}

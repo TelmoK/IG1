@@ -67,6 +67,11 @@ public:
 	explicit RegularPolygon(GLuint num, GLdouble r, const glm::dvec4& color);
 };
 
+class RGBTriangle : public EntityWithColors
+{
+public:
+	explicit RGBTriangle(GLdouble r);
+};
 
 
 #endif //_H_Entities_H_
