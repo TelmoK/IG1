@@ -1,5 +1,7 @@
 #include "IG1App.h"
 
+#include "Scene0.h"
+
 #include <iostream>
 
 using namespace std;
@@ -55,7 +57,7 @@ IG1App::init()
 	// allocate memory and resources
 	mViewPort = new Viewport(mWinW, mWinH);
 	mCamera = new Camera(mViewPort);
-	mScenes.push_back(new Scene);
+	mScenes.push_back(new Scene0);
 
 	mCamera->set2D();
 	mScenes[0]->init();
