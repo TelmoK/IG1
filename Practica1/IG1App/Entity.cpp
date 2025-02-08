@@ -103,13 +103,13 @@ RGBTriangle::render(mat4 const& modelViewMat) const
 		mShader->use();
 		upload(aMat);
 
-		glEnable(GL_CULL_FACE);
+		glEnable(GL_CULL_FACE); // Activa el renderizado solo para las caras visibles para la cámara
 
-		glCullFace(GL_BACK);
+		glCullFace(GL_BACK); // También se puede hacer: glFrontFace(GL_CCW); 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		mMesh->render();
 
-		glCullFace(GL_FRONT);
+		glCullFace(GL_FRONT); // También se puede hacer: glFrontFace(GL_CW); 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		mMesh->render();
 
