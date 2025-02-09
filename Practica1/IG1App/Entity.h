@@ -44,7 +44,15 @@ public:
 	void render(const glm::mat4& modelViewMat) const override;
 };
 
-class SingleColorEntity : public Abs_Entity
+class RGBAxes : public EntityWithColors
+{
+public:
+	explicit RGBAxes(GLdouble l);
+};
+
+// Añadidos >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+class SingleColorEntity : public Abs_Entity // Apartado 3
 {
 	glm::dvec4 mColor;
 
@@ -55,24 +63,23 @@ public:
 	void setColor(const glm::dvec4& color);
 };
 
-class RGBAxes : public EntityWithColors
-{
-public:
-	explicit RGBAxes(GLdouble l);
-};
-
-class RegularPolygon : public SingleColorEntity
+class RegularPolygon : public SingleColorEntity // Apartado 4
 {
 public:
 	explicit RegularPolygon(GLuint num, GLdouble r, const glm::dvec4& color);
 };
 
-class RGBTriangle : public EntityWithColors
+class RGBTriangle : public EntityWithColors // Apartado 6
 {
 public:
 	explicit RGBTriangle(GLdouble r);
 	void render(const glm::mat4& modelViewMat) const override;
 };
 
-
+class RGBRectangle : public EntityWithColors // Apartado 8
+{
+public:
+	explicit RGBRectangle(GLuint w, GLdouble h);
+	void render(const glm::mat4& modelViewMat) const override;
+};
 #endif //_H_Entities_H_

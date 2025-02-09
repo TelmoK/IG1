@@ -45,6 +45,15 @@ EntityWithColors::render(mat4 const& modelViewMat) const
 	}
 }
 
+RGBAxes::RGBAxes(GLdouble l)
+{
+	mShader = Shader::get("vcolors");
+	mMesh = Mesh::createRGBAxes(l);
+	load();
+}
+
+// Añadidos >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 SingleColorEntity::SingleColorEntity(const dvec4& color)
 	: mColor(color)
 {
@@ -72,12 +81,6 @@ void SingleColorEntity::setColor(const glm::dvec4& color) {
 	mColor = color;
 }
 
-RGBAxes::RGBAxes(GLdouble l)
-{
-	mShader = Shader::get("vcolors");
-	mMesh = Mesh::createRGBAxes(l);
-	load();
-}
 
 RegularPolygon::RegularPolygon(GLuint num, GLdouble r, const glm::dvec4& color) 
 	: SingleColorEntity(color)
@@ -97,6 +100,35 @@ RGBTriangle::RGBTriangle(GLdouble r)
 
 void
 RGBTriangle::render(mat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		mShader->use();
+		upload(aMat);
+
+		glEnable(GL_CULL_FACE); // Activa el renderizado solo para las caras visibles para la cámara
+
+		glCullFace(GL_BACK); // También se puede hacer: glFrontFace(GL_CCW);  
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		mMesh->render();
+
+		glCullFace(GL_FRONT); // También se puede hacer: glFrontFace(GL_CW);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		mMesh->render();
+
+		glDisable(GL_CULL_FACE);
+
+	}
+}
+
+RGBRectangle::RGBRectangle(GLuint w, GLdouble h)
+{
+	mMesh = Mesh::generateRGBRectangle(w, h);
+	load();
+}
+
+void
+RGBRectangle::render(mat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
