@@ -212,3 +212,17 @@ Mesh::generateRGBRectangle(GLdouble w, GLdouble h)
 
 	return mesh;
 }
+
+Mesh* 
+Mesh::generateCube(GLdouble length)
+{
+	Mesh* mesh = new Mesh();
+
+	mesh->mNumVertices = 36;
+
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+	mesh->vVertices.emplace_back();
+
+	return mesh;
+}

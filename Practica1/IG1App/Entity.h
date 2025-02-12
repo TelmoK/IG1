@@ -93,4 +93,11 @@ public:
 	explicit RGBRectangle(GLuint w, GLdouble h);
 	void render(const glm::mat4& modelViewMat) const override;
 };
+
+class Cube : public SingleColorEntity
+{
+public:
+	explicit Cube(GLdouble edge);
+};
+
 #endif //_H_Entities_H_
