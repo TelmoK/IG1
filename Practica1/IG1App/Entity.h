@@ -12,7 +12,8 @@ class Abs_Entity // abstract class
 public:
 	Abs_Entity()
 	  : mModelMat(1.0)  // 4x4 identity matrix
-	  , mShader(nullptr) {};
+	  , mShader(nullptr) 
+	  , mWorldPosition({0, 0, 0}) {};
 	virtual ~Abs_Entity();
 
 	Abs_Entity(const Abs_Entity& e) = delete;            // no copy constructor
@@ -25,6 +26,10 @@ public:
 	glm::mat4 const& modelMat() const { return mModelMat; };
 	void setModelMat(glm::mat4 const& aMat) { mModelMat = aMat; };
 
+	// position modification
+	glm::vec3 getWPos();
+	void setWPos(glm::vec3 position);
+
 	// load or unload entity data into the GPU
 	void load();
 	void unload();
@@ -33,6 +38,8 @@ protected:
 	Mesh* mMesh = nullptr; // the mesh
 	glm::mat4 mModelMat;  // modeling matrix
 	Shader* mShader; // shader
+
+	glm::vec3 mWorldPosition; // position with axis as origin
 
 	// transfers modelViewMat to the GPU
 	virtual void upload(const glm::mat4& mModelViewMat) const;
@@ -76,6 +83,8 @@ public:
 	explicit RGBTriangle(GLdouble r);
 	void render(const glm::mat4& modelViewMat) const override;
 	void update() override;
+private:
+	GLdouble orbit_angle = 0.0f;
 };
 
 class RGBRectangle : public EntityWithColors // Apartado 8

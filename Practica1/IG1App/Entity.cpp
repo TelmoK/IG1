@@ -29,6 +29,20 @@ Abs_Entity::unload()
 	mMesh->unload();
 }
 
+glm::vec3 
+Abs_Entity::getWPos()
+{
+	return mWorldPosition;
+}
+
+void 
+Abs_Entity::setWPos(glm::vec3 position)
+{
+	setModelMat(glm::translate(modelMat(), -mWorldPosition));
+	mWorldPosition = position;
+	setModelMat(glm::translate(modelMat(), mWorldPosition));
+}
+
 EntityWithColors::EntityWithColors()
 {
 	mShader = Shader::get("vcolors");
@@ -124,10 +138,12 @@ RGBTriangle::render(mat4 const& modelViewMat) const
 void
 RGBTriangle::update()
 {
-	setModelMat(glm::translate(modelMat(), {-100, 0, 0})); // lleva al origen de coord
-	setModelMat(glm::rotate(modelMat(), radians(5.0f), vec3(0, 0, 1)));
-	setModelMat(glm::translate(modelMat(), {100, 0, 0})); // lleva al
+	setWPos({0,0,0});
+	setModelMat(glm::rotate(modelMat(), radians(-5.0f), vec3(0, 0, 1)));
 
+	setWPos({glm::cos(orbit_angle)*100, glm::sin(orbit_angle) * 100, 0});
+	orbit_angle += 0.2;
+	
 }
 
 RGBRectangle::RGBRectangle(GLuint w, GLdouble h)

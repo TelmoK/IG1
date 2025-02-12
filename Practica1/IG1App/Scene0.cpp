@@ -16,7 +16,7 @@ void Scene0::init()
 	
 	RGBTriangle* rgbTriangle = new RGBTriangle(20);
 
-	rgbTriangle->setModelMat(glm::translate(rgbTriangle->modelMat(), {100, 0, 0}));
+	rgbTriangle->setWPos({100,0,0});
 
 	gObjects.push_back(rgbTriangle);
 }
