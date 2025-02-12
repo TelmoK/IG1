@@ -174,3 +174,9 @@ RGBRectangle::render(mat4 const& modelViewMat) const
 
 	}
 }
+
+Cube::Cube(GLdouble edge)
+{
+	mMesh = Mesh::generateCube(edge);
+	load();
+}
