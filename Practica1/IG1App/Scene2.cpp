@@ -1,6 +1,7 @@
-#include "Scene1.h"
+#include "Scene2.h"
 
-void Scene1::init()
+
+void Scene2::init()
 {
 	setGL(); // OpenGL settings
 
@@ -10,5 +11,7 @@ void Scene1::init()
 
 	// Graphics objects (entities) of the scene
 	gObjects.push_back(new RGBAxes(400.0));
+	gObjects.push_back(new RGBTriangle(20));
 	gObjects.push_back(new RGBRectangle(400, 200));
+	gObjects.push_back(new RegularPolygon(100, 200, glm::dvec4(1)));
 }
