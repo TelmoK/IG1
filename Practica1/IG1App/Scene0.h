@@ -7,5 +7,6 @@ public:
 	Scene0() = default;
 
 	void init() override;
+	void update() override;
 };
 

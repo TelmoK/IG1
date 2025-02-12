@@ -62,6 +62,10 @@ protected:
 	GLFWwindow* mWindow = nullptr; // window's handle
 	int mWinW = 800;               // window's width
 	int mWinH = 600;               // window's height
+
+	const double FRAME_DURATION = 0.2; // 5FPS
+	bool mUpdateEnable = false;
+	double mNextUpdate = 0;
 };
 
 #endif //_H_IG1App_H_

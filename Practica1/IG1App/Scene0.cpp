@@ -20,3 +20,9 @@ void Scene0::init()
 
 	gObjects.push_back(rgbTriangle);
 }
+
+void Scene0::update()
+{
+	for (auto* o : gObjects)
+		o->update();
+}

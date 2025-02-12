@@ -208,5 +208,7 @@ Mesh::generateRGBRectangle(GLdouble w, GLdouble h)
 	// Z axis color: blue
 	mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
 
+	
+
 	return mesh;
 }

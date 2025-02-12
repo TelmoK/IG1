@@ -121,6 +121,15 @@ RGBTriangle::render(mat4 const& modelViewMat) const
 	}
 }
 
+void
+RGBTriangle::update()
+{
+	setModelMat(glm::translate(modelMat(), {-100, 0, 0})); // lleva al origen de coord
+	setModelMat(glm::rotate(modelMat(), radians(5.0f), vec3(0, 0, 1)));
+	setModelMat(glm::translate(modelMat(), {100, 0, 0})); // lleva al
+
+}
+
 RGBRectangle::RGBRectangle(GLuint w, GLdouble h)
 {
 	mMesh = Mesh::generateRGBRectangle(w, h);
