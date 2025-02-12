@@ -63,7 +63,7 @@ protected:
 	int mWinW = 800;               // window's width
 	int mWinH = 600;               // window's height
 
-	const double FRAME_DURATION = 0.02; // 5FPS
+	const double FRAME_DURATION = 0.03; // 30FPS
 	bool mUpdateEnable = false;
 	double mNextUpdate = 0;
 };

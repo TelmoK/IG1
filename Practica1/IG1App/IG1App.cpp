@@ -36,24 +36,24 @@ IG1App::run() // enters the main event processing loop
 
 	// IG1App main loop
 	while (!glfwWindowShouldClose(mWindow)) {
-		// Stop and wait for new events
-		//glfwWaitEvents();
-		double timeout = mNextUpdate - glfwGetTime();
-		glfwWaitEventsTimeout(timeout);
 
-		if (mNextUpdate <= glfwGetTime()) {
-			if (mUpdateEnable) {
-				mScenes[mCurrentScene]->update();
-				mNeedsRedisplay = true;
-			}
-			mNextUpdate = FRAME_DURATION + glfwGetTime();
-		}
+		mNextUpdate = glfwGetTime() + FRAME_DURATION;
 
 		// Redisplay the window if needed
 		if (mNeedsRedisplay) {
 			display();
 			mNeedsRedisplay = false;
 		}
+
+		if (mUpdateEnable) {
+			
+			mScenes[mCurrentScene]->update();
+			mNeedsRedisplay = true;
+
+			if (mNextUpdate > glfwGetTime())
+				glfwWaitEventsTimeout(mNextUpdate - glfwGetTime());
+		}
+		else glfwWaitEvents();
 
 	}
 
