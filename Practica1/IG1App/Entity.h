@@ -97,7 +97,8 @@ public:
 class Cube : public SingleColorEntity
 {
 public:
-	explicit Cube(GLdouble edge);
+	explicit Cube(GLdouble length);
+	void render(const glm::mat4& modelViewMat) const override;
 };
 
 #endif //_H_Entities_H_

@@ -218,11 +218,65 @@ Mesh::generateCube(GLdouble length)
 {
 	Mesh* mesh = new Mesh();
 
+	mesh->mPrimitive = GL_TRIANGLES;
+
 	mesh->mNumVertices = 36;
 
 	mesh->vVertices.reserve(mesh->mNumVertices);
 
-	mesh->vVertices.emplace_back();
+	// face1
+	mesh->vVertices.emplace_back(length / 2, -length / 2, length / 2); // 0
+	mesh->vVertices.emplace_back(length / 2, length / 2, length / 2); // 1
+	mesh->vVertices.emplace_back(length / 2, -length / 2, -length / 2); // 2
+
+	mesh->vVertices.emplace_back(length / 2, length / 2, length / 2); // 1
+	mesh->vVertices.emplace_back(length / 2, length / 2, -length / 2); // 3
+	mesh->vVertices.emplace_back(length / 2, -length / 2, -length / 2); // 2
+
+	// face2
+	mesh->vVertices.emplace_back(length / 2, length / 2, length / 2); // 1
+	mesh->vVertices.emplace_back(-length / 2, length / 2, -length / 2); // 4
+	mesh->vVertices.emplace_back(length / 2, length / 2, -length / 2); // 3
+
+	mesh->vVertices.emplace_back(length / 2, length / 2, length / 2); // 1
+	mesh->vVertices.emplace_back(-length / 2, length / 2, length / 2); // 6
+	mesh->vVertices.emplace_back(-length / 2, length / 2, -length / 2); // 4
+
+	// face3
+	mesh->vVertices.emplace_back(length / 2, -length / 2, length / 2); // 0
+	mesh->vVertices.emplace_back(-length / 2, -length / 2, length / 2); // 7
+	mesh->vVertices.emplace_back(length / 2, length / 2, length / 2); // 1
+
+	mesh->vVertices.emplace_back(length / 2, length / 2, length / 2); // 1
+	mesh->vVertices.emplace_back(-length / 2, -length / 2, length / 2); // 7
+	mesh->vVertices.emplace_back(-length / 2, length / 2, length / 2); // 6
+
+	//face4
+	mesh->vVertices.emplace_back(-length / 2, length / 2, length / 2); // 6
+	mesh->vVertices.emplace_back(-length / 2, -length / 2, length / 2); // 7
+	mesh->vVertices.emplace_back(-length / 2, -length / 2, -length / 2); // 5
+
+	mesh->vVertices.emplace_back(-length / 2, length / 2, length / 2); // 6
+	mesh->vVertices.emplace_back(-length / 2, -length / 2, -length / 2); // 5
+	mesh->vVertices.emplace_back(-length / 2, length / 2, -length / 2); // 4
+
+	//face5
+	mesh->vVertices.emplace_back(-length / 2, -length / 2, length / 2); // 7
+	mesh->vVertices.emplace_back(length / 2, -length / 2, length / 2); // 0
+	mesh->vVertices.emplace_back(-length / 2, -length / 2, -length / 2); // 5
+
+	mesh->vVertices.emplace_back(length / 2, -length / 2, length / 2); // 0
+	mesh->vVertices.emplace_back(length / 2, -length / 2, -length / 2); // 2
+	mesh->vVertices.emplace_back(-length / 2, -length / 2, -length / 2); // 5
+
+	//face6
+	mesh->vVertices.emplace_back(length / 2, length / 2, -length / 2); // 3
+	mesh->vVertices.emplace_back(-length / 2, length / 2, -length / 2); // 4
+	mesh->vVertices.emplace_back(-length / 2, -length / 2, -length / 2); // 5
+
+	mesh->vVertices.emplace_back(-length / 2, -length / 2, -length / 2); // 5
+	mesh->vVertices.emplace_back(length / 2, -length / 2, -length / 2); // 2
+	mesh->vVertices.emplace_back(length / 2, length / 2, -length / 2); // 3
 
 	return mesh;
 }
