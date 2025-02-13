@@ -280,3 +280,24 @@ Mesh::generateCube(GLdouble length)
 
 	return mesh;
 }
+
+Mesh*
+Mesh::generateRGBCubeTriangles(GLdouble length)
+{
+	Mesh* mesh = generateCube(length);
+
+	mesh->vColors.reserve(mesh->mNumVertices);
+
+	for (int i = 0; i < mesh->mNumVertices; ++i) {
+		if (i / 6 == 0 || i / 6 == 3) {
+			mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
+		}
+		else if (i / 6 == 1 || i / 6 == 4) {
+			mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
+		}
+		else mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+		
+	}
+	
+	return mesh;
+}
