@@ -63,7 +63,7 @@ RGBAxes::RGBAxes(GLdouble l)
 {
 	mShader = Shader::get("vcolors");
 	mMesh = Mesh::createRGBAxes(l);
-	load();
+	//load();
 }
 
 // Añadidos >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -100,7 +100,7 @@ RegularPolygon::RegularPolygon(GLuint num, GLdouble r, const glm::dvec4& color)
 	: SingleColorEntity(color)
 {
 	mMesh = Mesh::generateRegularPolygon(num, r);
-	load();
+	//load();
 }
 
 RGBTriangle::RGBTriangle(GLdouble r)
@@ -109,7 +109,7 @@ RGBTriangle::RGBTriangle(GLdouble r)
 	constexpr int num = 3;
 
 	mMesh = Mesh::createRGBTriangle(r);
-	load();
+	//load();
 }
 
 void
@@ -149,7 +149,7 @@ RGBTriangle::update()
 RGBRectangle::RGBRectangle(GLuint w, GLdouble h)
 {
 	mMesh = Mesh::generateRGBRectangle(w, h);
-	load();
+	//load();
 }
 
 void
@@ -178,7 +178,7 @@ RGBRectangle::render(mat4 const& modelViewMat) const
 Cube::Cube(GLdouble length)
 {
 	mMesh = Mesh::generateCube(length);
-	load();
+	//load();
 }
 
 void
@@ -207,7 +207,7 @@ Cube::render(mat4 const& modelViewMat) const
 RGBCube::RGBCube(GLdouble length)
 {
 	mMesh = Mesh::generateRGBCubeTriangles(length);
-	load();
+	//load();
 }
 
 void
