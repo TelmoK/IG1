@@ -90,7 +90,7 @@ private:
 class RGBRectangle : public EntityWithColors // Apartado 8
 {
 public:
-	explicit RGBRectangle(GLuint w, GLdouble h);
+	explicit RGBRectangle(GLdouble w, GLdouble h);
 	void render(const glm::mat4& modelViewMat) const override;
 };
 
@@ -106,6 +106,13 @@ class RGBCube : public EntityWithColors
 public:
 	explicit RGBCube(GLdouble length);
 	void render(const glm::mat4& modelViewMat) const override;
+};
+
+class Ground : public EntityWithColors
+{
+public:
+	explicit Ground(GLdouble w, GLdouble h);
+
 };
 
 #endif //_H_Entities_H_

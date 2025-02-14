@@ -146,7 +146,7 @@ RGBTriangle::update()
 	
 }
 
-RGBRectangle::RGBRectangle(GLuint w, GLdouble h)
+RGBRectangle::RGBRectangle(GLdouble w, GLdouble h)
 {
 	mMesh = Mesh::generateRGBRectangle(w, h);
 	//load();
@@ -231,4 +231,10 @@ RGBCube::render(mat4 const& modelViewMat) const
 		glDisable(GL_CULL_FACE);
 
 	}
+}
+
+Ground::Ground(GLdouble w, GLdouble h)
+{
+	mMesh = Mesh::generateRGBRectangle(w, h);
+	setModelMat(glm::rotate(modelMat(), radians(-90.0f), vec3(1, 0, 0)));
 }
