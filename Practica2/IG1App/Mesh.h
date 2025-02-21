@@ -16,6 +16,7 @@ public:
 	static Mesh* generateRGBRectangle(GLdouble w, GLdouble h);
 	static Mesh* generateCube(GLdouble length);
 	static Mesh* generateRGBCubeTriangles(GLdouble length);
+	static Mesh* generateRectangleTexCor(GLdouble w, GLdouble h);
 
 	Mesh();
 	virtual ~Mesh();
@@ -39,6 +40,7 @@ protected:
 	GLuint mNumVertices = 0; // number of elements ( = vVertices.size())
 	std::vector<glm::vec3> vVertices; // vertex array
 	std::vector<glm::vec4> vColors;   // color array
+	std::vector<glm::vec2> vTexCoords;   // texture vertex array
 	virtual void draw() const;
 
 	GLuint mVAO;  // vertex array object

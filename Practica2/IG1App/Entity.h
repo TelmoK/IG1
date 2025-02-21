@@ -109,22 +109,22 @@ public:
 	void render(const glm::mat4& modelViewMat) const override;
 };
 
-class Ground : public EntityWithColors
-{
-public:
-	explicit Ground(GLdouble w, GLdouble h);
-
-};
-
 class EntityWithTexture : public Abs_Entity
 {
 public:
-	explicit EntityWithTexture(Texture* texture);
+	explicit EntityWithTexture(Texture* texture, bool modulate);
 	void render(const glm::mat4& modelViewMat) const override;
 
 protected:
 	Texture* mTexture = nullptr;
 	bool mModulate = false;
+};
+
+class Ground : public EntityWithTexture
+{
+public:
+	explicit Ground(Texture* texture, bool modulate, GLdouble w, GLdouble h);
+	void render(const glm::mat4& modelViewMat) const override;
 };
 
 #endif //_H_Entities_H_

@@ -301,3 +301,22 @@ Mesh::generateRGBCubeTriangles(GLdouble length)
 	
 	return mesh;
 }
+
+Mesh* 
+Mesh::generateRectangleTexCor(GLdouble w, GLdouble h)
+{
+	Mesh* mesh = generateRectangle(w, h);
+
+	mesh->vTexCoords.reserve(4);
+	
+	mesh->vTexCoords.emplace_back(0.0, 1.0);
+	mesh->vTexCoords.emplace_back(0.0, 0.0);
+	mesh->vTexCoords.emplace_back(1.0, 1.0);
+	mesh->vTexCoords.emplace_back(1.0, 0.0);
+	/*mesh->vTexCoords.emplace_back(-w / 2, h / 2);
+	mesh->vTexCoords.emplace_back(-w / 2, -h / 2);
+	mesh->vTexCoords.emplace_back(w / 2, h / 2);
+	mesh->vTexCoords.emplace_back(w / 2, -h / 2);*/
+
+	return mesh;
+}

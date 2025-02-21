@@ -233,14 +233,7 @@ RGBCube::render(mat4 const& modelViewMat) const
 	}
 }
 
-Ground::Ground(GLdouble w, GLdouble h)
-{
-	mMesh = Mesh::generateRGBRectangle(w, h);
-	setModelMat(glm::rotate(modelMat(), radians(-90.0f), vec3(1, 0, 0)));
-	
-}
-
-EntityWithTexture::EntityWithTexture(Texture* texture) : mTexture(texture)
+EntityWithTexture::EntityWithTexture(Texture* texture, bool modulate) : mTexture(texture), mModulate(modulate)
 {
 	mShader = Shader::get("texture");
 }
@@ -250,9 +243,9 @@ void EntityWithTexture::render(const glm::mat4& modelViewMat) const
 	if (mMesh != nullptr) {
 		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
 		mShader->use();
-		upload(aMat);
 
 		mShader->setUniform("modulate", mModulate);
+		upload(aMat);
 
 		if (mTexture != nullptr) mTexture->bind();
 
@@ -260,4 +253,16 @@ void EntityWithTexture::render(const glm::mat4& modelViewMat) const
 
 		if (mTexture != nullptr) mTexture->unbind();
 	}
+}
+
+Ground::Ground(Texture* texture, bool modulate, GLdouble w, GLdouble h) : EntityWithTexture(texture, modulate)
+{
+	mMesh = Mesh::generateRectangleTexCor(w, h);
+	//setModelMat(glm::rotate(modelMat(), radians(-90.0f), vec3(1, 0, 0)));
+
+}
+
+void Ground::render(const glm::mat4& modelViewMat) const
+{
+	EntityWithTexture::render(modelViewMat);
 }
