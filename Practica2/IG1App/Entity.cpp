@@ -237,4 +237,27 @@ Ground::Ground(GLdouble w, GLdouble h)
 {
 	mMesh = Mesh::generateRGBRectangle(w, h);
 	setModelMat(glm::rotate(modelMat(), radians(-90.0f), vec3(1, 0, 0)));
+	
+}
+
+EntityWithTexture::EntityWithTexture(Texture* texture) : mTexture(texture)
+{
+	mShader = Shader::get("texture");
+}
+
+void EntityWithTexture::render(const glm::mat4& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		mShader->use();
+		upload(aMat);
+
+		mShader->setUniform("modulate", mModulate);
+
+		if (mTexture != nullptr) mTexture->bind();
+
+		mMesh->render();
+
+		if (mTexture != nullptr) mTexture->unbind();
+	}
 }
