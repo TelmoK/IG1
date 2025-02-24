@@ -329,3 +329,31 @@ Mesh::generateRectangleTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh)
 
 	return mesh;
 }
+
+Mesh* 
+Mesh::generateBoxOutline(GLdouble length)
+{
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLE_STRIP;
+
+	mesh->mNumVertices = 10;
+
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+	// Se asignan en zig-zag
+	mesh->vVertices.emplace_back(length / 2, -length / 2, -length / 2); // 0
+	mesh->vVertices.emplace_back(length / 2, length / 2, -length / 2);  // 1
+	mesh->vVertices.emplace_back(-length / 2, -length / 2, -length / 2);// 2
+	mesh->vVertices.emplace_back(-length / 2, length / 2, -length / 2); // 3
+
+	mesh->vVertices.emplace_back(-length / 2, -length / 2, length / 2); // 5
+	mesh->vVertices.emplace_back(-length / 2, length / 2, length / 2);  // 6
+	mesh->vVertices.emplace_back(length / 2, -length / 2, length / 2);  // 7
+	mesh->vVertices.emplace_back(length / 2, length / 2, length / 2);   // 8
+
+	mesh->vVertices.emplace_back(length / 2, -length / 2, -length / 2); // 0
+	mesh->vVertices.emplace_back(length / 2, length / 2, -length / 2);  // 1
+
+	return mesh;
+}
