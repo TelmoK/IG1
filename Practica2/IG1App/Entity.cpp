@@ -267,7 +267,7 @@ void Ground::render(const glm::mat4& modelViewMat) const
 	EntityWithTexture::render(modelViewMat);
 }
 
-BoxOutline::BoxOutline(GLdouble length)
+BoxOutline::BoxOutline(Texture* texture, bool modulate, GLdouble length) : EntityWithTexture(texture, modulate)
 {
-	mMesh = Mesh::generateBoxOutline(length);
+	mMesh = Mesh::generateBoxOutlineTexCor(length);
 }

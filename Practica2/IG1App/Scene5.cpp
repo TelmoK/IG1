@@ -15,5 +15,8 @@ void Scene5::init()
 	Texture* tx = new Texture();
 	tx->load("../assets/images/baldosaC.png");
 	gObjects.push_back(new Ground(tx, false, 100.0, 100.0));*/
-	gObjects.push_back(new BoxOutline(80));
+
+	Texture* txBox = new Texture();
+	txBox->load("../assets/images/container.jpg");
+	gObjects.push_back(new BoxOutline(txBox, false, 80));
 }

@@ -357,3 +357,26 @@ Mesh::generateBoxOutline(GLdouble length)
 
 	return mesh;
 }
+
+Mesh* 
+Mesh::generateBoxOutlineTexCor(GLdouble length)
+{
+	Mesh* mesh = generateBoxOutline(length);
+
+	mesh->vTexCoords.reserve(10);
+
+	mesh->vTexCoords.emplace_back(1.0, 0.0); // 0
+	mesh->vTexCoords.emplace_back(1.0, 1.0);  // 1
+	mesh->vTexCoords.emplace_back(0.0, 0.0); // 2
+	mesh->vTexCoords.emplace_back(0.0, 1.0); // 3
+
+	mesh->vTexCoords.emplace_back(1.0, 0.0); // 0
+	mesh->vTexCoords.emplace_back(1.0, 1.0);  // 1
+	mesh->vTexCoords.emplace_back(0.0, 0.0); // 2
+	mesh->vTexCoords.emplace_back(0.0, 1.0); // 3
+
+	mesh->vTexCoords.emplace_back(1.0, 0.0); // 0
+	mesh->vTexCoords.emplace_back(1.0, 1.0);  // 1
+
+	return mesh;
+}

@@ -127,10 +127,10 @@ public:
 	void render(const glm::mat4& modelViewMat) const override;
 };
 
-class BoxOutline : public SingleColorEntity
+class BoxOutline : public EntityWithTexture
 {
 public:
-	explicit BoxOutline(GLdouble length);
+	explicit BoxOutline(Texture* texture, bool modulate, GLdouble length);
 };
 
 #endif //_H_Entities_H_
