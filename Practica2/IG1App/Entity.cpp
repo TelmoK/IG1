@@ -257,8 +257,8 @@ void EntityWithTexture::render(const glm::mat4& modelViewMat) const
 
 Ground::Ground(Texture* texture, bool modulate, GLdouble w, GLdouble h) : EntityWithTexture(texture, modulate)
 {
-	mMesh = Mesh::generateRectangleTexCor(w, h);
-	//setModelMat(glm::rotate(modelMat(), radians(-90.0f), vec3(1, 0, 0)));
+	mMesh = Mesh::generateRectangleTexCor(w, h, 4, 4);
+	setModelMat(glm::rotate(modelMat(), radians(90.0f), vec3(1, 0, 0)));
 
 }
 
