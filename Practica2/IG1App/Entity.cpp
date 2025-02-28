@@ -267,7 +267,40 @@ void Ground::render(const glm::mat4& modelViewMat) const
 	EntityWithTexture::render(modelViewMat);
 }
 
-BoxOutline::BoxOutline(Texture* texture, bool modulate, GLdouble length) : EntityWithTexture(texture, modulate)
+BoxOutline::BoxOutline(Texture* texture, Texture* iteriorTexture, bool modulate, GLdouble length) 
+	: EntityWithTexture(texture, modulate), mIteriorTexture(iteriorTexture)
 {
 	mMesh = Mesh::generateBoxOutlineTexCor(length);
+}
+
+void BoxOutline::render(const glm::mat4& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		mShader->use();
+
+		glEnable(GL_CULL_FACE); // Activa el renderizado solo para las caras visibles para la cámara
+
+		mShader->setUniform("modulate", mModulate);
+		upload(aMat);
+
+		if (mTexture != nullptr) mTexture->bind();
+		
+		glCullFace(GL_FRONT); // También se puede hacer: glFrontFace(GL_CCW); 
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		mMesh->render();
+
+		if (mTexture != nullptr) mTexture->unbind();
+
+		if (mIteriorTexture != nullptr) mIteriorTexture->bind();
+		
+		glCullFace(GL_BACK); // También se puede hacer: glFrontFace(GL_CW); 
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		mMesh->render();
+		
+		if (mIteriorTexture != nullptr) mIteriorTexture->unbind();
+
+		glDisable(GL_CULL_FACE);
+
+	}
 }
