@@ -141,7 +141,7 @@ Mesh::generateRegularPolygon(GLuint num, GLdouble r)
 
 	for (int i = 0; i < num; ++i)
 	{
-		mesh->vVertices.emplace_back(
+			mesh->vVertices.emplace_back(
 			r * glm::cos(alpha + delta*i),
 			r * glm::sin(alpha + delta * i),
 			0.0);
@@ -195,8 +195,8 @@ Mesh::generateRectangle(GLdouble w, GLdouble h)
 
 	mesh->vVertices.reserve(mesh->mNumVertices);
 
-	// Orden importante para añadir el color luego 
-	// (en este caso los vértices hacen un zig-zag, es decir, una ´Z´)
+	// Orden importante para aï¿½adir el color luego 
+	// (en este caso los vï¿½rtices hacen un zig-zag, es decir, una ï¿½Zï¿½)
 	mesh->vVertices.emplace_back(-w/2,  h/2, 0.0);
 	mesh->vVertices.emplace_back(-w/2, -h/2, 0.0);
 	mesh->vVertices.emplace_back( w/2,  h/2, 0.0);
@@ -377,6 +377,42 @@ Mesh::generateBoxOutlineTexCor(GLdouble length)
 
 	mesh->vTexCoords.emplace_back(1.0, 0.0); // 0
 	mesh->vTexCoords.emplace_back(1.0, 1.0);  // 1
+
+	return mesh;
+}
+
+Mesh*
+Mesh::generateStar3D(GLdouble re, GLuint np, GLdouble h)
+{
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLE_FAN;
+
+	mesh->mNumVertices = 2 * np + 2;
+
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+	double alpha = glm::radians(90.0);
+	const double delta = glm::radians(360.0 / (2 * np));
+	double ri = re / 2;
+
+	mesh->vVertices.emplace_back(0, 0, 0);
+
+	for (int i = 0; i < 2 * np + 1; ++i)
+	{
+		if (i % 2 == 0)
+			mesh->vVertices.emplace_back(
+				re * glm::cos(alpha),
+				re * glm::sin(alpha),
+				h);
+		else {
+			mesh->vVertices.emplace_back(
+				ri * glm::cos(alpha),
+				ri * glm::sin(alpha),
+				h);
+		}
+		alpha += delta;
+	}
 
 	return mesh;
 }

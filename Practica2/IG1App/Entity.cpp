@@ -63,7 +63,6 @@ RGBAxes::RGBAxes(GLdouble l)
 {
 	mShader = Shader::get("vcolors");
 	mMesh = Mesh::createRGBAxes(l);
-	//load();
 }
 
 // Añadidos >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -100,7 +99,6 @@ RegularPolygon::RegularPolygon(GLuint num, GLdouble r, const glm::dvec4& color)
 	: SingleColorEntity(color)
 {
 	mMesh = Mesh::generateRegularPolygon(num, r);
-	//load();
 }
 
 RGBTriangle::RGBTriangle(GLdouble r)
@@ -109,7 +107,6 @@ RGBTriangle::RGBTriangle(GLdouble r)
 	constexpr int num = 3;
 
 	mMesh = Mesh::createRGBTriangle(r);
-	//load();
 }
 
 void
@@ -149,7 +146,6 @@ RGBTriangle::update()
 RGBRectangle::RGBRectangle(GLdouble w, GLdouble h)
 {
 	mMesh = Mesh::generateRGBRectangle(w, h);
-	//load();
 }
 
 void
@@ -178,7 +174,6 @@ RGBRectangle::render(mat4 const& modelViewMat) const
 Cube::Cube(GLdouble length)
 {
 	mMesh = Mesh::generateCube(length);
-	//load();
 }
 
 void
@@ -207,7 +202,6 @@ Cube::render(mat4 const& modelViewMat) const
 RGBCube::RGBCube(GLdouble length)
 {
 	mMesh = Mesh::generateRGBCubeTriangles(length);
-	//load();
 }
 
 void
@@ -270,4 +264,23 @@ void Ground::render(const glm::mat4& modelViewMat) const
 BoxOutline::BoxOutline(Texture* texture, bool modulate, GLdouble length) : EntityWithTexture(texture, modulate)
 {
 	mMesh = Mesh::generateBoxOutlineTexCor(length);
+}
+
+Star3D::Star3D(GLdouble re, GLuint np, GLdouble h)
+{
+	mMesh = Mesh::generateStar3D(re, np, h);
+}
+
+void
+Star3D::render(mat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		mShader->use();
+		upload(aMat);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		mMesh->render();
+
+	}
 }
