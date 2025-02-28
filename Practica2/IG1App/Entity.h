@@ -130,7 +130,13 @@ public:
 class BoxOutline : public EntityWithTexture
 {
 public:
-	explicit BoxOutline(Texture* texture, bool modulate, GLdouble length);
+
+	explicit BoxOutline(Texture* texture, Texture* iteriorTexture, bool modulate, GLdouble length);
+	void render(const glm::mat4& modelViewMat) const override;
+
+protected:
+
+	Texture* mIteriorTexture;
 };
 
 class Star3D : public SingleColorEntity 

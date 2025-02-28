@@ -65,7 +65,7 @@ RGBAxes::RGBAxes(GLdouble l)
 	mMesh = Mesh::createRGBAxes(l);
 }
 
-// Añadidos >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// Aï¿½adidos >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 SingleColorEntity::SingleColorEntity(const dvec4& color)
 	: mColor(color)
@@ -117,13 +117,13 @@ RGBTriangle::render(mat4 const& modelViewMat) const
 		mShader->use();
 		upload(aMat);
 
-		glEnable(GL_CULL_FACE); // Activa el renderizado solo para las caras visibles para la cámara
+		glEnable(GL_CULL_FACE); // Activa el renderizado solo para las caras visibles para la cï¿½mara
 
-		glCullFace(GL_BACK); // También se puede hacer: glFrontFace(GL_CCW);  
+		glCullFace(GL_BACK); // Tambiï¿½n se puede hacer: glFrontFace(GL_CCW);  
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		mMesh->render();
 
-		glCullFace(GL_FRONT); // También se puede hacer: glFrontFace(GL_CW);
+		glCullFace(GL_FRONT); // Tambiï¿½n se puede hacer: glFrontFace(GL_CW);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		mMesh->render();
 
@@ -156,13 +156,13 @@ RGBRectangle::render(mat4 const& modelViewMat) const
 		mShader->use();
 		upload(aMat);
 
-		glEnable(GL_CULL_FACE); // Activa el renderizado solo para las caras visibles para la cámara
+		glEnable(GL_CULL_FACE); // Activa el renderizado solo para las caras visibles para la cï¿½mara
 
-		glCullFace(GL_BACK); // También se puede hacer: glFrontFace(GL_CCW); 
+		glCullFace(GL_BACK); // Tambiï¿½n se puede hacer: glFrontFace(GL_CCW); 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		mMesh->render();
 
-		glCullFace(GL_FRONT); // También se puede hacer: glFrontFace(GL_CW); 
+		glCullFace(GL_FRONT); // Tambiï¿½n se puede hacer: glFrontFace(GL_CW); 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		mMesh->render();
 
@@ -184,13 +184,13 @@ Cube::render(mat4 const& modelViewMat) const
 		mShader->use();
 		upload(aMat);
 
-		glEnable(GL_CULL_FACE); // Activa el renderizado solo para las caras visibles para la cámara
+		glEnable(GL_CULL_FACE); // Activa el renderizado solo para las caras visibles para la cï¿½mara
 
-		glCullFace(GL_FRONT); // También se puede hacer: glFrontFace(GL_CCW); 
+		glCullFace(GL_FRONT); // Tambiï¿½n se puede hacer: glFrontFace(GL_CCW); 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		mMesh->render();
 
-		glCullFace(GL_BACK); // También se puede hacer: glFrontFace(GL_CW); 
+		glCullFace(GL_BACK); // Tambiï¿½n se puede hacer: glFrontFace(GL_CW); 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 		mMesh->render();
 
@@ -212,13 +212,13 @@ RGBCube::render(mat4 const& modelViewMat) const
 		mShader->use();
 		upload(aMat);
 
-		glEnable(GL_CULL_FACE); // Activa el renderizado solo para las caras visibles para la cámara
+		glEnable(GL_CULL_FACE); // Activa el renderizado solo para las caras visibles para la cï¿½mara
 
-		glCullFace(GL_FRONT); // También se puede hacer: glFrontFace(GL_CCW); 
+		glCullFace(GL_FRONT); // Tambiï¿½n se puede hacer: glFrontFace(GL_CCW); 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		mMesh->render();
 
-		glCullFace(GL_BACK); // También se puede hacer: glFrontFace(GL_CW); 
+		glCullFace(GL_BACK); // Tambiï¿½n se puede hacer: glFrontFace(GL_CW); 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 		mMesh->render();
 
@@ -261,9 +261,42 @@ void Ground::render(const glm::mat4& modelViewMat) const
 	EntityWithTexture::render(modelViewMat);
 }
 
-BoxOutline::BoxOutline(Texture* texture, bool modulate, GLdouble length) : EntityWithTexture(texture, modulate)
+BoxOutline::BoxOutline(Texture* texture, Texture* iteriorTexture, bool modulate, GLdouble length) 
+	: EntityWithTexture(texture, modulate), mIteriorTexture(iteriorTexture)
 {
 	mMesh = Mesh::generateBoxOutlineTexCor(length);
+}
+
+void BoxOutline::render(const glm::mat4& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		mShader->use();
+
+		glEnable(GL_CULL_FACE); // Activa el renderizado solo para las caras visibles para la cï¿½mara
+
+		mShader->setUniform("modulate", mModulate);
+		upload(aMat);
+
+		if (mTexture != nullptr) mTexture->bind();
+		
+		glCullFace(GL_FRONT); // Tambiï¿½n se puede hacer: glFrontFace(GL_CCW); 
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		mMesh->render();
+
+		if (mTexture != nullptr) mTexture->unbind();
+
+		if (mIteriorTexture != nullptr) mIteriorTexture->bind();
+		
+		glCullFace(GL_BACK); // Tambiï¿½n se puede hacer: glFrontFace(GL_CW); 
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		mMesh->render();
+		
+		if (mIteriorTexture != nullptr) mIteriorTexture->unbind();
+
+		glDisable(GL_CULL_FACE);
+
+	}
 }
 
 Star3D::Star3D(GLdouble re, GLuint np, GLdouble h)
