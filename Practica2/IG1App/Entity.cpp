@@ -315,5 +315,10 @@ Star3D::render(mat4 const& modelViewMat) const
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		mMesh->render();
 
+
+		aMat = glm::scale(aMat, vec3(1, 1, -1));
+		upload(aMat);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		mMesh->render();
 	}
 }
