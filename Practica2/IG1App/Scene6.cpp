@@ -13,3 +13,10 @@ void Scene6::init()
 
 	gObjects.push_back(new Star3D(300, 8, 100));
 }
+
+void Scene6::update()
+{
+	for (auto* o : gObjects)
+		o->update();
+}
+

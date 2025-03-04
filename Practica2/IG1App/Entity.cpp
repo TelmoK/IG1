@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Entity.h"
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -321,4 +322,9 @@ Star3D::render(mat4 const& modelViewMat) const
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		mMesh->render();
 	}
+}
+
+void Star3D::update()
+{
+	setModelMat(glm::rotate(modelMat(), 0.1f, vec3(0, 0, 1)));
 }

@@ -144,6 +144,7 @@ class Star3D : public SingleColorEntity
 public:
 	explicit Star3D(GLdouble re, GLuint np, GLdouble h);
 	void render(const glm::mat4& modelViewMat) const override;
+	void update() override;
 };
 
 #endif //_H_Entities_H_
