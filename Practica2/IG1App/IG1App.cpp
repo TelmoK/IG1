@@ -51,7 +51,8 @@ IG1App::run() // enters the main event processing loop
 
 		if (mUpdateEnable && mNextUpdate > glfwGetTime()) {
 			
-			mScenes[mCurrentScene]->update();
+			mScenes[mCurrentScene]->update
+			();
 			mNeedsRedisplay = true;
 
 			mNextUpdate = glfwGetTime() + FRAME_DURATION;
@@ -85,13 +86,15 @@ IG1App::init()
 	mCamera->set2D();
 
 	mScenes[0]->init();
-	mScenes[0]->load();
+	
 
 	mScenes[1]->init();
 	mScenes[2]->init();
 	mScenes[3]->init();
 	mScenes[4]->init();
 	mScenes[5]->init();
+
+	mScenes[0]->load();
 }
 
 void
