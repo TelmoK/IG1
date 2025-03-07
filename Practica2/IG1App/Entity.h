@@ -139,10 +139,10 @@ protected:
 	Texture* mIteriorTexture;
 };
 
-class Star3D : public SingleColorEntity 
+class Star3D : public EntityWithTexture
 {
 public:
-	explicit Star3D(GLdouble re, GLuint np, GLdouble h);
+	explicit Star3D(Texture* texture, bool modulate, GLdouble re, GLuint np, GLdouble h);
 	void render(const glm::mat4& modelViewMat) const override;
 	void update() override;
 };

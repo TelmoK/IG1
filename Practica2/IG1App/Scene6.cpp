@@ -11,7 +11,10 @@ void Scene6::init()
 	// Graphics objects (entities) of the scene
 	gObjects.push_back(new RGBAxes(400.0));
 
-	gObjects.push_back(new Star3D(300, 8, 100));
+	Texture* tx = new Texture();
+	tx->load("../assets/images/baldosaP.png");
+
+	gObjects.push_back(new Star3D(tx, false, 300, 8, 100));
 }
 
 void Scene6::update()
