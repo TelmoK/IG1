@@ -335,3 +335,34 @@ void Star3D::update()
 {
 	setModelMat(glm::rotate(modelMat(), 0.1f, vec3(0, 0, 1)));
 }
+
+GlassParapet::GlassParapet(Texture* texture, bool modulate, GLdouble length)
+	: EntityWithTexture(texture, modulate)
+{
+	mMesh = Mesh::generateBoxOutlineTexCor(length);
+}
+
+void GlassParapet::render(const glm::mat4& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		mShader->use();
+
+		mShader->setUniform("modulate", mModulate);
+		upload(aMat);
+
+		glDepthMask(GL_FALSE);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		if (mTexture != nullptr) mTexture->bind();
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		mMesh->render();
+
+		if (mTexture != nullptr) mTexture->unbind();
+
+		glDepthMask(GL_TRUE);
+		glDisable(GL_BLEND);
+	}
+}

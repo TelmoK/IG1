@@ -14,7 +14,12 @@ void Scene6::init()
 	Texture* tx = new Texture();
 	tx->load("../assets/images/baldosaP.png");
 
-	gObjects.push_back(new Star3D(tx, false, 300, 8, 100));
+	//gObjects.push_back(new Star3D(tx, false, 300, 8, 100));
+
+	Texture* txGlass = new Texture();
+	txGlass->load("../assets/images/windowV.jpg", 122);
+
+	gObjects.push_back(new GlassParapet(txGlass, false, 80));
 }
 
 void Scene6::update()
