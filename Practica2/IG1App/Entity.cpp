@@ -303,7 +303,7 @@ void BoxOutline::render(const glm::mat4& modelViewMat) const
 Star3D::Star3D(Texture* texture, bool modulate, GLdouble re, GLuint np, GLdouble h)
 	: EntityWithTexture(texture, modulate)
 {
-	mMesh = Mesh::generateStar3D(re, np, h);
+	mMesh = Mesh::generateStar3DTexCor(re, np, h);
 }
 
 void
@@ -312,10 +312,12 @@ Star3D::render(mat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
 		mShader->use();
+		mShader->setUniform("modulate", mModulate);
+
 		upload(aMat);
 
 		if (mTexture != nullptr) mTexture->bind();
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		mMesh->render();
 		if (mTexture != nullptr) mTexture->unbind();
 
@@ -323,7 +325,7 @@ Star3D::render(mat4 const& modelViewMat) const
 		upload(aMat);
 
 		if (mTexture != nullptr) mTexture->bind();
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		mMesh->render();
 		if (mTexture != nullptr) mTexture->unbind();
 	}

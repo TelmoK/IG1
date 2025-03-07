@@ -427,17 +427,23 @@ Mesh* Mesh::generateStar3DTexCor(GLdouble re, GLuint np, GLdouble h)
 	const double delta = glm::radians(360.0 / (2 * np));
 	double ri = re / 2;
 
-	mesh->vTexCoords.emplace_back(0.0f, 0.0f);
+	mesh->vTexCoords.emplace_back(0.5f, 0.5f);
 
-	for (int i = 0; i < 2 * np + 1; ++i)
+	for (int i = 0; i < np; ++i)
 	{
-		if (i % 2 == 0)
-			mesh->vTexCoords.emplace_back(0.0, 0.0);
+		if (i % 2 == 0){
+			mesh->vTexCoords.emplace_back(0.0, 1.0);
+			mesh->vTexCoords.emplace_back(0.5, 1.0);
+		}
 		else {
-			mesh->vTexCoords.emplace_back(1.0, 1.0);
+			mesh->vTexCoords.emplace_back(0.0, 1.0);
+			mesh->vTexCoords.emplace_back(0.0, 0.5);
 		}
 		alpha += delta;
 	}
+
+	mesh->vTexCoords.emplace_back(0.0, 1.0);
+
 	
 	return mesh;
 }
