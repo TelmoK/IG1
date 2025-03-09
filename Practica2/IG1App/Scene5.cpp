@@ -1,12 +1,5 @@
 #include "Scene5.h"
-#include <glm/gtc/matrix_transform.hpp>
-#include <memory>
 
-Scene5::~Scene5()
-{
-	delete txBox;
-	delete txBoxInt;
-}
 
 void Scene5::init()
 {
@@ -15,19 +8,14 @@ void Scene5::init()
 	// allocate memory and load resources
 	// Lights
 	// Textures
+	Texture* txBox = new Texture();
+	Texture* txBoxInt = new Texture();
+	txBox->load("../assets/images/container.jpg");
+	gTextures.push_back(txBox);
+	txBoxInt->load("../assets/images/papelE.png");
+	gTextures.push_back(txBoxInt);
 
 	// Graphics objects (entities) of the scene
 	gObjects.push_back(new RGBAxes(400.0));
-	
-	//Texture* tx = new Texture();
-	//tx->load("../assets/images/baldosaC.png");
-	//gObjects.push_back(new Ground(tx, false, 100.0, 100.0));
-
-	txBox = new Texture();
-	txBox->load("../assets/images/container.jpg");
-
-	txBoxInt = new Texture();
-	txBoxInt->load("../assets/images/papelE.png");
-
-	gObjects.push_back(new BoxOutline(txBox, txBoxInt, false, 80));
+	gObjects.push_back(new BoxOutline(txBox, txBoxInt, false, 200));
 }

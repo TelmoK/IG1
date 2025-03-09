@@ -59,6 +59,11 @@ Texture::load(const std::string& name, GLubyte alpha)
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
+void Texture::loadColorBuffer(GLsizei width, GLsizei height, GLuint buffer)
+{
+
+}
+
 void
 Texture::setWrap(GLuint wp) // GL_REPEAT, GL_CLAMP_TO_EDGE, ...
 {

@@ -32,6 +32,9 @@ Scene::destroy()
 		delete el;
 
 	gObjects.clear();
+
+	for (Texture* tx : gTextures)
+		delete tx;
 }
 
 void

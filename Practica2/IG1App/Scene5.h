@@ -8,9 +8,5 @@ public:
 	~Scene5();
 
 	void init() override;
-
-private:
-	Texture* txBox;
-	Texture* txBoxInt;
 };
 
