@@ -228,9 +228,10 @@ RGBCube::render(mat4 const& modelViewMat) const
 	}
 }
 
-EntityWithTexture::EntityWithTexture(Texture* texture, bool modulate) : mTexture(texture), mModulate(modulate)
+EntityWithTexture::EntityWithTexture(Texture* texture, bool modulate) : mModulate(modulate)
 {
 	mShader = Shader::get("texture");
+	setTexture(texture);
 }
 
 void EntityWithTexture::render(const glm::mat4& modelViewMat) const
@@ -365,4 +366,31 @@ void GlassParapet::render(const glm::mat4& modelViewMat) const
 		glDepthMask(GL_TRUE);
 		glDisable(GL_BLEND);
 	}
+}
+
+Photo::Photo(Texture* texture, bool modulate, GLdouble w, GLdouble h)
+	: EntityWithTexture(texture, modulate)
+{
+	mMesh = Mesh::generateRectangleTexCor(w, h, 1, 1);
+}
+
+void Photo::render(const glm::mat4& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		mShader->use();
+		mShader->setUniform("modulate", mModulate);
+
+		upload(aMat);
+
+		if (mTexture != nullptr) mTexture->bind();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		mMesh->render();
+		if (mTexture != nullptr) mTexture->unbind();
+	}
+}
+
+void Photo::update()
+{
+	mTexture->loadColorBuffer(300, 300);
 }

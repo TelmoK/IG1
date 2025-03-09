@@ -31,6 +31,8 @@ public:
 	glm::vec3 getWPos();
 	void setWPos(glm::vec3 position);
 
+	void setTexture(Texture* tex) { mTexture = tex; }
+
 	// load or unload entity data into the GPU
 	void load();
 	void unload();
@@ -39,6 +41,7 @@ protected:
 	Mesh* mMesh = nullptr; // the mesh
 	glm::mat4 mModelMat;  // modeling matrix
 	Shader* mShader; // shader
+	Texture* mTexture = nullptr;
 
 	glm::vec3 mWorldPosition; // position with axis as origin
 
@@ -116,7 +119,6 @@ public:
 	void render(const glm::mat4& modelViewMat) const override;
 
 protected:
-	Texture* mTexture = nullptr;
 	bool mModulate = false;
 };
 
@@ -152,6 +154,14 @@ class GlassParapet : public EntityWithTexture
 public:
 	GlassParapet(Texture* texture, bool modulate, GLdouble length);
 	void render(const glm::mat4& modelViewMat) const override;
+};
+
+class Photo : public EntityWithTexture
+{
+public:
+	Photo(Texture* texture, bool modulate, GLdouble w, GLdouble h);
+	void render(const glm::mat4& modelViewMat) const override;
+	void update() override;
 };
 
 #endif //_H_Entities_H_

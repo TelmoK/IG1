@@ -12,9 +12,17 @@ void Scene6::init()
 	txGlass->load("../assets/images/windowV.jpg", 122);
 	gTextures.push_back(txGlass);
 
+	// Objeto de textura de la foto a ser sacada
+	Texture* foto = new Texture();
+	gTextures.push_back(foto);
+	foto->loadColorBuffer(200, 200);
+
 	// Graphics objects (entities) of the scene
 	gObjects.push_back(new RGBAxes(400.0));
 	gObjects.push_back(new GlassParapet(txGlass, false, 200));
+	gObjects.push_back(new Photo(foto, false, 200, 200));
+
+
 }
 
 void Scene6::update()
