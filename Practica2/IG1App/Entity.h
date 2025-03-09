@@ -152,16 +152,31 @@ public:
 class GlassParapet : public EntityWithTexture
 {
 public:
-	GlassParapet(Texture* texture, bool modulate, GLdouble length);
+	explicit GlassParapet(Texture* texture, bool modulate, GLdouble length);
 	void render(const glm::mat4& modelViewMat) const override;
 };
 
 class Photo : public EntityWithTexture
 {
 public:
-	Photo(Texture* texture, bool modulate, GLdouble w, GLdouble h);
+	explicit Photo(Texture* texture, bool modulate, GLdouble w, GLdouble h);
 	void render(const glm::mat4& modelViewMat) const override;
 	void update() override;
+};
+
+class BoxCover : public EntityWithTexture
+{
+public:
+	explicit BoxCover(Texture* texture, Texture* iteriorTexture, bool modulate, GLdouble length);
+	void render(const glm::mat4& modelViewMat) const override;
+	void update() override;
+
+protected:
+	Texture* mIteriorTexture;
+	GLdouble mLength;
+	float mAngle;
+	float mCurrAngle;
+	float mRotSpeed;
 };
 
 #endif //_H_Entities_H_

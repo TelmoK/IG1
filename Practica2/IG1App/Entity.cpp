@@ -348,6 +348,7 @@ void GlassParapet::render(const glm::mat4& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+
 		mShader->use();
 
 		mShader->setUniform("modulate", mModulate);
@@ -373,11 +374,13 @@ Photo::Photo(Texture* texture, bool modulate, GLdouble w, GLdouble h)
 	: EntityWithTexture(texture, modulate)
 {
 	mMesh = Mesh::generateRectangleTexCor(w, h, 1, 1);
+	setModelMat(glm::rotate(mat4(1), glm::radians(90.0f), vec3(1, 0, 0))); // gira 90 alrededor de x
 }
 
 void Photo::render(const glm::mat4& modelViewMat) const
 {
 	if (mMesh != nullptr) {
+		
 		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
 		mShader->use();
 		mShader->setUniform("modulate", mModulate);
@@ -394,4 +397,62 @@ void Photo::render(const glm::mat4& modelViewMat) const
 void Photo::update()
 {
 	mTexture->loadColorBuffer(IG1App::s_ig1app.viewPort().width(), IG1App::s_ig1app.viewPort().height());
+}
+
+BoxCover::BoxCover(Texture* texture, Texture* iteriorTexture, bool modulate, GLdouble length)
+	: EntityWithTexture(texture, modulate), mIteriorTexture(iteriorTexture), mLength(length)
+{
+	mMesh = Mesh::generateRectangleTexCor(length, length, 1, 1);
+	mAngle = glm::radians(90.0f);
+	mCurrAngle = mAngle;
+	mRotSpeed = -0.01f;
+	//glm::mat4 rot = glm::rotate(glm::mat4(1), mAngle, vec3(1, 0, 0));
+	//glm::mat4 trans = glm::translate(glm::mat4(1), glm::vec3(0, length/2, 0));
+	//setModelMat(trans * rot); // primero rota y luego desplaza en y
+}
+
+void BoxCover::render(const glm::mat4& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		mShader->use();
+
+		glEnable(GL_CULL_FACE); // Activa el renderizado solo para las caras visibles para la c�mara
+
+		mShader->setUniform("modulate", mModulate);
+		upload(aMat);
+
+		if (mTexture != nullptr) mTexture->bind();
+
+		glCullFace(GL_FRONT); // Tambi�n se puede hacer: glFrontFace(GL_CCW); 
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		mMesh->render();
+
+		if (mTexture != nullptr) mTexture->unbind();
+
+		if (mIteriorTexture != nullptr) mIteriorTexture->bind();
+
+		glCullFace(GL_BACK); // Tambi�n se puede hacer: glFrontFace(GL_CW); 
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		mMesh->render();
+
+		if (mIteriorTexture != nullptr) mIteriorTexture->unbind();
+
+		glDisable(GL_CULL_FACE);
+	}
+}
+
+void BoxCover::update()
+{
+	if (mCurrAngle < - glm::pi<float>() / 4 || mCurrAngle > mAngle) {
+		mRotSpeed = -mRotSpeed;
+	}
+	mCurrAngle += mRotSpeed; 
+
+	glm::mat4 trans1 = glm::translate(glm::mat4(1), glm::vec3(0, mLength / 2, 0)); // ajuste el pivot
+	glm::mat4 rot = glm::rotate(glm::mat4(1), mCurrAngle, vec3(1, 0, 0)); // rota alrededor del pivot
+	
+	glm::mat4 trans2 = glm::translate(glm::mat4(1), glm::vec3(0, mLength / 2, - mLength / 2)); // translada a la posicion final
+
+	setModelMat(trans2 * rot * trans1);
 }
