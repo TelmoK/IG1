@@ -31,12 +31,18 @@ void Scene6::init()
 	txGround->load("../assets/images/baldosaC.png");
 	gTextures.push_back(txGround);
 
+	// Star
+	Texture* txStar = new Texture();
+	txStar->load("../assets/images/baldosaP.png");
+	gTextures.push_back(txStar);
+
 
 	// Graphics objects (entities) of the scene
 	gObjects.push_back(new RGBAxes(400.0));
 	gObjects.push_back(new BoxCover(txBox, txBoxInt, false, 50)); // tiene que venir antes del glass si no no hay transparencia
-	gObjects.push_back(new BoxOutline(txBox, txBoxInt, false, 50));
 	gObjects.push_back(new Ground(txGround, false, 100, 100, 4, 4));
+	gObjects.push_back(new BoxOutline(txBox, txBoxInt, false, 50));
+	gObjects.push_back(new Star3D(txStar, false, 20, 10, 10));
 
 
 	gObjects.push_back(new GlassParapet(txGlass, false, 400));

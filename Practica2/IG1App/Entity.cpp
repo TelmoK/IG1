@@ -306,6 +306,7 @@ Star3D::Star3D(Texture* texture, bool modulate, GLdouble re, GLuint np, GLdouble
 	: EntityWithTexture(texture, modulate)
 {
 	mMesh = Mesh::generateStar3DTexCor(re, np, h);
+	setModelMat(glm::translate(glm::mat4(1), glm::vec3(0, 100, 100)));
 }
 
 void
