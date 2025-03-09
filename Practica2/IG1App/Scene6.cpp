@@ -15,7 +15,6 @@ void Scene6::init()
 	// Objeto de textura de la foto a ser sacada
 	Texture* foto = new Texture();
 	gTextures.push_back(foto);
-	foto->load("../assets/images/windowV.jpg", 122);
 
 	// Graphics objects (entities) of the scene
 	gObjects.push_back(new RGBAxes(400.0));

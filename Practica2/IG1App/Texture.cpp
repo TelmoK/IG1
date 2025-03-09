@@ -63,8 +63,9 @@ void Texture::loadColorBuffer(GLsizei width, GLsizei height, GLuint buffer)
 {
 	bind();
 
-	glReadBuffer(buffer);
+	init();
 	glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 0, 0, width, height, 0);
+	glReadBuffer(buffer);
 
 	unbind();
 }
