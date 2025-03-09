@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Entity.h"
+#include "IG1App.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -392,5 +393,5 @@ void Photo::render(const glm::mat4& modelViewMat) const
 
 void Photo::update()
 {
-	mTexture->loadColorBuffer(300, 300);
+	mTexture->loadColorBuffer(IG1App::s_ig1app.viewPort().width(), IG1App::s_ig1app.viewPort().height());
 }
