@@ -252,11 +252,10 @@ void EntityWithTexture::render(const glm::mat4& modelViewMat) const
 	}
 }
 
-Ground::Ground(Texture* texture, bool modulate, GLdouble w, GLdouble h) : EntityWithTexture(texture, modulate)
+Ground::Ground(Texture* texture, bool modulate, GLdouble w, GLdouble h, GLuint rw, GLuint rh) : EntityWithTexture(texture, modulate)
 {
-	mMesh = Mesh::generateRectangleTexCor(w, h, 4, 4);
+	mMesh = Mesh::generateRectangleTexCor(w, h, rw, rh);
 	setModelMat(glm::rotate(modelMat(), radians(90.0f), vec3(1, 0, 0)));
-
 }
 
 void Ground::render(const glm::mat4& modelViewMat) const
@@ -268,6 +267,7 @@ BoxOutline::BoxOutline(Texture* texture, Texture* iteriorTexture, bool modulate,
 	: EntityWithTexture(texture, modulate), mIteriorTexture(iteriorTexture)
 {
 	mMesh = Mesh::generateBoxOutlineTexCor(length);
+	setModelMat(glm::translate(glm::mat4(1), glm::vec3(0, length / 2, 100)));
 }
 
 void BoxOutline::render(const glm::mat4& modelViewMat) const
@@ -406,9 +406,6 @@ BoxCover::BoxCover(Texture* texture, Texture* iteriorTexture, bool modulate, GLd
 	mAngle = glm::radians(90.0f);
 	mCurrAngle = mAngle;
 	mRotSpeed = -0.01f;
-	//glm::mat4 rot = glm::rotate(glm::mat4(1), mAngle, vec3(1, 0, 0));
-	//glm::mat4 trans = glm::translate(glm::mat4(1), glm::vec3(0, length/2, 0));
-	//setModelMat(trans * rot); // primero rota y luego desplaza en y
 }
 
 void BoxCover::render(const glm::mat4& modelViewMat) const
@@ -452,7 +449,7 @@ void BoxCover::update()
 	glm::mat4 trans1 = glm::translate(glm::mat4(1), glm::vec3(0, mLength / 2, 0)); // ajuste el pivot
 	glm::mat4 rot = glm::rotate(glm::mat4(1), mCurrAngle, vec3(1, 0, 0)); // rota alrededor del pivot
 	
-	glm::mat4 trans2 = glm::translate(glm::mat4(1), glm::vec3(0, mLength / 2, - mLength / 2)); // translada a la posicion final
+	glm::mat4 trans2 = glm::translate(glm::mat4(1), glm::vec3(0, mLength, - mLength / 2 + 100)); // translada a la posicion final
 
 	setModelMat(trans2 * rot * trans1);
 }

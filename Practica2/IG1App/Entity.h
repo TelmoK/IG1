@@ -125,7 +125,7 @@ protected:
 class Ground : public EntityWithTexture
 {
 public:
-	explicit Ground(Texture* texture, bool modulate, GLdouble w, GLdouble h);
+	explicit Ground(Texture* texture, bool modulate, GLdouble w, GLdouble h, GLuint rw, GLuint rh);
 	void render(const glm::mat4& modelViewMat) const override;
 };
 
