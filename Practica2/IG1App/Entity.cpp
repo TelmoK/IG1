@@ -267,7 +267,7 @@ BoxOutline::BoxOutline(Texture* texture, Texture* iteriorTexture, bool modulate,
 	: EntityWithTexture(texture, modulate), mIteriorTexture(iteriorTexture)
 {
 	mMesh = Mesh::generateBoxOutlineTexCor(length);
-	setModelMat(glm::translate(glm::mat4(1), glm::vec3(0, length / 2, 100)));
+	//setModelMat(glm::translate(glm::mat4(1), glm::vec3(0, length / 2, 100)));
 }
 
 void BoxOutline::render(const glm::mat4& modelViewMat) const
@@ -450,7 +450,7 @@ void BoxCover::update()
 	glm::mat4 trans1 = glm::translate(glm::mat4(1), glm::vec3(0, mLength / 2, 0)); // ajuste el pivot
 	glm::mat4 rot = glm::rotate(glm::mat4(1), mCurrAngle, vec3(1, 0, 0)); // rota alrededor del pivot
 	
-	glm::mat4 trans2 = glm::translate(glm::mat4(1), glm::vec3(0, mLength, - mLength / 2 + 100)); // translada a la posicion final
+	glm::mat4 trans2 = glm::translate(glm::mat4(1), mWorldPosition); // translada a la posicion final
 
 	setModelMat(trans2 * rot * trans1);
 }
