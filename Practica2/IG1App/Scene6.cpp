@@ -36,6 +36,11 @@ void Scene6::init()
 	txStar->load("../assets/images/baldosaP.png");
 	gTextures.push_back(txStar);
 
+	// Grass
+	Texture* txGrass = new Texture();
+	txGrass->load("../assets/images/grass_alpha.png");
+	gTextures.push_back(txGrass);
+
 
 	// Graphics objects (entities) of the scene
 
@@ -49,12 +54,16 @@ void Scene6::init()
 	gObjects.push_back(new Star3D(txStar, false, 20, 10, 10));
 
 	box->setWPos(glm::vec3(200 - 50 / 2, 50 / 2, 200 - 50 / 2));
-	cover->setWPos(glm::vec3(200 - 50 / 2, 50, -50 / 2 + 100));
+	cover->setWPos(glm::vec3(200 - 50 / 2, 50, 150));
 
 	gObjects.push_back(new Photo(foto, false, 100, 100));
 
 	// Translucid objects
 	gTranslucidObjs.push_back(new GlassParapet(txGlass, false, 400));
+
+	Grass* grass = new Grass(txGrass, false, 30, 30);
+	grass->setWPos(glm::vec3(125, 15, -125));
+	gTranslucidObjs.push_back(grass);
 }
 
 void Scene6::update()

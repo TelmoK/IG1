@@ -180,4 +180,11 @@ protected:
 	float mRotSpeed;
 };
 
+class Grass : public EntityWithTexture
+{
+public:
+	explicit Grass(Texture* texture, bool modulate, GLdouble w, GLdouble h);
+	void render(const glm::mat4& modelViewMat) const override;
+};
+
 #endif //_H_Entities_H_

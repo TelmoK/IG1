@@ -459,3 +459,37 @@ void BoxCover::update()
 
 	setModelMat(trans2 * rot * trans1);
 }
+
+Grass::Grass(Texture* texture, bool modulate, GLdouble w, GLdouble h)
+	: EntityWithTexture(texture, modulate)
+{
+	mShader = Shader::get("texture:texture_alpha");
+	mMesh = Mesh::generateRectangleTexCor(w, h, 1, 1);
+}
+
+void Grass::render(const glm::mat4& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		mShader->use();
+		mShader->setUniform("modulate", mModulate);
+
+		float alpha = 0;
+
+		if (mTexture != nullptr) mTexture->bind();
+		
+		for (int i = 0; i < 3; ++i)
+		{
+			aMat = glm::rotate(aMat, alpha, glm::vec3(0,1,0));
+			
+			upload(aMat);
+
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			mMesh->render();
+
+			alpha += (glm::pi<float>() * 2) / 8;
+		}
+			
+		if (mTexture != nullptr) mTexture->unbind();
+	}
+}
