@@ -27,12 +27,15 @@ public:
 	void load();
 	void unload();
 
+	virtual void printscreen() {};
+
 protected:
 	void destroy();
 	void setGL();
 	void resetGL();
 
 	std::vector<Abs_Entity*> gObjects; // Entities (graphic objects) of the scene
+	std::vector<Abs_Entity*> gTranslucidObjs; // Entities (translucid objects) of the scene
 	std::vector<Texture*> gTextures; // Texturas de la escena
 };
 

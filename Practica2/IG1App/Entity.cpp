@@ -400,6 +400,11 @@ void Photo::update()
 	mTexture->loadColorBuffer(IG1App::s_ig1app.viewPort().width(), IG1App::s_ig1app.viewPort().height());
 }
 
+void Photo::save(const std::string& name)
+{
+	mTexture->save(name);
+}
+
 BoxCover::BoxCover(Texture* texture, Texture* iteriorTexture, bool modulate, GLdouble length)
 	: EntityWithTexture(texture, modulate), mIteriorTexture(iteriorTexture), mLength(length)
 {

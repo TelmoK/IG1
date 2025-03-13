@@ -1,6 +1,10 @@
 #include "Texture.h"
 
 #include "Image.h"
+#include <iostream>
+#include <vector>
+
+using rgba_color = glm::u8vec4;
 
 Texture::~Texture()
 {
@@ -64,10 +68,39 @@ void Texture::loadColorBuffer(GLsizei width, GLsizei height, GLuint buffer)
 	bind();
 
 	init();
-	glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 0, 0, width, height, 0);
+	mWidth = width;
+	mHeight = height;
+
 	glReadBuffer(buffer);
+	glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 0, 0, width, height, 0);
 
 	unbind();
+}
+
+void Texture::save(const std::string& name)
+{
+	bind();
+
+	if (mWidth == 0 || mHeight == 0) {
+		unbind();
+		throw std::logic_error("Texture::save: ERROR: Texture dimensions are invalid.");
+	}
+
+	GLsizei size = mWidth * mHeight * 4;
+	std::vector<GLubyte> pixels(size);
+
+	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels.data());
+
+	Image image;
+	GLuint a_width = mWidth;
+	GLuint a_height = mHeight;
+	image.load(reinterpret_cast<rgba_color*>(pixels.data()), a_width, a_height);
+
+	image.save(name);
+
+	unbind();
+
+	std::cout << "image saved" << std::endl;
 }
 
 void

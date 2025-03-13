@@ -62,3 +62,12 @@ void Scene6::update()
 		o->update();
 }
 
+void Scene6::printscreen()
+{
+	for (auto* o : gObjects) {
+		if (dynamic_cast<Photo*>(o))
+			dynamic_cast<Photo*>(o)->save("printScreen.bmp");
+	}
+
+}
+

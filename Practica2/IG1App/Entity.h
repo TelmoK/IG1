@@ -162,6 +162,7 @@ public:
 	explicit Photo(Texture* texture, bool modulate, GLdouble w, GLdouble h);
 	void render(const glm::mat4& modelViewMat) const override;
 	void update() override;
+	void save(const std::string& name);
 };
 
 class BoxCover : public EntityWithTexture
