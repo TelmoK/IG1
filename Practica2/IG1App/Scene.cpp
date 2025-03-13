@@ -33,6 +33,9 @@ Scene::destroy()
 
 	gObjects.clear();
 
+	for (Abs_Entity* tel : gTranslucidObjs)
+		delete tel;
+
 	for (Texture* tx : gTextures)
 		delete tx;
 }
@@ -42,6 +45,9 @@ Scene::load()
 {
 	for (Abs_Entity* obj : gObjects)
 		obj->load();
+
+	for (Abs_Entity* tobj : gTranslucidObjs)
+		tobj->load();
 }
 
 void
@@ -49,6 +55,9 @@ Scene::unload()
 {
 	for (Abs_Entity* obj : gObjects)
 		obj->unload();
+
+	for (Abs_Entity* tobj : gTranslucidObjs)
+		tobj->unload();
 }
 
 void
@@ -72,4 +81,7 @@ Scene::render(Camera const& cam) const
 
 	for (Abs_Entity* el : gObjects)
 		el->render(cam.viewMat());
+
+	for (Abs_Entity* tel : gTranslucidObjs)
+		tel->render(cam.viewMat());
 }

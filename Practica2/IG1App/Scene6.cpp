@@ -38,7 +38,6 @@ void Scene6::init()
 
 
 	// Graphics objects (entities) of the scene
-	gObjects.push_back(new RGBAxes(400.0));
 
 	BoxCover* cover = new BoxCover(txBox, txBoxInt, false, 50);
 	gObjects.push_back(cover); // tiene que venir antes del glass si no no hay transparencia
@@ -52,15 +51,21 @@ void Scene6::init()
 	box->setWPos(glm::vec3(200 - 50 / 2, 50 / 2, 200 - 50 / 2));
 	cover->setWPos(glm::vec3(200 - 50 / 2, 50, -50 / 2 + 100));
 
-	gObjects.push_back(new GlassParapet(txGlass, false, 400));
 	gObjects.push_back(new Photo(foto, false, 100, 100));
+
+	// Translucid objects
+	gTranslucidObjs.push_back(new GlassParapet(txGlass, false, 400));
 }
 
 void Scene6::update()
 {
 	for (auto* o : gObjects)
 		o->update();
+
+	for (auto* o : gTranslucidObjs)
+		o->update();
 }
+
 
 void Scene6::printscreen()
 {
@@ -68,6 +73,5 @@ void Scene6::printscreen()
 		if (dynamic_cast<Photo*>(o))
 			dynamic_cast<Photo*>(o)->save("printScreen.bmp");
 	}
-
 }
 
