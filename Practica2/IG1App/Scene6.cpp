@@ -43,18 +43,20 @@ void Scene6::init()
 
 
 	// Graphics objects (entities) of the scene
+	gObjects.push_back(new Ground(txGround, false, 100, 100, 4, 4));
 
 	BoxCover* cover = new BoxCover(txBox, txBoxInt, false, 50);
 	gObjects.push_back(cover); // tiene que venir antes del glass si no no hay transparencia
-	gObjects.push_back(new Ground(txGround, false, 100, 100, 4, 4));
 
 	BoxOutline* box = new BoxOutline(txBox, txBoxInt, false, 50);
 	gObjects.push_back(box);
 
-	gObjects.push_back(new Star3D(txStar, false, 20, 10, 10));
-
 	box->setWPos(glm::vec3(200 - 50 / 2, 50 / 2, 200 - 50 / 2));
 	cover->setWPos(glm::vec3(200 - 50 / 2, 50, 150));
+
+	Star3D* star = new Star3D(txStar, false, 20, 10, 10);
+	gObjects.push_back(star);
+	star->setWPos(glm::vec3(200 - 50 / 2, 50, 75));
 
 	gObjects.push_back(new Photo(foto, false, 100, 100));
 
