@@ -3,6 +3,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/matrix_access.hpp>
 
 using namespace glm;
 
@@ -114,4 +115,13 @@ Camera::upload() const
 	mViewPort->upload();
 	uploadVM();
 	uploadPM();
+}
+
+
+void 
+Camera::setAxes()
+{
+	mRight = glm::row(mViewMat, 0);
+	mUpward = glm::row(mViewMat, 1);
+	mFront = -glm::row(mViewMat, 2);
 }
