@@ -44,6 +44,7 @@ protected:
 	glm::vec3 mRight;
 	glm::vec3 mUpward;
 	glm::vec3 mFront;
+	void setAxes();
 
 	glm::dmat4 mViewMat;   // view matrix = inverse of modeling matrix
 	void uploadVM() const; // transfers viewMat to the GPU
