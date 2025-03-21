@@ -149,5 +149,7 @@ Camera::moveFB(GLfloat cs)
 void 
 Camera::moveUD(GLfloat cs)
 {
-
+	mEye += mUpward * cs;
+	mLook += mUpward * cs;
+	setVM();
 }
