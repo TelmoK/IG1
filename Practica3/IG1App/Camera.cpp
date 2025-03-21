@@ -133,3 +133,21 @@ Camera::setAxes()
 	mUpward = glm::row(mViewMat, 1);
 	mFront = -glm::row(mViewMat, 2);
 }
+
+void 
+Camera::moveLR(GLfloat cs)
+{
+
+}
+
+void 
+Camera::moveFB(GLfloat cs)
+{
+
+}
+
+void 
+Camera::moveUD(GLfloat cs)
+{
+
+}
