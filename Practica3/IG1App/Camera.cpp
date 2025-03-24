@@ -108,7 +108,12 @@ Camera::setPM()
 		                 mNearVal,
 		                 mFarVal);
 		// glm::ortho defines the orthogonal projection matrix
+		return;
 	}
+
+	mProjMat = frustum(xLeft, xRight,
+		yBot, yTop,
+		mNearVal, mFarVal);
 }
 
 void
@@ -156,4 +161,10 @@ Camera::moveUD(GLfloat cs)
 	mEye += mUpward * cs;
 	mLook += mUpward * cs;
 	setVM();
+}
+void 
+Camera::changePrj()
+{
+	bOrto = !bOrto;
+	setPM(); // Vuelve a calcular mProjMat según el tipo de vista
 }
