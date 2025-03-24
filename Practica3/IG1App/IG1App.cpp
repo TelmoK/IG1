@@ -191,7 +191,25 @@ IG1App::key(unsigned int key)
 			break;
 		case 'o':
 			mCamera->set2D();
-			break;		
+			break;	
+		case 'a':
+			mCamera->moveLR(-3.0); // Hacia la izquierda
+			break;
+		case 'd':
+			mCamera->moveLR(3.0); // Hacia la derecha
+			break;
+		case 'w':
+			mCamera->moveUD(3.0); // Hacia arriba
+			break;
+		case 's':
+			mCamera->moveUD(-3.0); // Hacia abajo
+			break;
+		case 'W':
+			mCamera->moveFB(3.0); // Hacia adelante
+			break;
+		case 'S':
+			mCamera->moveFB(-3.0); // Hacia atrás
+			break;
 		case 'u':
 			mUpdateEnable = !mUpdateEnable;
 			break;

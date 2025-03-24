@@ -137,13 +137,17 @@ Camera::setAxes()
 void 
 Camera::moveLR(GLfloat cs)
 {
-
+	mEye += mRight * cs;
+	mLook += mRight * cs;
+	setVM();
 }
 
 void 
 Camera::moveFB(GLfloat cs)
 {
-
+	mEye += mFront * cs;
+	mLook += mFront * cs;
+	setVM();
 }
 
 void 
