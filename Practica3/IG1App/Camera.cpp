@@ -168,3 +168,33 @@ Camera::changePrj()
 	bOrto = !bOrto;
 	setPM(); // Vuelve a calcular mProjMat según el tipo de vista
 }
+
+void 
+Camera::pitchReal(GLfloat cs)
+{
+	GLdouble a = cs;
+	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(mRight));
+	// glm::rotate returns mViewMat * rotationMatrix
+
+	setAxes(); // Update the Axes based on the new Matrix
+}
+
+void 
+Camera::yawReal(GLfloat cs)
+{
+	GLdouble a = cs;
+	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(mUpward));
+	// glm::rotate returns mViewMat * rotationMatrix
+
+	setAxes(); // Update the Axes based on the new Matrix
+}
+
+void 
+Camera::rollReal(GLfloat cs)
+{
+	GLdouble a = cs;
+	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(-mFront));
+	// glm::rotate returns mViewMat * rotationMatrix
+
+	setAxes(); // Update the Axes based on the new Matrix
+}

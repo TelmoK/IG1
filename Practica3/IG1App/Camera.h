@@ -40,6 +40,10 @@ public:
 	void moveFB(GLfloat cs); // Adelante/Atrás
 	void moveUD(GLfloat cs); // Arriba/Abajo
 
+	void pitchReal(GLfloat cs); // Rotación en el eje u (mitrar arriba / abajo)
+	void yawReal(GLfloat cs); // Rotación en el eje v (izqueda / derecha)
+	void rollReal(GLfloat cs); // Rotación en ele eje Z
+
 	void changePrj();
 
 protected:
@@ -47,10 +51,11 @@ protected:
 	glm::dvec3 mLook = {0.0, 0.0, 0.0};  // target's position
 	glm::dvec3 mUp = {0.0, 1.0, 0.0};    // the up vector
 
-	glm::vec3 mRight;
-	glm::vec3 mUpward;
-	glm::vec3 mFront;
+	glm::vec3 mRight; // Vector u
+	glm::vec3 mUpward; // Vector v
+	glm::vec3 mFront; // Vector -n
 	void setAxes();
+
 
 	glm::dmat4 mViewMat;   // view matrix = inverse of modeling matrix
 	void uploadVM() const; // transfers viewMat to the GPU

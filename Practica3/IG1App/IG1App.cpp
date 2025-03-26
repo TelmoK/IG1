@@ -252,6 +252,7 @@ IG1App::specialkey(int key, int scancode, int action, int mods)
 				mCamera->pitch(-1); // rotates -1 on the X axis
 			else
 				mCamera->pitch(1); // rotates 1 on the X axis
+
 			break;
 		case GLFW_KEY_LEFT:
 			if (mods == GLFW_MOD_CONTROL)
