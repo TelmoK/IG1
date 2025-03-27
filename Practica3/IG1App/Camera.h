@@ -37,7 +37,7 @@ public:
 	void upload() const;
 
 	void moveLR(GLfloat cs); // A izquierda/A derecha
-	void moveFB(GLfloat cs); // Adelante/Atrás
+	void moveFB(GLfloat cs); // Adelante/AtrÃ¡s
 	void moveUD(GLfloat cs); // Arriba/Abajo
 
 	void pitchReal(GLfloat cs); // Rotación en el eje u (mitrar arriba / abajo)
@@ -64,7 +64,7 @@ protected:
 	void uploadPM() const; // transfers projMat to the GPU
 
 	GLdouble xRight, xLeft, yTop, yBot;     // size of scene visible area
-	GLdouble mNearVal = 1, mFarVal = 10000; // view volume
+	GLdouble mNearVal = 150, mFarVal = 10000; // view volume
 	GLdouble mScaleFact = 1;                // scale factor
 	bool bOrto = true;                      // orthogonal or perspective projection
 

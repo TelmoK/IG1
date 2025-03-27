@@ -191,7 +191,10 @@ IG1App::key(unsigned int key)
 			break;
 		case 'o':
 			mCamera->set2D();
-			break;	
+			break;
+		case 'p':
+			mCamera->changePrj();
+			break;
 		case 'a':
 			mCamera->moveLR(-3.0); // Hacia la izquierda
 			break;

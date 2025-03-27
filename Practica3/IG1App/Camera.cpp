@@ -5,16 +5,17 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_access.hpp>
 
-using namespace glm;
+#include <iostream>
+
 
 Camera::Camera(Viewport* vp)
-  : mViewMat(1.0)
-  , mProjMat(1.0)
-  , xRight(vp->width() / 2.0)
-  , xLeft(-xRight)
-  , yTop(vp->height() / 2.0)
-  , yBot(-yTop)
-  , mViewPort(vp)
+	: mViewMat(1.0)
+	, mProjMat(1.0)
+	, xRight(vp->width() / 2.0)
+	, xLeft(-xRight)
+	, yTop(vp->height() / 2.0)
+	, yBot(-yTop)
+	, mViewPort(vp)
 {
 	setPM();
 }
@@ -28,33 +29,33 @@ Camera::uploadVM() const
 void
 Camera::setVM()
 {
-	mViewMat = lookAt(mEye, mLook, mUp); // glm::lookAt defines the view matrix
-	
+	mViewMat = glm::lookAt(mEye, mLook, mUp); // glm::lookAt defines the view matrix
+
 	setAxes(); // Update the Axes based on the new Matrix
 }
 
 void
 Camera::set2D()
 {
-	mEye = {0, 0, 500};
-	mLook = {0, 0, 0};
-	mUp = {0, 1, 0};
+	mEye = { 0, 0, 500 };
+	mLook = { 0, 0, 0 };
+	mUp = { 0, 1, 0 };
 	setVM();
 }
 
 void
 Camera::set3D()
 {
-	mEye = {500, 500, 500};
-	mLook = {0, 10, 0};
-	mUp = {0, 1, 0};
+	mEye = { 500, 500, 500 };
+	mLook = { 0, 10, 0 };
+	mUp = { 0, 1, 0 };
 	setVM();
 }
 
 void
 Camera::pitch(GLdouble a)
 {
-	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(1.0, 0, 0));
+	mViewMat = glm::rotate(mViewMat, glm::radians(a), glm::dvec3(1.0, 0, 0));
 	// glm::rotate returns mViewMat * rotationMatrix
 
 	setAxes(); // Update the Axes based on the new Matrix
@@ -63,7 +64,7 @@ Camera::pitch(GLdouble a)
 void
 Camera::yaw(GLdouble a)
 {
-	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(0, 1.0, 0));
+	mViewMat = glm::rotate(mViewMat, glm::radians(a), glm::dvec3(0, 1.0, 0));
 	// glm::rotate returns mViewMat * rotationMatrix
 
 	setAxes(); // Update the Axes based on the new Matrix
@@ -72,7 +73,7 @@ Camera::yaw(GLdouble a)
 void
 Camera::roll(GLdouble a)
 {
-	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(0, 0, 1.0));
+	mViewMat = glm::rotate(mViewMat, glm::radians(a), glm::dvec3(0, 0, 1.0));
 	// glm::rotate returns mViewMat * rotationMatrix
 
 	setAxes(); // Update the Axes based on the new Matrix
@@ -101,19 +102,25 @@ void
 Camera::setPM()
 {
 	if (bOrto) { //  if orthogonal projection
-		mProjMat = ortho(xLeft * mScaleFact,
-		                 xRight * mScaleFact,
-		                 yBot * mScaleFact,
-		                 yTop * mScaleFact,
-		                 mNearVal,
-		                 mFarVal);
+		mProjMat = glm::ortho(xLeft * mScaleFact,
+			xRight * mScaleFact,
+			yBot * mScaleFact,
+			yTop * mScaleFact,
+			mNearVal,
+			mFarVal);
 		// glm::ortho defines the orthogonal projection matrix
-		return;
 	}
+	else {
+		// Me gusta más esto: (también está en la diapositivas)
+		double aspect = mViewPort->width() / (double)mViewPort->height();
+		double fovy = glm::radians(60.0);
+		mProjMat = glm::perspective(fovy, aspect, mNearVal, mFarVal);
 
-	mProjMat = frustum(xLeft, xRight,
-		yBot, yTop,
-		mNearVal, mFarVal);
+		// Que esto: 
+		//mProjMat = glm::frustum(xLeft, xRight,
+		//	yBot, yTop,
+		//	mNearVal, mFarVal);
+	}
 }
 
 void
@@ -131,7 +138,7 @@ Camera::upload() const
 }
 
 
-void 
+void
 Camera::setAxes()
 {
 	mRight = glm::row(mViewMat, 0);
@@ -139,7 +146,7 @@ Camera::setAxes()
 	mFront = -glm::row(mViewMat, 2);
 }
 
-void 
+void
 Camera::moveLR(GLfloat cs)
 {
 	mEye += mRight * cs;
@@ -147,26 +154,26 @@ Camera::moveLR(GLfloat cs)
 	setVM();
 }
 
-void 
+void
 Camera::moveFB(GLfloat cs)
 {
 	mEye += mFront * cs;
-	mLook += mFront * cs;
+	mLook += mFront * cs; // Or else the mEye point would surpass the mLook and it would be behind the camera
 	setVM();
 }
 
-void 
+void
 Camera::moveUD(GLfloat cs)
 {
 	mEye += mUpward * cs;
 	mLook += mUpward * cs;
 	setVM();
 }
-void 
+void
 Camera::changePrj()
 {
 	bOrto = !bOrto;
-	setPM(); // Vuelve a calcular mProjMat seg�n el tipo de vista
+	setPM(); // Vuelve a calcular mProjMat según el tipo de vista
 }
 
 void 
