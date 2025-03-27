@@ -160,6 +160,7 @@ Camera::pitchReal(GLdouble cs)
 {
 	GLdouble a = cs;
 
+	// Rotate around mRight u(x)
 	mLook = mEye + glm::rotate(mLook - mEye, glm::radians(a), mRight);
 	mUp = glm::rotate(mUp, glm::radians(a), mRight);
 
@@ -171,7 +172,11 @@ Camera::yawReal(GLdouble cs)
 {
 	GLdouble a = cs;
 
-	setAxes(); // Update the Axes based on the new Matrix
+	// Rotate around mUpward v(y)
+	mLook = mEye + glm::rotate(mLook - mEye, glm::radians(a), mUpward);
+	mUp = glm::rotate(mUp, glm::radians(a), mUpward);
+
+	setVM(); // Update the view matrix and axes
 }
 
 void 
