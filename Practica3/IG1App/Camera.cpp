@@ -178,10 +178,10 @@ void
 Camera::rollReal(GLdouble cs)
 {
 	GLdouble a = cs;
-	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(-mFront));
-	// glm::rotate returns mViewMat * rotationMatrix
 
-	setAxes(); // Update the Axes based on the new Matrix
+	mUp = glm::rotate(mUp, glm::radians(a), mFront);
+
+	setVM();
 }
 
 void Camera::orbit(GLdouble incAng, GLdouble incY)
