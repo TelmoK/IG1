@@ -257,14 +257,14 @@ IG1App::specialkey(int key, int scancode, int action, int mods)
 			if (mods == GLFW_MOD_CONTROL)
 				mCamera->rollReal(-1); // rotates -1 on the Z axis of the camera
 			else
-				mCamera->yawReal(1); // rotates 1 on the Y axis of the camera
+				mCamera->yawReal(-1); // rotates 1 on the Y axis of the camera
 
 			break;
 		case GLFW_KEY_LEFT:
 			if (mods == GLFW_MOD_CONTROL)
 				mCamera->rollReal(1); // rotates 1 on the Z axis of the camera
 			else
-				mCamera->yawReal(-1); // rotate -1 on the Y axis of the camera
+				mCamera->yawReal(1); // rotate -1 on the Y axis of the camera
 			break;
 		case GLFW_KEY_UP:
 			mCamera->pitchReal(1); // rotates 1 on the X axis of the camera
