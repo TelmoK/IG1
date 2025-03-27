@@ -211,7 +211,10 @@ IG1App::key(unsigned int key)
 			mCamera->moveFB(3.0); // Hacia adelante
 			break;
 		case 'S':
-			mCamera->moveFB(-3.0); // Hacia atrás
+			mCamera->moveFB(-3.0); // Hacia atrï¿½s
+			break;
+		case 'O':
+			mCamera->orbit(.0, .0);
 			break;
 		case 'u':
 			mUpdateEnable = !mUpdateEnable;
@@ -252,22 +255,22 @@ IG1App::specialkey(int key, int scancode, int action, int mods)
 			break;
 		case GLFW_KEY_RIGHT:
 			if (mods == GLFW_MOD_CONTROL)
-				mCamera->pitch(-1); // rotates -1 on the X axis
+				mCamera->rollReal(-1); // rotates -1 on the Z axis of the camera
 			else
-				mCamera->pitch(1); // rotates 1 on the X axis
+				mCamera->yawReal(1); // rotates 1 on the Y axis of the camera
 
 			break;
 		case GLFW_KEY_LEFT:
 			if (mods == GLFW_MOD_CONTROL)
-				mCamera->yaw(1); // rotates 1 on the Y axis
+				mCamera->rollReal(1); // rotates 1 on the Z axis of the camera
 			else
-				mCamera->yaw(-1); // rotate -1 on the Y axis
+				mCamera->yawReal(-1); // rotate -1 on the Y axis of the camera
 			break;
 		case GLFW_KEY_UP:
-			mCamera->roll(1); // rotates 1 on the Z axis
+			mCamera->pitchReal(1); // rotates 1 on the X axis of the camera
 			break;
 		case GLFW_KEY_DOWN:
-			mCamera->roll(-1); // rotates -1 on the Z axis
+			mCamera->pitchReal(-1); // rotates -1 on the X axis of the camera
 			break;
 		default:
 			need_redisplay = false;

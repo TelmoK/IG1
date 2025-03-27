@@ -36,13 +36,15 @@ public:
 	// transfers its viewport, the view matrix and projection matrix to the GPU
 	void upload() const;
 
-	void moveLR(GLfloat cs); // A izquierda/A derecha
-	void moveFB(GLfloat cs); // Adelante/AtrÃ¡s
-	void moveUD(GLfloat cs); // Arriba/Abajo
+	void moveLR(GLdouble cs); // A izquierda/A derecha
+	void moveFB(GLdouble cs); // Adelante/AtrÃ¡s
+	void moveUD(GLdouble cs); // Arriba/Abajo
 
-	void pitchReal(GLfloat cs); // Rotación en el eje u (mitrar arriba / abajo)
-	void yawReal(GLfloat cs); // Rotación en el eje v (izqueda / derecha)
-	void rollReal(GLfloat cs); // Rotación en ele eje Z
+	void pitchReal(GLdouble cs); // Rotaciï¿½n en el eje u (mitrar arriba / abajo)
+	void yawReal(GLdouble cs); // Rotaciï¿½n en el eje v (izqueda / derecha)
+	void rollReal(GLdouble cs); // Rotaciï¿½n en ele eje Z
+
+	void orbit(GLdouble incAng, GLdouble incY);
 
 	void changePrj();
 
@@ -51,9 +53,9 @@ protected:
 	glm::dvec3 mLook = {0.0, 0.0, 0.0};  // target's position
 	glm::dvec3 mUp = {0.0, 1.0, 0.0};    // the up vector
 
-	glm::vec3 mRight; // Vector u
-	glm::vec3 mUpward; // Vector v
-	glm::vec3 mFront; // Vector -n
+	glm::dvec3 mRight; // Vector u
+	glm::dvec3 mUpward; // Vector v
+	glm::dvec3 mFront; // Vector -n
 	void setAxes();
 
 
@@ -72,6 +74,9 @@ protected:
 
 	void setVM();
 	void setPM();
+
+	GLdouble mAng;
+	GLdouble mRadio;
 };
 
 #endif //_H_Camera_H_

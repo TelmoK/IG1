@@ -16,6 +16,8 @@ Camera::Camera(Viewport* vp)
 	, yTop(vp->height() / 2.0)
 	, yBot(-yTop)
 	, mViewPort(vp)
+	, mAng(glm::radians(.0))
+	, mRadio(.0) // updates when orbits to current distance (magnitude of mEye - mLook)
 {
 	setPM();
 }
@@ -50,33 +52,6 @@ Camera::set3D()
 	mLook = { 0, 10, 0 };
 	mUp = { 0, 1, 0 };
 	setVM();
-}
-
-void
-Camera::pitch(GLdouble a)
-{
-	mViewMat = glm::rotate(mViewMat, glm::radians(a), glm::dvec3(1.0, 0, 0));
-	// glm::rotate returns mViewMat * rotationMatrix
-
-	setAxes(); // Update the Axes based on the new Matrix
-}
-
-void
-Camera::yaw(GLdouble a)
-{
-	mViewMat = glm::rotate(mViewMat, glm::radians(a), glm::dvec3(0, 1.0, 0));
-	// glm::rotate returns mViewMat * rotationMatrix
-
-	setAxes(); // Update the Axes based on the new Matrix
-}
-
-void
-Camera::roll(GLdouble a)
-{
-	mViewMat = glm::rotate(mViewMat, glm::radians(a), glm::dvec3(0, 0, 1.0));
-	// glm::rotate returns mViewMat * rotationMatrix
-
-	setAxes(); // Update the Axes based on the new Matrix
 }
 
 void
@@ -147,7 +122,7 @@ Camera::setAxes()
 }
 
 void
-Camera::moveLR(GLfloat cs)
+Camera::moveLR(GLdouble cs)
 {
 	mEye += mRight * cs;
 	mLook += mRight * cs;
@@ -155,7 +130,7 @@ Camera::moveLR(GLfloat cs)
 }
 
 void
-Camera::moveFB(GLfloat cs)
+Camera::moveFB(GLdouble cs)
 {
 	mEye += mFront * cs;
 	mLook += mFront * cs; // Or else the mEye point would surpass the mLook and it would be behind the camera
@@ -163,7 +138,7 @@ Camera::moveFB(GLfloat cs)
 }
 
 void
-Camera::moveUD(GLfloat cs)
+Camera::moveUD(GLdouble cs)
 {
 	mEye += mUpward * cs;
 	mLook += mUpward * cs;
@@ -177,17 +152,26 @@ Camera::changePrj()
 }
 
 void 
-Camera::pitchReal(GLfloat cs)
+Camera::pitchReal(GLdouble cs)
 {
 	GLdouble a = cs;
-	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(mRight));
-	// glm::rotate returns mViewMat * rotationMatrix
 
-	setAxes(); // Update the Axes based on the new Matrix
+	// Rotation matrix around the camera's mRight (x axis of the camera)
+	glm::dmat4 rotMat = glm::rotate(glm::dmat4(1.0), glm::radians(a), glm::dvec3(mRight));
+
+	// Rotate the mFront vector
+	mFront = glm::vec3(rotMat * glm::vec4(mFront, 0.0));
+
+	// Update mLook preserving the original distance from mEye
+	double distance = glm::length(mLook - mEye);
+	mLook = mEye + mFront * distance;
+
+
+	setVM(); // Update the view matrix and axes
 }
 
 void 
-Camera::yawReal(GLfloat cs)
+Camera::yawReal(GLdouble cs)
 {
 	GLdouble a = cs;
 	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(mUpward));
@@ -197,11 +181,23 @@ Camera::yawReal(GLfloat cs)
 }
 
 void 
-Camera::rollReal(GLfloat cs)
+Camera::rollReal(GLdouble cs)
 {
 	GLdouble a = cs;
 	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(-mFront));
 	// glm::rotate returns mViewMat * rotationMatrix
 
 	setAxes(); // Update the Axes based on the new Matrix
+}
+
+void Camera::orbit(GLdouble incAng, GLdouble incY)
+{
+	std::cout << "orbiting" << std::endl;
+	mRadio = glm::abs(mEye.y - mLook.y);
+	std::cout << mEye.y << std::endl;
+	//mAng += incAng;
+	//mEye.x = mLook.x + cos(glm::radians(mAng)) * mRadio;
+	//mEye.z = mLook.z - sin(glm::radians(mAng)) * mRadio;
+	//mEye.y += incY;
+	setVM();
 }
