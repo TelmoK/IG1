@@ -1,9 +1,13 @@
+#define GLM_ENABLE_EXPERIMENTAL
+
 #include "Shader.h"
 #include "Camera.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_access.hpp>
+#include <glm/gtx/rotate_vector.hpp>
+
 
 #include <iostream>
 
@@ -156,16 +160,8 @@ Camera::pitchReal(GLdouble cs)
 {
 	GLdouble a = cs;
 
-	// Rotation matrix around the camera's mRight (x axis of the camera)
-	glm::dmat4 rotMat = glm::rotate(glm::dmat4(1.0), glm::radians(a), glm::dvec3(mRight));
-
-	// Rotate the mFront vector
-	mFront = glm::vec3(rotMat * glm::vec4(mFront, 0.0));
-
-	// Update mLook preserving the original distance from mEye
-	double distance = glm::length(mLook - mEye);
-	mLook = mEye + mFront * distance;
-
+	mLook = mEye + glm::rotate(mLook - mEye, glm::radians(a), mRight);
+	mUp = glm::rotate(mUp, glm::radians(a), mRight);
 
 	setVM(); // Update the view matrix and axes
 }
@@ -174,8 +170,6 @@ void
 Camera::yawReal(GLdouble cs)
 {
 	GLdouble a = cs;
-	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(mUpward));
-	// glm::rotate returns mViewMat * rotationMatrix
 
 	setAxes(); // Update the Axes based on the new Matrix
 }
