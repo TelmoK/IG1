@@ -161,6 +161,16 @@ IG1App::display() const
 	glfwSwapBuffers(mWindow); // swaps the front and back buffer
 }
 
+void 
+IG1App::display2V() const
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clears the back buffer
+
+	mScenes[mCurrentScene]->render(*mCamera); // uploads the viewport and camera to the GPU
+
+	glfwSwapBuffers(mWindow); // swaps the front and back buffer
+}
+
 void
 IG1App::resize(int newWidth, int newHeight)
 {

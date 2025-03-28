@@ -40,6 +40,7 @@ protected:
 	void destroy();
 
 	void display() const;                      // the scene
+	void display2V() const;                      // the scene
 	void resize(int newWidth, int newHeight);  // the viewport (without changing the scale)
 	void key(unsigned int codepoint); // keypress event
 	void specialkey(int key, int scancode, int action, int mods); // special keypress event
