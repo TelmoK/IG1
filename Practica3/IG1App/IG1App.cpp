@@ -214,7 +214,7 @@ IG1App::key(unsigned int key)
 			mCamera->moveFB(-3.0); // Hacia atr�s
 			break;
 		case 'O':
-			mCamera->orbit(.0, .0);
+			mCamera->orbit(.8, .3);
 			break;
 		case 'u':
 			mUpdateEnable = !mUpdateEnable;

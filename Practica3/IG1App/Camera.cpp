@@ -191,12 +191,12 @@ Camera::rollReal(GLdouble cs)
 
 void Camera::orbit(GLdouble incAng, GLdouble incY)
 {
-	std::cout << "orbiting" << std::endl;
-	mRadio = glm::abs(mEye.y - mLook.y);
-	std::cout << mEye.y << std::endl;
-	//mAng += incAng;
-	//mEye.x = mLook.x + cos(glm::radians(mAng)) * mRadio;
-	//mEye.z = mLook.z - sin(glm::radians(mAng)) * mRadio;
-	//mEye.y += incY;
+	mRadio = glm::sqrt(glm::pow(mEye.z - mLook.z, 2) + glm::pow(mEye.x - mLook.x, 2));
+
+	mAng += incAng;
+	mEye.x = mLook.x + cos(glm::radians(mAng)) * mRadio;
+	mEye.z = mLook.z - sin(glm::radians(mAng)) * mRadio;
+	mEye.y += incY;
+
 	setVM();
 }
