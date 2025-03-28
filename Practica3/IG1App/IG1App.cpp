@@ -125,6 +125,10 @@ IG1App::iniWinOpenGL()
 	glfwSetCharCallback(mWindow, s_key);
 	glfwSetKeyCallback(mWindow, s_specialkey);
 	glfwSetWindowRefreshCallback(mWindow, s_display);
+	// Callbacks mouse
+	glfwSetMouseButtonCallback(mWindow, s_mouse);
+	glfwSetCursorPosCallback(mWindow, s_motion);
+	glfwSetScrollCallback(mWindow, s_mouseWheel);
 
 	// Error message callback (all messages)
 	glEnable(GL_DEBUG_OUTPUT);
@@ -172,6 +176,22 @@ IG1App::resize(int newWidth, int newHeight)
 
 	// Resize Scene Visible Area such that the scale is not modified
 	mCamera->setSize(mViewPort->width(), mViewPort->height());
+}
+
+void IG1App::mouse(int button, int action, int mods)
+{
+	mMouseButt = button;
+	
+}
+
+void IG1App::motion(double x, double y)
+{
+	mMouseCoord = {x, y};
+}
+
+void IG1App::mouseWheel(double dx, double dy)
+{
+
 }
 
 void
