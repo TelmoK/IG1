@@ -160,9 +160,42 @@ IG1App::display() const
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clears the back buffer
 
-	mScenes[mCurrentScene]->render(*mCamera); // uploads the viewport and camera to the GPU
+	if(m2Vistas)
+		display2V();
+	else
+		mScenes[mCurrentScene]->render(*mCamera); // uploads the viewport and camera to the GPU
+
 
 	glfwSwapBuffers(mWindow); // swaps the front and back buffer
+}
+
+void 
+IG1App::display2V() const
+{
+	// Para renderizar las vistas utilizamos una cámara auxiliar:
+	Camera auxCam = *mCamera; // copiando mCamera
+
+	// El puerto de vista queda compartido (se copia el puntero)
+	Viewport auxVP = *mViewPort;
+	
+	// El tamaño de los 2 puertos de vista es el mismo
+	mViewPort->setSize(mWinW / 2, mWinH);
+
+	// Para que no cambie la escala, tenemos que cambiar el tamaño de la ventana de vista de la cámara
+	auxCam.setSize(mViewPort->width(), mViewPort->height());
+
+	// Vista ortogonal
+	mViewPort->setPos(0, 0);
+	auxCam.set2D();
+	mScenes[mCurrentScene]->render(auxCam);
+
+	// Vista perspectiva
+	mViewPort->setPos(mWinW / 2, 0);
+	auxCam.set3D();
+	mScenes[mCurrentScene]->render(auxCam);
+
+	// Resetear el viewport a como estaba
+	*mViewPort = auxVP;
 }
 
 void
@@ -237,7 +270,7 @@ IG1App::key(unsigned int key)
 			mCamera->orbit(.8, .3);
 			break;
 		case 'k':
-			mCamera->setCenital();
+			m2Vistas = !m2Vistas;
 			break;
 		case 'u':
 			mUpdateEnable = !mUpdateEnable;
