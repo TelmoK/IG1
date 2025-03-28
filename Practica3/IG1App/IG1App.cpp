@@ -226,6 +226,9 @@ IG1App::key(unsigned int key)
 		case 'O':
 			mCamera->orbit(.8, .3);
 			break;
+		case 'k':
+			mCamera->setCenital();
+			break;
 		case 'u':
 			mUpdateEnable = !mUpdateEnable;
 			break;

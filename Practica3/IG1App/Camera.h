@@ -45,6 +45,7 @@ public:
 	void rollReal(GLdouble cs); // Rotaci�n en ele eje Z
 
 	void orbit(GLdouble incAng, GLdouble incY);
+	void setCenital();
 
 	void changePrj();
 
