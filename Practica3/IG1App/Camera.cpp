@@ -20,8 +20,6 @@ Camera::Camera(Viewport* vp)
 	, yTop(vp->height() / 2.0)
 	, yBot(-yTop)
 	, mViewPort(vp)
-	, mAng(glm::radians(.0))
-	, mRadio(.0) // updates when orbits to current distance (magnitude of mEye - mLook)
 {
 	setPM();
 }
@@ -46,6 +44,8 @@ Camera::set2D()
 	mEye = { 0, 0, 500 };
 	mLook = { 0, 0, 0 };
 	mUp = { 0, 1, 0 };
+	mRadio = glm::sqrt(glm::pow(mEye.z - mLook.z, 2) + glm::pow(mEye.x - mLook.x, 2));
+	mAng = glm::radians(.0);
 	setVM();
 }
 
@@ -55,6 +55,8 @@ Camera::set3D()
 	mEye = { 500, 500, 500 };
 	mLook = { 0, 10, 0 };
 	mUp = { 0, 1, 0 };
+	mRadio = glm::sqrt(glm::pow(mEye.z - mLook.z, 2) + glm::pow(mEye.x - mLook.x, 2));
+	mAng = glm::radians(.0);
 	setVM();
 }
 
