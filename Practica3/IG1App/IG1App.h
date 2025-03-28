@@ -67,6 +67,8 @@ protected:
 	const double FRAME_DURATION = 0.03; // 30FPS
 	bool mUpdateEnable = false;
 	double mNextUpdate = 0;
+
+	bool m2Vistas = false;
 };
 
 #endif //_H_IG1App_H_
