@@ -125,6 +125,7 @@ IG1App::iniWinOpenGL()
 	glfwSetCharCallback(mWindow, s_key);
 	glfwSetKeyCallback(mWindow, s_specialkey);
 	glfwSetWindowRefreshCallback(mWindow, s_display);
+
 	// Callbacks mouse
 	glfwSetMouseButtonCallback(mWindow, s_mouse);
 	glfwSetCursorPosCallback(mWindow, s_motion);
@@ -213,13 +214,36 @@ IG1App::resize(int newWidth, int newHeight)
 
 void IG1App::mouse(int button, int action, int mods)
 {
+	mMouseButt = GLFW_MOUSE_BUTTON_LAST; // Undefined mouse button
+
+	if (action == GLFW_RELEASE) return; // We only want to update when pressing, we do nothing whith releasing
+	
 	mMouseButt = button;
 	
+	double xpos, ypos;
+	glfwGetCursorPos(mWindow, &xpos, &ypos);
+	mMouseCoord = { xpos, ypos };
 }
 
 void IG1App::motion(double x, double y)
 {
-	mMouseCoord = {x, y};
+	glm::dvec2 mp = mMouseCoord - glm::dvec2(x, y); // Set the vector from the new origin to the old point (Screen coodrs)
+
+	mMouseCoord = { x, y };
+
+	if (mMouseButt == GLFW_MOUSE_BUTTON_RIGHT)
+	{
+		mCamera->moveUD(-mp.y); // Y is in screen coords and we want to invert the direction
+		mCamera->moveLR(mp.x);
+
+		mNeedsRedisplay = true; // Important to update the Camera!!!
+	}
+	else if (mMouseButt == GLFW_MOUSE_BUTTON_LEFT)
+	{
+		mCamera->orbit(mp.x, 0);
+
+		mNeedsRedisplay = true; // Important to update the Camera!!!
+	}
 }
 
 void IG1App::mouseWheel(double dx, double dy)

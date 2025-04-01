@@ -74,8 +74,8 @@ protected:
 	bool mUpdateEnable = false;
 	double mNextUpdate = 0;
 
-	glm::dvec2 mMouseCoord;
-	int mMouseButt;
+	glm::dvec2 mMouseCoord = { 0, 0 };
+	int mMouseButt = GLFW_MOUSE_BUTTON_LAST; // By default is is undefined
 
 	bool m2Vistas = false;
 };
