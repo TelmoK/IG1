@@ -215,10 +215,12 @@ IG1App::resize(int newWidth, int newHeight)
 void IG1App::mouse(int button, int action, int mods)
 {
 	mMouseButt = GLFW_MOUSE_BUTTON_LAST; // Undefined mouse button
+	mMouseMod = 0x0000; // Undefined control
 
 	if (action == GLFW_RELEASE) return; // We only want to update when pressing, we do nothing whith releasing
 	
 	mMouseButt = button;
+	mMouseMod = mods;
 	
 	double xpos, ypos;
 	glfwGetCursorPos(mWindow, &xpos, &ypos);

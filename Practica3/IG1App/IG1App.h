@@ -76,6 +76,7 @@ protected:
 
 	glm::dvec2 mMouseCoord = { 0, 0 };
 	int mMouseButt = GLFW_MOUSE_BUTTON_LAST; // By default is is undefined
+	int mMouseMod = 0x0000;
 
 	bool m2Vistas = false;
 };
