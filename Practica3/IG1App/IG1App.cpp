@@ -215,12 +215,10 @@ IG1App::resize(int newWidth, int newHeight)
 void IG1App::mouse(int button, int action, int mods)
 {
 	mMouseButt = GLFW_MOUSE_BUTTON_LAST; // Undefined mouse button
-	mMouseMod = 0x0000; // Undefined control
 
 	if (action == GLFW_RELEASE) return; // We only want to update when pressing, we do nothing whith releasing
 	
 	mMouseButt = button;
-	mMouseMod = mods;
 	
 	double xpos, ypos;
 	glfwGetCursorPos(mWindow, &xpos, &ypos);
@@ -250,7 +248,16 @@ void IG1App::motion(double x, double y)
 
 void IG1App::mouseWheel(double dx, double dy)
 {
-
+	if (mMouseMod == GLFW_MOD_CONTROL)
+	{
+		mCamera->setScale(glm::sign(dy) * 0.01);
+	}
+	else
+	{
+		mCamera->moveFB(glm::sign(dy) * 4);
+	}
+	
+	mNeedsRedisplay = true; // Important to update the Camera!!!
 }
 
 void
@@ -323,11 +330,14 @@ IG1App::key(unsigned int key)
 void
 IG1App::specialkey(int key, int scancode, int action, int mods)
 {
+	mMouseMod = 0x0000; // Undefined control
+
 	// Only interested in press events
 	if (action == GLFW_RELEASE)
 		return;
 
 	bool need_redisplay = true;
+	mMouseMod = mods;
 
 	// Handle keyboard input
 	// (key reference: https://www.glfw.org/docs/3.4/group__keys.html)
