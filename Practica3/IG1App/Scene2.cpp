@@ -15,3 +15,9 @@ void Scene2::init()
 	gObjects.push_back(new RGBRectangle(400, 200));
 	gObjects.push_back(new RegularPolygon(100, 200, glm::dvec4(1)));
 }
+
+void Scene2::update()
+{
+	for (auto* o : gObjects)
+		o->update();
+}

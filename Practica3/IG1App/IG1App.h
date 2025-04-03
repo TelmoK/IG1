@@ -28,6 +28,7 @@ public:
 
 	// Change to the given scene
 	bool changeScene(size_t sceneNr);
+	void changeCamera(size_t camNr);
 
 	void run();   // the main event processing loop
 	void close(); // the application
@@ -61,8 +62,14 @@ protected:
 
 	// Viewport position and size
 	Viewport* mViewPort = nullptr;
+	std::vector<Viewport*> mViewPorts;
+	size_t mCurrentViewPort = 0;
+
 	// Camera position, view volume and projection
 	Camera* mCamera = nullptr;
+	std::vector<Camera*> mCameras;
+	size_t mCurrentCamera = 0;
+
 	// Graphics objects are in the scenes
 	std::vector<Scene*> mScenes;
 	size_t mCurrentScene = 0;
@@ -82,7 +89,7 @@ protected:
 
 	bool m2Vistas = false;
 	bool isMultipleScenes = false;
-	std::unordered_map<size_t, Scene*> multipleScenes;
+	std::vector<size_t> multipleScenes;
 };
 
 #endif //_H_IG1App_H_

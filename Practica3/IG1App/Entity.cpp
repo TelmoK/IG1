@@ -140,7 +140,7 @@ RGBTriangle::update()
 	setWPos({0,0,0});
 	setModelMat(glm::rotate(modelMat(), radians(-5.0f), vec3(0, 0, 1)));
 
-	setWPos({glm::cos(orbit_angle)*100, glm::sin(orbit_angle) * 100, 0});
+	setWPos({glm::cos(orbit_angle)*200, glm::sin(orbit_angle) * 200, 0});
 	orbit_angle += 0.2;
 	
 }
