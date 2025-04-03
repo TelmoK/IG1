@@ -95,12 +95,12 @@ IG1App::init()
 
 	Camera* leftCamera = new Camera(lerftViewPort);
 	leftCamera->setSize(lerftViewPort->width(), lerftViewPort->height());
-	leftCamera->set2D();
+	leftCamera->set3D();
 	mCameras.push_back(leftCamera);
 
 	Camera* rightCamera = new Camera(rightViewPort);
 	rightCamera->setSize(rightViewPort->width(), rightViewPort->height());
-	rightCamera->set3D();
+	rightCamera->set2D();
 	mCameras.push_back(rightCamera);
 
 
@@ -249,7 +249,9 @@ IG1App::display2V() const
 	mScenes[mCurrentScene]->render(*mCameras[1]);
 
 	// Render scene with right camera
-	mScenes[mCurrentScene]->render(*mCameras[2]); 
+	mCameras[2]->setCenital();
+	mScenes[mCurrentScene]->render(*mCameras[2]);
+
 }
 
 void IG1App::display2Scenes()
@@ -283,6 +285,7 @@ void IG1App::display2Scenes()
 
 	changeScene(multipleScenes[1]);
 	changeCamera(2); // Cambia mCurrentCamera a la cámara derecha [2]
+	mCameras[2]->set2D();
 	mScenes[mCurrentScene]->render(*mCameras[mCurrentCamera]);
 
 	// Vuelve a la escena que estaba el ratón

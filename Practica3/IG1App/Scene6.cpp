@@ -102,11 +102,11 @@ void Scene6::init()
 	photo->setWPos(glm::vec3(0, 0, -1));
 
 	// Translucid objects
-	gTranslucidObjs.push_back(new GlassParapet(txGlass, false, glassWidth));
-
 	Grass* grass = new Grass(txGrass, false, grassWidth, grassHeight);
 	grass->setWPos(grassPos);
 	gTranslucidObjs.push_back(grass);
+
+	gTranslucidObjs.push_back(new GlassParapet(txGlass, false, glassWidth));
 }
 
 void Scene6::update()

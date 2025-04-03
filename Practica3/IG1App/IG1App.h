@@ -80,7 +80,7 @@ protected:
 	int mWinH = 600;               // window's height
 
 	const double FRAME_DURATION = 0.03; // 30FPS
-	bool mUpdateEnable = false;
+	bool mUpdateEnable = true;
 	double mNextUpdate = 0;
 
 	glm::dvec2 mMouseCoord = { 0, 0 };
