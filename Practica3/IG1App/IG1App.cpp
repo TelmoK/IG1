@@ -51,7 +51,6 @@ IG1App::run() // enters the main event processing loop
 
 		if (mUpdateEnable && mNextUpdate > glfwGetTime()) {
 
-			std::cout << "Updating scene " << mCurrentScene << std::endl;
 			mScenes[mCurrentScene]->update();
 
 			mNeedsRedisplay = true;
@@ -243,9 +242,14 @@ IG1App::display2V() const
 	//// Resetear el viewport a como estaba
 	//*mViewPort = auxVP;
 
+	////////////////////////////////////////////////////////
+	// CON ARRAY DE CAMARAS (NO HACE FALTA CAMARA AUXILIAR) <-------
+	// 
+	// Render scene with left camera
 	mScenes[mCurrentScene]->render(*mCameras[1]);
 
-	mScenes[mCurrentScene]->render(*mCameras[2]);
+	// Render scene with right camera
+	mScenes[mCurrentScene]->render(*mCameras[2]); 
 }
 
 void IG1App::display2Scenes()
@@ -266,35 +270,22 @@ void IG1App::display2Scenes()
 	//mViewPort->setPos(0, 0);
 	//auxCam.set2D();
 
-	//auto it = multipleScenes.begin();
-	//changeScene(it->first);
-	//mScenes[mCurrentScene]->render(auxCam);
-
-	//++it;
-
-	//// Vista perspectiva
-	//mViewPort->setPos(mWinW / 2, 0);
-	//auxCam.set3D();
-
-	//changeScene(it->first);
-	//mScenes[mCurrentScene]->render(auxCam);
-
 	//// Resetear el viewport a como estaba
 	//*mViewPort = auxVP;
 
-	// Se guarda la escena actual, porque el evento de ratón es antes y no actualiza la escena correcta para el update
+	// Se guarda la escena y camara actual, porque el evento de ratón es antes y no actualiza la escena correcta para el update
 	size_t previousScene = mCurrentScene;
 	size_t previousCamera = mCurrentCamera;
 
 	changeScene(multipleScenes[0]);
-	changeCamera(1); // Cambia a la cámara izquierda [1]
+	changeCamera(1); // Cambia mCurrentCamera a la cámara izquierda [1]
 	mScenes[mCurrentScene]->render(*mCameras[mCurrentCamera]);
 
 	changeScene(multipleScenes[1]);
-	changeCamera(2); // Cambia a la cámara derecha [2]
+	changeCamera(2); // Cambia mCurrentCamera a la cámara derecha [2]
 	mScenes[mCurrentScene]->render(*mCameras[mCurrentCamera]);
 
-	// Vuelve a la escene del ratón
+	// Vuelve a la escena que estaba el ratón
 	changeScene(previousScene);
 	changeCamera(previousCamera); // Cambia a la cámara principal [0]
 }
