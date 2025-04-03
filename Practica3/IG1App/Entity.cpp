@@ -306,7 +306,6 @@ Star3D::Star3D(Texture* texture, bool modulate, GLdouble re, GLuint np, GLdouble
 	: EntityWithTexture(texture, modulate)
 {
 	mMesh = Mesh::generateStar3DTexCor(re, np, h);
-	setModelMat(glm::translate(glm::mat4(1), glm::vec3(0, 100, 100)));
 }
 
 void
@@ -453,12 +452,13 @@ void BoxCover::update()
 	}
 	mCurrAngle += mRotSpeed; 
 
-	glm::mat4 trans1 = glm::translate(glm::mat4(1), glm::vec3(0, mLength / 2, 0)); // ajuste el pivot
+	glm::mat4 trans1 = glm::translate(glm::mat4(1), glm::vec3(0, mLength / 2, 0)); // ajuste del pivot
 	glm::mat4 rot = glm::rotate(glm::mat4(1), mCurrAngle, vec3(1, 0, 0)); // rota alrededor del pivot
 	
 	glm::mat4 trans2 = glm::translate(glm::mat4(1), mWorldPosition); // translada a la posicion final
+	glm::mat4 trans3 = glm::translate(glm::mat4(1), glm::vec3(0, -mLength / 2, 0)); // vuelve ajuste del pivot
 
-	setModelMat(trans2 * rot * trans1);
+	setModelMat(trans3 * trans2 * rot * trans1);
 }
 
 Grass::Grass(Texture* texture, bool modulate, GLdouble w, GLdouble h)
