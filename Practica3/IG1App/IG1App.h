@@ -4,6 +4,7 @@
 #include <GL/glew.h>     // OpenGL Extension Wrangler
 #include <GLFW/glfw3.h>  // OpenGL Library
 #include <glm/glm.hpp>   // OpenGL Mathematics
+#include <unordered_map>
 
 #include "Camera.h"
 #include "Scene.h"
@@ -39,8 +40,9 @@ protected:
 	void iniWinOpenGL();
 	void destroy();
 
-	void display() const;                      // the scene
+	void display();                      // the scene
 	void display2V() const;                      // the scene
+	void display2Scenes();                      // the scene
 	void resize(int newWidth, int newHeight);  // the viewport (without changing the scale)
 	void key(unsigned int codepoint); // keypress event
 	void specialkey(int key, int scancode, int action, int mods); // special keypress event
@@ -79,6 +81,8 @@ protected:
 	int mMouseMod = 0x0000;
 
 	bool m2Vistas = false;
+	bool isMultipleScenes = false;
+	std::unordered_map<size_t, Scene*> multipleScenes;
 };
 
 #endif //_H_IG1App_H_

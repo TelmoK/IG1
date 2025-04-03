@@ -51,8 +51,13 @@ IG1App::run() // enters the main event processing loop
 
 		if (mUpdateEnable && mNextUpdate > glfwGetTime()) {
 			
-			mScenes[mCurrentScene]->update
-			();
+			if (isMultipleScenes) {
+				for (auto it = multipleScenes.begin(); it != multipleScenes.end(); ++it)
+					it->second->update();
+			}
+			else
+				mScenes[mCurrentScene]->update();
+
 			mNeedsRedisplay = true;
 
 			mNextUpdate = glfwGetTime() + FRAME_DURATION;
@@ -76,13 +81,18 @@ IG1App::init()
 	// allocate memory and resources
 	mViewPort = new Viewport(mWinW, mWinH);
 	mCamera = new Camera(mViewPort);
-	mScenes.push_back(new Scene6);
+
+	mScenes.push_back(new Scene6); // 0
 	mScenes.push_back(new Scene1);
-	mScenes.push_back(new Scene2);
+	mScenes.push_back(new Scene2); // 2
 	mScenes.push_back(new Scene3);
 	mScenes.push_back(new Scene4);
 	mScenes.push_back(new Scene5);
-	mScenes.push_back(new Scene6);
+
+	size_t sc6 = 0;
+	multipleScenes.insert({sc6, mScenes[sc6]});
+	size_t sc2 = 2;
+	multipleScenes.insert({sc2, mScenes[sc2]});
 
 	mCamera->set2D();
 
@@ -156,13 +166,15 @@ IG1App::destroy()
 }
 
 void
-IG1App::display() const
+IG1App::display()
 { // double buffering
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clears the back buffer
 
-	if(m2Vistas)
+	if (m2Vistas)
 		display2V();
+	else if (isMultipleScenes)
+		display2Scenes();
 	else
 		mScenes[mCurrentScene]->render(*mCamera); // uploads the viewport and camera to the GPU
 
@@ -193,6 +205,41 @@ IG1App::display2V() const
 	// Vista perspectiva
 	mViewPort->setPos(mWinW / 2, 0);
 	auxCam.set3D();
+	mScenes[mCurrentScene]->render(auxCam);
+
+	// Resetear el viewport a como estaba
+	*mViewPort = auxVP;
+}
+
+void IG1App::display2Scenes()
+{
+	// Para renderizar las vistas utilizamos una cámara auxiliar:
+	Camera auxCam = *mCamera; // copiando mCamera
+
+	// El puerto de vista queda compartido (se copia el puntero)
+	Viewport auxVP = *mViewPort;
+
+	// El tamaño de los 2 puertos de vista es el mismo
+	mViewPort->setSize(mWinW / 2, mWinH);
+
+	// Para que no cambie la escala, tenemos que cambiar el tamaño de la ventana de vista de la cámara
+	auxCam.setSize(mViewPort->width(), mViewPort->height());
+
+	// Vista ortogonal
+	mViewPort->setPos(0, 0);
+	auxCam.set2D();
+
+	auto it = multipleScenes.begin();
+	changeScene(it->first);
+	mScenes[mCurrentScene]->render(auxCam);
+
+	++it;
+
+	// Vista perspectiva
+	mViewPort->setPos(mWinW / 2, 0);
+	auxCam.set3D();
+
+	changeScene(it->first);
 	mScenes[mCurrentScene]->render(auxCam);
 
 	// Resetear el viewport a como estaba
@@ -304,6 +351,9 @@ IG1App::key(unsigned int key)
 			break;
 		case 'k':
 			m2Vistas = !m2Vistas;
+			break;
+		case 'm':
+			isMultipleScenes = !isMultipleScenes;
 			break;
 		case 'u':
 			mUpdateEnable = !mUpdateEnable;
