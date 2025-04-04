@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 
 #include <vector>
+#include <numbers>
 
 class Mesh
 {
@@ -59,6 +60,15 @@ class IndexMesh : public Mesh
 {
 public:
 	IndexMesh();
+
+	IndexMesh(const IndexMesh& im) = delete;            // no copy constructor
+	IndexMesh& operator=(const IndexMesh& im) = delete; // no copy assignment
+
+	static IndexMesh* generateByRevolution(
+		const std::vector<glm::vec2>& profile, GLuint nSamples,
+		GLfloat angleMax = 2 * std::numbers::pi);
+
+
 
 	void load() override;
 	void unload() override;
