@@ -249,7 +249,6 @@ IG1App::display2V() const
 	mScenes[mCurrentScene]->render(*mCameras[1]);
 
 	// Render scene with right camera
-	mCameras[2]->setCenital();
 	mScenes[mCurrentScene]->render(*mCameras[2]);
 
 }
@@ -285,7 +284,6 @@ void IG1App::display2Scenes()
 
 	changeScene(multipleScenes[1]);
 	changeCamera(2); // Cambia mCurrentCamera a la cámara derecha [2]
-	mCameras[2]->set2D();
 	mScenes[mCurrentScene]->render(*mCameras[mCurrentCamera]);
 
 	// Vuelve a la escena que estaba el ratón
@@ -428,12 +426,21 @@ IG1App::key(unsigned int key)
 		if (!m2Vistas) {
 			changeCamera(0); // main camera
 		}
+		else {
+			mCameras[1]->set3D();
+			mCameras[2]->set2D();
+			mCameras[2]->setCenital();
+		}
 		break;
 	case 'm':
 		isMultipleScenes = !isMultipleScenes;
 		if (!isMultipleScenes) {
 			changeCamera(0); // main camera
 			changeScene(0); // main scene6
+		}
+		else {
+			mCameras[1]->set3D();
+			mCameras[2]->set2D();
 		}
 		break;
 	case 'u':
