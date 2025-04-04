@@ -34,8 +34,8 @@ public:
 	std::vector<glm::vec3> const& vertices() const { return vVertices; };
 	std::vector<glm::vec4> const& colors() const { return vColors; };
 
-	void load();
-	void unload();
+	virtual void load();
+	virtual void unload();
 
 
 protected:
@@ -52,7 +52,22 @@ protected:
 private:
 	GLuint mVBO;  // vertex buffer object
 	GLuint mCBO;  // color buffer object
-	GLuint mTCO;
+	GLuint mTCO;  // texture buffer object
+};
+
+class IndexMesh : public Mesh
+{
+public:
+	IndexMesh();
+
+	void load() override;
+	void unload() override;
+
+protected:
+	std::vector<GLuint> vIndexes;
+
+private:
+	GLuint mIBO; // index buffer object
 };
 
 #endif //_H_Scene_H_
