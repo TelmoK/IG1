@@ -48,6 +48,9 @@ protected:
 	std::vector<glm::vec2> vTexCoords;   // texture vertex array
 	virtual void draw() const;
 
+	std::vector<glm::vec3> vNormals; // en la CPU
+	GLuint mNBO; // en la GPU
+
 	GLuint mVAO;  // vertex array object
 
 private:

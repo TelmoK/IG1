@@ -458,13 +458,29 @@ IndexMesh::IndexMesh()
 void IndexMesh::load()
 {
 	Mesh::load(); 
-	glBindVertexArray(mVAO);
-	glGenBuffers(1, &mIBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-		vIndexes.size() * sizeof(GLuint),
-		vIndexes.data(), GL_STATIC_DRAW);
-	glBindVertexArray(0);
+
+	if (vIndexes.size() > 0)
+	{
+		glBindVertexArray(mVAO);
+		glGenBuffers(1, &mIBO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+			vIndexes.size() * sizeof(GLuint),
+			vIndexes.data(), GL_STATIC_DRAW);
+		glBindVertexArray(0);
+	}
+
+	if (vNormals.size() > 0) // upload normals
+	{
+		glGenBuffers(1, &mNBO);
+		glBindBuffer(GL_ARRAY_BUFFER, mNBO);
+		glBufferData(GL_ARRAY_BUFFER,
+			vNormals.size() * sizeof(vec3),
+			vNormals.data(), GL_STATIC_DRAW);
+		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE,
+			sizeof(vec3), nullptr);
+		glEnableVertexAttribArray(3);
+	}
 }
 
 void IndexMesh::unload()
@@ -474,6 +490,11 @@ void IndexMesh::unload()
 	if (mIBO != NONE) {
 		glDeleteBuffers(1, &mIBO);
 		// mIBO = NONE ???
+	}
+
+	if (mNBO != NONE) {
+		glDeleteBuffers(1, &mNBO);
+		// mNBO = NONE ???
 	}
 }
 
@@ -511,5 +532,4 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 
 	mesh->mNumVertices = mesh->vVertices.size();
 	return mesh;
-
 }
