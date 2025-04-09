@@ -62,7 +62,7 @@ public:
 	explicit RGBAxes(GLdouble l);
 };
 
-// Añadidos >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// Aï¿½adidos >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 class SingleColorEntity : public Abs_Entity // Apartado 3
 {
@@ -184,6 +184,13 @@ class Grass : public EntityWithTexture
 {
 public:
 	explicit Grass(Texture* texture, bool modulate, GLdouble w, GLdouble h);
+	void render(const glm::mat4& modelViewMat) const override;
+};
+
+class Toros: public SingleColorEntity 
+{
+public:
+	explicit Toros(GLdouble R, GLdouble r, GLuint nPoints = 40, GLuint nSamples = 40);
 	void render(const glm::mat4& modelViewMat) const override;
 };
 
