@@ -106,7 +106,7 @@ IG1App::init()
 
 
 	// SCENES -------------------------------------------------------
-	mScenes.push_back(new Scene6); // 0
+	mScenes.push_back(new Scene7); // 0
 	mScenes.push_back(new Scene1);
 	mScenes.push_back(new Scene2); // 2
 	mScenes.push_back(new Scene3);

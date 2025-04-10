@@ -496,11 +496,12 @@ void Grass::render(const glm::mat4& modelViewMat) const
 }
 
 Toros::Toros(GLdouble R, GLdouble r, GLuint nPoints, GLuint nSamples)
+	: SingleColorEntity(glm::dvec4(1, 0, 0, 1))
 {
 	std::vector<glm::vec2> profile(nPoints);
 
 	double delta = 2 * glm::pi<double>() / nPoints;
-	double teta = 0.0;
+	double teta = - glm::pi<double>()/2.0;
 
 	for (int i = 0; i < nPoints; ++i) {
 		profile[i] = { r * cos(teta) + R, r * sin(teta) };
@@ -510,19 +511,19 @@ Toros::Toros(GLdouble R, GLdouble r, GLuint nPoints, GLuint nSamples)
 	mMesh = IndexMesh::generateByRevolution(profile, nSamples, 2 * glm::pi<double>());
 }
 
-void Toros::render(const glm::mat4& modelViewMat) const
-{
-	if (mMesh != nullptr) {
-		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
-		mShader->use();
-		upload(aMat);
-
-		//glEnable(GL_CULL_FACE); // Activa el renderizado solo para las caras visibles para la c�mara
-
-		//glCullFace(GL_BACK); // Tambi�n se puede hacer: glFrontFace(GL_CW); 
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		mMesh->render();
-
-		//glDisable(GL_CULL_FACE);
-	}
-}
+//void Toros::render(const glm::mat4& modelViewMat) const
+//{
+//	//if (mMesh != nullptr) {
+//	//	mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+//	//	mShader->use();
+//	//	upload(aMat);
+//
+//	//	//glEnable(GL_CULL_FACE); // Activa el renderizado solo para las caras visibles para la c�mara
+//
+//	//	//glCullFace(GL_FRONT); // Tambi�n se puede hacer: glFrontFace(GL_CW); 
+//	//	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+//	//	mMesh->render();
+//
+//	//	//glDisable(GL_CULL_FACE);
+//	//}
+//}
