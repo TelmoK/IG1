@@ -502,7 +502,7 @@ void IndexMesh::unload()
 IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile, GLuint nSamples, GLfloat angleMax)
 {
 	IndexMesh* mesh = new IndexMesh;
-	mesh->mPrimitive = GL_TRIANGLES;
+	mesh->mPrimitive = GL_TRIANGLE_STRIP;
 
 	int tamPerfil = profile.size();
 	mesh->vVertices.reserve(nSamples * tamPerfil);
@@ -513,9 +513,13 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 	for (int i = 0; i <= nSamples; ++i) // Creando vértices en muestra i-ésima
 	{ 
 		GLdouble c = cos(i * theta1), s = sin(i * theta1);
+		GLdouble c2 = cos((i + 1) * theta1), s2 = sin((i + 1) * theta1);
 
 		for (auto p : profile) // rota el perfil
+		{
 			mesh->vVertices.emplace_back(p.x * c, p.y, -p.x * s);
+			mesh->vVertices.emplace_back(p.x * c2, p.y, -p.x * s2);
+		}
 	}
 
 	for (int i = 0; i < nSamples; ++i) // caras i a i + 1
