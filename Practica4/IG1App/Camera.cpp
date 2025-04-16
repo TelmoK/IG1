@@ -27,7 +27,7 @@ Camera::Camera(Viewport* vp)
 void
 Camera::uploadVM() const
 {
-	Shader::setUniform4All("modelView", mViewMat);
+	Shader::setUniform4All("lightDir", mViewMat);
 }
 
 void

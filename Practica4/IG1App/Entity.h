@@ -191,7 +191,12 @@ class Toros: public SingleColorEntity
 {
 public:
 	explicit Toros(GLdouble R, GLdouble r, GLuint nPoints = 40, GLuint nSamples = 40);
-	//void render(const glm::mat4& modelViewMat) const override;
+};
+
+class ColorMaterialEntity : public SingleColorEntity
+{
+public:
+	explicit ColorMaterialEntity(const glm::dvec4& color);
 };
 
 #endif //_H_Entities_H_

@@ -511,19 +511,8 @@ Toros::Toros(GLdouble R, GLdouble r, GLuint nPoints, GLuint nSamples)
 	mMesh = IndexMesh::generateByRevolution(profile, nSamples, 2 * glm::pi<double>());
 }
 
-//void Toros::render(const glm::mat4& modelViewMat) const
-//{
-//	//if (mMesh != nullptr) {
-//	//	mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
-//	//	mShader->use();
-//	//	upload(aMat);
-//
-//	//	//glEnable(GL_CULL_FACE); // Activa el renderizado solo para las caras visibles para la c�mara
-//
-//	//	//glCullFace(GL_FRONT); // Tambi�n se puede hacer: glFrontFace(GL_CW); 
-//	//	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-//	//	mMesh->render();
-//
-//	//	//glDisable(GL_CULL_FACE);
-//	//}
-//}
+ColorMaterialEntity::ColorMaterialEntity(const glm::dvec4& color)
+	: SingleColorEntity(color)
+{
+	mShader = Shader::get("simple_light");
+}
