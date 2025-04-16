@@ -537,3 +537,15 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 	mesh->mNumVertices = mesh->vVertices.size();
 	return mesh;
 }
+
+IndexMesh* IndexMesh::generateIndexedBox(GLdouble l)
+{
+	IndexMesh* mesh = new IndexMesh();
+
+	mesh->mPrimitive = GL_TRIANGLES;
+
+	mesh->vVertices.reserve(36);
+
+	
+	return mesh;
+}
