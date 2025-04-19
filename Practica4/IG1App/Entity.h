@@ -199,4 +199,10 @@ public:
 	explicit ColorMaterialEntity(const glm::dvec4& color);
 };
 
+class IndexedBox : public ColorMaterialEntity
+{
+public:
+	explicit IndexedBox(const glm::dvec4& color = glm::dvec4(0, 1, 0, 1));
+};
+
 #endif //_H_Entities_H_

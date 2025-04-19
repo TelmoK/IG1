@@ -8,6 +8,7 @@
 #include "Scene5.h"
 #include "Scene6.h"
 #include "Scene7.h"
+#include "Scene8.h"
 
 #include <iostream>
 
@@ -112,7 +113,7 @@ IG1App::init()
 	mScenes.push_back(new Scene3);
 	mScenes.push_back(new Scene4);
 	mScenes.push_back(new Scene7);
-	mScenes.push_back(new Scene5);
+	mScenes.push_back(new Scene8);
 
 	// For two different scenes displaying
 	multipleScenes.push_back(0); // index Scene6 de mScenes

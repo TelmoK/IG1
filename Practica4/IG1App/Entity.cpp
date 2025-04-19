@@ -531,3 +531,9 @@ ColorMaterialEntity::ColorMaterialEntity(const glm::dvec4& color)
 {
 	mShader = Shader::get("simple_light");
 }
+
+IndexedBox::IndexedBox(const glm::dvec4& color)
+	: ColorMaterialEntity(color)
+{
+	mMesh = IndexMesh::generateIndexedBox(50);
+}
