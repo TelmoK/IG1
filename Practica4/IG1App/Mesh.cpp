@@ -560,7 +560,7 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble length)
 	mesh->vVertices.emplace_back(length / 2, length / 2, length / 2);   // 6
 	mesh->vVertices.emplace_back(length / 2, -length / 2, length / 2);  // 7
 
-	// Índices
+	// Indexes
 	// 
 	// Back face
 	mesh->vIndexes.push_back(0);
@@ -615,6 +615,17 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble length)
 	mesh->vIndexes.push_back(1);
 	mesh->vIndexes.push_back(5);
 	mesh->vIndexes.push_back(7);
+
+	// Normals (following the cube drawing)
+
+	mesh->vNormals.push_back(glm::normalize(glm::vec3(2, 2, -1))); // 0
+	mesh->vNormals.push_back(glm::normalize(glm::vec3(1, -2, -2))); // 1
+	mesh->vNormals.push_back(glm::normalize(glm::vec3(-1, 1, -2))); // 2
+	mesh->vNormals.push_back(glm::normalize(glm::vec3(-2, -1, -1))); // 3
+	mesh->vNormals.push_back(glm::normalize(glm::vec3(-2, 2, 1))); // 4
+	mesh->vNormals.push_back(glm::normalize(glm::vec3(-1, -2, 2))); // 5
+	mesh->vNormals.push_back(glm::normalize(glm::vec3(1, 2, 2))); // 6
+	mesh->vNormals.push_back(glm::normalize(glm::vec3(2, -1, 1))); // 6
 
 	return mesh;
 }
