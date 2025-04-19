@@ -538,14 +538,83 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 	return mesh;
 }
 
-IndexMesh* IndexMesh::generateIndexedBox(GLdouble l)
+IndexMesh* IndexMesh::generateIndexedBox(GLdouble length)
 {
 	IndexMesh* mesh = new IndexMesh();
 
 	mesh->mPrimitive = GL_TRIANGLES;
 
-	mesh->vVertices.reserve(36);
+	mesh->mNumVertices = 8;
+	mesh->vVertices.reserve(mesh->mNumVertices);
 
-	
+	GLdouble theta = numbers::pi / 2;
+
+	// Back face (in plane XY)
+	mesh->vVertices.emplace_back(length / 2, length / 2, -length / 2);  // 0
+	mesh->vVertices.emplace_back(length / 2, -length / 2, -length / 2); // 1
+	mesh->vVertices.emplace_back(-length / 2, length / 2, -length / 2); // 2
+	mesh->vVertices.emplace_back(-length / 2, -length / 2, -length / 2);// 3
+	// Front face
+	mesh->vVertices.emplace_back(-length / 2, length / 2, length / 2);  // 4
+	mesh->vVertices.emplace_back(-length / 2, -length / 2, length / 2); // 5
+	mesh->vVertices.emplace_back(length / 2, length / 2, length / 2);   // 6
+	mesh->vVertices.emplace_back(length / 2, -length / 2, length / 2);  // 7
+
+	// Índices
+	// 
+	// Back face
+	mesh->vIndexes.push_back(0);
+	mesh->vIndexes.push_back(1);
+	mesh->vIndexes.push_back(2);
+
+	mesh->vIndexes.push_back(2);
+	mesh->vIndexes.push_back(1);
+	mesh->vIndexes.push_back(3);
+
+	// Front face
+	mesh->vIndexes.push_back(4);
+	mesh->vIndexes.push_back(5);
+	mesh->vIndexes.push_back(6);
+
+	mesh->vIndexes.push_back(6);
+	mesh->vIndexes.push_back(5);
+	mesh->vIndexes.push_back(7);
+
+	// Left face
+	mesh->vIndexes.push_back(2);
+	mesh->vIndexes.push_back(3);
+	mesh->vIndexes.push_back(4);
+
+	mesh->vIndexes.push_back(4);
+	mesh->vIndexes.push_back(3);
+	mesh->vIndexes.push_back(5);
+
+	// Right face
+	mesh->vIndexes.push_back(6);
+	mesh->vIndexes.push_back(7);
+	mesh->vIndexes.push_back(0);
+
+	mesh->vIndexes.push_back(0);
+	mesh->vIndexes.push_back(7);
+	mesh->vIndexes.push_back(1);
+
+	// Up face
+	mesh->vIndexes.push_back(2);
+	mesh->vIndexes.push_back(4);
+	mesh->vIndexes.push_back(0);
+
+	mesh->vIndexes.push_back(0);
+	mesh->vIndexes.push_back(4);
+	mesh->vIndexes.push_back(6);
+
+	// Bottom face
+	mesh->vIndexes.push_back(3);
+	mesh->vIndexes.push_back(5);
+	mesh->vIndexes.push_back(1);
+
+	mesh->vIndexes.push_back(1);
+	mesh->vIndexes.push_back(5);
+	mesh->vIndexes.push_back(7);
+
 	return mesh;
 }

@@ -233,7 +233,6 @@ RGBCube::render(mat4 const& modelViewMat) const
 		mMesh->render();
 
 		glDisable(GL_CULL_FACE);
-
 	}
 }
 
