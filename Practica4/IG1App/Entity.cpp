@@ -532,6 +532,28 @@ ColorMaterialEntity::ColorMaterialEntity(const glm::dvec4& color)
 	mShader = Shader::get("simple_light");
 }
 
+void ColorMaterialEntity::toggleShowNormals()
+{
+	mShowNormals = !mShowNormals;
+}
+
+void ColorMaterialEntity::render(const glm::mat4& modelViewMat) const
+{
+	SingleColorEntity::render(modelViewMat);
+
+	if (mShowNormals && mMesh != nullptr)
+	{
+		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+
+		Shader* nShader = Shader::get("normals");
+		nShader->use();
+		nShader->setUniform("color", (glm::vec4)mColor);
+		upload(aMat);
+		mMesh->render();
+		
+	}
+}
+
 IndexedBox::IndexedBox(const glm::dvec4& color)
 	: ColorMaterialEntity(color)
 {

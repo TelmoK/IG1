@@ -66,6 +66,7 @@ public:
 
 class SingleColorEntity : public Abs_Entity // Apartado 3
 {
+protected:
 	glm::dvec4 mColor;
 
 public:
@@ -197,6 +198,12 @@ class ColorMaterialEntity : public SingleColorEntity
 {
 public:
 	explicit ColorMaterialEntity(const glm::dvec4& color);
+	void render(const glm::mat4& modelViewMat) const override;
+
+	void toggleShowNormals();
+
+private:
+	bool mShowNormals = false;
 };
 
 class IndexedBox : public ColorMaterialEntity
