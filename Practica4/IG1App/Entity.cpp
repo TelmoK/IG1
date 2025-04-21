@@ -549,7 +549,7 @@ void ColorMaterialEntity::render(const glm::mat4& modelViewMat) const
 		nShader->use();
 		nShader->setUniform("color", glm::vec4(1, 1, 0, 1));
 		upload(aMat);
-		mMesh->draw();
+		mMesh->render();
 		
 	}
 }
