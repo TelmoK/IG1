@@ -7,9 +7,11 @@ using namespace glm;
 constexpr GLuint NONE = numeric_limits<GLuint>::max();
 
 Mesh::Mesh()
- : mVAO(NONE)
- , mVBO(NONE)
- , mCBO(NONE)
+	: mVAO(NONE)
+	, mVBO(NONE)
+	, mCBO(NONE)
+	, mNBO(NONE)
+	, mTCO(NONE)
 {
 }
 
@@ -22,9 +24,9 @@ void
 Mesh::draw() const
 {
 	glDrawArrays(
-	  mPrimitive,
-	  0,
-	  size()); // primitive graphic, first index and number of elements to be rendered
+		mPrimitive,
+		0,
+		size()); // primitive graphic, first index and number of elements to be rendered
 }
 
 void
@@ -142,13 +144,13 @@ Mesh::createRGBAxes(GLdouble l)
 	return mesh;
 }
 
-Mesh* 
+Mesh*
 Mesh::generateRegularPolygon(GLuint num, GLdouble r)
 {
 	Mesh* mesh = new Mesh();
 
 	mesh->mPrimitive = GL_LINE_LOOP;
-	
+
 	mesh->mNumVertices = num;
 
 	mesh->vVertices.reserve(mesh->mNumVertices);
@@ -158,8 +160,8 @@ Mesh::generateRegularPolygon(GLuint num, GLdouble r)
 
 	for (int i = 0; i < num; ++i)
 	{
-			mesh->vVertices.emplace_back(
-			r * glm::cos(alpha + delta*i),
+		mesh->vVertices.emplace_back(
+			r * glm::cos(alpha + delta * i),
 			r * glm::sin(alpha + delta * i),
 			0.0);
 	}
@@ -180,7 +182,7 @@ Mesh::createRGBTriangle(GLdouble r)
 	mesh->vVertices.reserve(mesh->mNumVertices);
 
 	constexpr double alpha = glm::radians(90.0);
-	const double delta = glm::radians(360.0 / num);
+	constexpr double delta = glm::radians(360.0 / num);
 
 	for (int i = 0; i < num; ++i)
 	{
@@ -201,7 +203,7 @@ Mesh::createRGBTriangle(GLdouble r)
 	return mesh;
 }
 
-Mesh* 
+Mesh*
 Mesh::generateRectangle(GLdouble w, GLdouble h)
 {
 	Mesh* mesh = new Mesh();
@@ -214,10 +216,10 @@ Mesh::generateRectangle(GLdouble w, GLdouble h)
 
 	// Orden importante para a�adir el color luego 
 	// (en este caso los v�rtices hacen un zig-zag, es decir, una �Z�)
-	mesh->vVertices.emplace_back(-w/2,  h/2, 0.0);
-	mesh->vVertices.emplace_back(-w/2, -h/2, 0.0);
-	mesh->vVertices.emplace_back( w/2,  h/2, 0.0);
-	mesh->vVertices.emplace_back( w/2, -h/2, 0.0);
+	mesh->vVertices.emplace_back(-w / 2, h / 2, 0.0);
+	mesh->vVertices.emplace_back(-w / 2, -h / 2, 0.0);
+	mesh->vVertices.emplace_back(w / 2, h / 2, 0.0);
+	mesh->vVertices.emplace_back(w / 2, -h / 2, 0.0);
 
 	return mesh;
 }
@@ -238,12 +240,12 @@ Mesh::generateRGBRectangle(GLdouble w, GLdouble h)
 	// Z axis color: blue
 	mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
 
-	
+
 
 	return mesh;
 }
 
-Mesh* 
+Mesh*
 Mesh::generateCube(GLdouble length)
 {
 	Mesh* mesh = new Mesh();
@@ -326,19 +328,19 @@ Mesh::generateRGBCubeTriangles(GLdouble length)
 			mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
 		}
 		else mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
-		
+
 	}
-	
+
 	return mesh;
 }
 
-Mesh* 
+Mesh*
 Mesh::generateRectangleTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh)
 {
 	Mesh* mesh = generateRectangle(w * rw, h * rh);
 
 	mesh->vTexCoords.reserve(4);
-	
+
 	mesh->vTexCoords.emplace_back(rw, 0.0);
 	mesh->vTexCoords.emplace_back(rw, rh);
 	mesh->vTexCoords.emplace_back(0.0, 0.0);
@@ -347,7 +349,7 @@ Mesh::generateRectangleTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh)
 	return mesh;
 }
 
-Mesh* 
+Mesh*
 Mesh::generateBoxOutline(GLdouble length)
 {
 	Mesh* mesh = new Mesh();
@@ -375,7 +377,7 @@ Mesh::generateBoxOutline(GLdouble length)
 	return mesh;
 }
 
-Mesh* 
+Mesh*
 Mesh::generateBoxOutlineTexCor(GLdouble length)
 {
 	Mesh* mesh = generateBoxOutline(length);
@@ -437,7 +439,7 @@ Mesh::generateStar3D(GLdouble re, GLuint np, GLdouble h)
 Mesh* Mesh::generateStar3DTexCor(GLdouble re, GLuint np, GLdouble h)
 {
 	Mesh* mesh = generateStar3D(re, np, h);
-	
+
 	mesh->vTexCoords.reserve(mesh->mNumVertices);
 
 	double alpha = glm::radians(90.0);
@@ -448,7 +450,7 @@ Mesh* Mesh::generateStar3DTexCor(GLdouble re, GLuint np, GLdouble h)
 
 	for (int i = 0; i < np; ++i)
 	{
-		if (i % 2 == 0){
+		if (i % 2 == 0) {
 			mesh->vTexCoords.emplace_back(0.0, 1.0);
 			mesh->vTexCoords.emplace_back(0.5, 1.0);
 		}
@@ -461,7 +463,7 @@ Mesh* Mesh::generateStar3DTexCor(GLdouble re, GLuint np, GLdouble h)
 
 	mesh->vTexCoords.emplace_back(0.0, 1.0);
 
-	
+
 	return mesh;
 }
 
@@ -474,7 +476,7 @@ IndexMesh::IndexMesh()
 
 void IndexMesh::load()
 {
-	Mesh::load(); 
+	Mesh::load();
 
 	if (vIndexes.size() > 0)
 	{
@@ -520,7 +522,7 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 	GLdouble theta1 = 2 * numbers::pi / nSamples;
 
 	for (int i = 0; i <= nSamples; ++i) // Creando vértices en muestra i-ésima
-	{ 
+	{
 		GLdouble c = cos(i * theta1), s = sin(i * theta1);
 		GLdouble c2 = cos((i + 1) * theta1), s2 = sin((i + 1) * theta1);
 
@@ -533,7 +535,7 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 
 	for (int i = 0; i < nSamples; ++i) // caras i a i + 1
 		for (int j = 0; j < tamPerfil - 1; ++j) // una cara
-		{ 
+		{
 			if (profile[j].x != 0.0) // triángulo inferior
 				for (auto [s, t] : { pair{i, j}, pair{i, j + 1}, pair{i + 1, j} })
 					mesh->vIndexes.push_back(s * tamPerfil + t);
@@ -555,6 +557,7 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble length)
 
 	mesh->mNumVertices = 8;
 	mesh->vVertices.reserve(mesh->mNumVertices);
+	mesh->vNormals.resize(mesh->mNumVertices, glm::vec3(0.0f)); // Initialize normals to zero
 
 	GLdouble theta = numbers::pi / 2;
 
@@ -627,14 +630,14 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble length)
 
 	// Normals (following the cube drawing)
 
-	mesh->vNormals.push_back(glm::normalize(glm::vec3(2, 2, -1))); // 0
-	mesh->vNormals.push_back(glm::normalize(glm::vec3(1, -2, -2))); // 1
-	mesh->vNormals.push_back(glm::normalize(glm::vec3(-1, 1, -2))); // 2
-	mesh->vNormals.push_back(glm::normalize(glm::vec3(-2, -1, -1))); // 3
-	mesh->vNormals.push_back(glm::normalize(glm::vec3(-2, 2, 1))); // 4
-	mesh->vNormals.push_back(glm::normalize(glm::vec3(-1, -2, 2))); // 5
-	mesh->vNormals.push_back(glm::normalize(glm::vec3(1, 2, 2))); // 6
-	mesh->vNormals.push_back(glm::normalize(glm::vec3(2, -1, 1))); // 6
+	mesh->vNormals.push_back(glm::normalize(glm::vec3(1, 1, -1))); // 0
+	mesh->vNormals.push_back(glm::normalize(glm::vec3(1, -1, -1))); // 1
+	mesh->vNormals.push_back(glm::normalize(glm::vec3(-1, 1, -1))); // 2
+	mesh->vNormals.push_back(glm::normalize(glm::vec3(-1, -1, -1))); // 3
+	mesh->vNormals.push_back(glm::normalize(glm::vec3(-1, 1, 1))); // 4
+	mesh->vNormals.push_back(glm::normalize(glm::vec3(-1, -1, 1))); // 5
+	mesh->vNormals.push_back(glm::normalize(glm::vec3(1, 1, 1))); // 6
+	mesh->vNormals.push_back(glm::normalize(glm::vec3(1, -1, 1))); // 7
 
 	return mesh;
 }
