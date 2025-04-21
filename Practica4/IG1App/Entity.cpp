@@ -547,9 +547,9 @@ void ColorMaterialEntity::render(const glm::mat4& modelViewMat) const
 
 		Shader* nShader = Shader::get("normals");
 		nShader->use();
-		nShader->setUniform("color", (glm::vec4)mColor);
+		nShader->setUniform("color", glm::vec4(1, 1, 0, 1));
 		upload(aMat);
-		mMesh->render();
+		mMesh->draw();
 		
 	}
 }
@@ -557,5 +557,5 @@ void ColorMaterialEntity::render(const glm::mat4& modelViewMat) const
 IndexedBox::IndexedBox(const glm::dvec4& color)
 	: ColorMaterialEntity(color)
 {
-	mMesh = IndexMesh::generateIndexedBox(50);
+	mMesh = IndexMesh::generateIndexedBox(100);
 }

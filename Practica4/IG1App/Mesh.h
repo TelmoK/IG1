@@ -38,6 +38,7 @@ public:
 	virtual void load();
 	virtual void unload();
 
+	virtual void draw() const;
 
 protected:
 	GLuint mPrimitive =
@@ -46,7 +47,6 @@ protected:
 	std::vector<glm::vec3> vVertices; // vertex array
 	std::vector<glm::vec4> vColors;   // color array
 	std::vector<glm::vec2> vTexCoords;   // texture vertex array
-	virtual void draw() const;
 
 	std::vector<glm::vec3> vNormals; // en la CPU
 	GLuint mNBO; // en la GPU
@@ -75,6 +75,7 @@ public:
 
 	void load() override;
 	void unload() override;
+	void draw() const override;
 
 protected:
 	std::vector<GLuint> vIndexes;
