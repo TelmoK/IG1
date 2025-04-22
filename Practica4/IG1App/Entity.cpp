@@ -601,13 +601,13 @@ Cone::Cone(GLdouble h, GLdouble r, GLdouble R, GLuint nRings, GLuint nSamples, c
 	profile[0] = { 0, 0 };
 
 	double distX = (R - r) / nRings; // Orden de la resta importante
-	double distY = h / nRings;
+	double distY = h / (nRings - 1);
 
 	for (int i = 0; i < nRings; ++i) {
 		profile[i+1] = { r + i * distX, i * distY };
 	}
 
-	profile[nVetexes - 1] = { 0, h };
+	profile[nVetexes - 1] = { 0, h};
 
 	mMesh = IndexMesh::generateByRevolution(profile, nSamples, 2 * glm::pi<double>());
 }
@@ -648,6 +648,26 @@ void CompoundEntity::addEntity(Abs_Entity* ae)
 }
 
 WingAdvancedTIE::WingAdvancedTIE()
+	: EntityWithTexture(new Texture(), false)
 {
 	mMesh = Mesh::generateWingAdvancedTIE(80, 50);
+
+	mTexture->load("../assets/images/noche.jpg", 122);
+}
+
+TieFighter::TieFighter()
+{
+	//addEntity(new Sphere(40, 30, 40, glm::dvec4(0, 65, 106, 255)));
+
+	Cone* wingConnector = new Cone(100, 5, 5, 30, 30, glm::dvec4(0, 65, 106, 255));
+
+	wingConnector->setWPos(glm::vec3(0, 0, -100));
+	//wingConnector->setModelMat(glm::rotate(modelMat(), glm::radians(90.0f), vec3(1, 0, 0)));
+	addEntity(wingConnector);
+
+	/*WingAdvancedTIE* rWing = new WingAdvancedTIE();
+	rWing->setModelMat(glm::rotate(modelMat(), glm::radians(180.0f), vec3(0, 1, 0)));
+	addEntity(rWing);
+	
+	addEntity(new WingAdvancedTIE());*/
 }

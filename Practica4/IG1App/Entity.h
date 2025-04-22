@@ -253,10 +253,16 @@ protected:
 	std::vector<Abs_Entity*> gObjects;
 };
 
-class WingAdvancedTIE : public SingleColorEntity
+class WingAdvancedTIE : public EntityWithTexture // Apartado 66
 {
 public:
 	explicit WingAdvancedTIE();
+};
+
+class TieFighter : public CompoundEntity
+{
+public:
+	explicit TieFighter();
 };
 
 #endif //_H_Entities_H_

@@ -488,6 +488,21 @@ Mesh* Mesh::generateWingAdvancedTIE(GLdouble panelW, GLdouble panelH)
 
 	mesh->vVertices.emplace_back(panelW / 2, panelH * (0.5 + glm::sin(edgeWingAng)), 0);
 	mesh->vVertices.emplace_back(-panelW / 2, panelH * (0.5 + glm::sin(edgeWingAng)), 0);
+
+	// Texture vec
+	mesh->vTexCoords.reserve(8);
+
+	mesh->vTexCoords.emplace_back(1.0, 0.0);
+	mesh->vTexCoords.emplace_back(0.0, 0.0);
+
+	mesh->vTexCoords.emplace_back(1.0, 0.33);
+	mesh->vTexCoords.emplace_back(0.0, 0.33);
+
+	mesh->vTexCoords.emplace_back(1.0, 0.66);
+	mesh->vTexCoords.emplace_back(0.0, 0.66);
+
+	mesh->vTexCoords.emplace_back(1.0, 1.0);
+	mesh->vTexCoords.emplace_back(0.0, 1.0);
 	
 	return mesh;
 }
