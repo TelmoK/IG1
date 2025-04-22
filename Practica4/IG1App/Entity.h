@@ -235,6 +235,7 @@ class CompoundEntity : public Abs_Entity
 {
 public:
 
+	CompoundEntity() : Abs_Entity() {}
 	CompoundEntity(const CompoundEntity& e) = delete;            // no copy constructor
 	CompoundEntity& operator=(const CompoundEntity& e) = delete; // no copy assignment
 
@@ -250,6 +251,12 @@ public:
 
 protected:
 	std::vector<Abs_Entity*> gObjects;
+};
+
+class WingAdvancedTIE : public SingleColorEntity
+{
+public:
+	explicit WingAdvancedTIE();
 };
 
 #endif //_H_Entities_H_

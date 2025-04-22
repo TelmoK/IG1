@@ -466,6 +466,32 @@ Mesh* Mesh::generateStar3DTexCor(GLdouble re, GLuint np, GLdouble h)
 	return mesh;
 }
 
+Mesh* Mesh::generateWingAdvancedTIE(GLdouble panelW, GLdouble panelH)
+{
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLE_STRIP;
+	
+	mesh->mNumVertices = 8;
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+	double edgeWingAng = glm::radians<double>(45);
+
+	mesh->vVertices.emplace_back( panelW / 2, -panelH * (0.5 + glm::sin(edgeWingAng)), 0);
+	mesh->vVertices.emplace_back(-panelW / 2, -panelH * (0.5 + glm::sin(edgeWingAng)), 0);
+
+	mesh->vVertices.emplace_back( panelW / 2, -panelH / 2, -panelH * glm::cos(edgeWingAng));
+	mesh->vVertices.emplace_back(-panelW / 2, -panelH / 2, -panelH * glm::cos(edgeWingAng));
+
+	mesh->vVertices.emplace_back(panelW / 2, panelH / 2, -panelH * glm::cos(edgeWingAng));
+	mesh->vVertices.emplace_back(-panelW / 2, panelH / 2, -panelH * glm::cos(edgeWingAng));
+
+	mesh->vVertices.emplace_back(panelW / 2, panelH * (0.5 + glm::sin(edgeWingAng)), 0);
+	mesh->vVertices.emplace_back(-panelW / 2, panelH * (0.5 + glm::sin(edgeWingAng)), 0);
+	
+	return mesh;
+}
+
 // INDEX MESH
 
 IndexMesh::IndexMesh()

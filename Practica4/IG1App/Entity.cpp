@@ -646,3 +646,8 @@ void CompoundEntity::addEntity(Abs_Entity* ae)
 {
 	gObjects.push_back(ae);
 }
+
+WingAdvancedTIE::WingAdvancedTIE()
+{
+	mMesh = Mesh::generateWingAdvancedTIE(80, 50);
+}
