@@ -657,17 +657,31 @@ WingAdvancedTIE::WingAdvancedTIE()
 
 TieFighter::TieFighter()
 {
-	//addEntity(new Sphere(40, 30, 40, glm::dvec4(0, 65, 106, 255)));
+	addEntity(new Sphere(40, 30, 40, glm::dvec4(0, 65, 106, 255)));
 
 	Cone* wingConnector = new Cone(100, 5, 5, 30, 30, glm::dvec4(0, 65, 106, 255));
 
-	wingConnector->setWPos(glm::vec3(0, 0, -100));
-	//wingConnector->setModelMat(glm::rotate(modelMat(), glm::radians(90.0f), vec3(1, 0, 0)));
+	glm::mat4 rot = glm::rotate(glm::mat4(1), glm::radians(90.0f), vec3(1, 0, 0));
+	glm::mat4 trans = glm::translate(glm::mat4(1), glm::vec3(0, 0, -50));
+
+	wingConnector->setModelMat(trans * rot);
+
 	addEntity(wingConnector);
 
-	/*WingAdvancedTIE* rWing = new WingAdvancedTIE();
-	rWing->setModelMat(glm::rotate(modelMat(), glm::radians(180.0f), vec3(0, 1, 0)));
+	// Right Wing
+	WingAdvancedTIE* rWing = new WingAdvancedTIE();
+	rot = glm::rotate(modelMat(), glm::radians(180.0f), vec3(0, 1, 0));
+	trans = glm::translate(glm::mat4(1), glm::vec3(0, 0, 15));
+
+	rWing->setModelMat(trans * rot);
+
 	addEntity(rWing);
 	
-	addEntity(new WingAdvancedTIE());*/
+	// Left Wing
+	WingAdvancedTIE* lWing = new WingAdvancedTIE();
+	trans = glm::translate(glm::mat4(1), glm::vec3(0, 0, -15));
+
+	lWing->setModelMat(trans);
+
+	addEntity(lWing);
 }
