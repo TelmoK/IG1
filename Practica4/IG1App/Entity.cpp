@@ -559,3 +559,19 @@ IndexedBox::IndexedBox(const glm::dvec4& color)
 {
 	mMesh = IndexMesh::generateIndexedBox(100);
 }
+
+Sphere::Sphere(GLdouble radius, GLuint nParallels, GLuint nMeridians, const glm::dvec4& color)
+	: ColorMaterialEntity(color)
+{
+	std::vector<glm::vec2> profile(nParallels);
+
+	double delta = 2 * glm::pi<double>() / nParallels;
+	double teta = -glm::pi<double>() / 2.0;
+
+	for (int i = 0; i < nParallels; ++i) {
+		profile[i] = { radius * cos(teta), radius * sin(teta) };
+		teta += delta;
+	}
+
+	mMesh = IndexMesh::generateByRevolution(profile, nMeridians, 2 * glm::pi<double>());
+}
