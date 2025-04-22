@@ -611,3 +611,38 @@ Cone::Cone(GLdouble h, GLdouble r, GLdouble R, GLuint nRings, GLuint nSamples, c
 
 	mMesh = IndexMesh::generateByRevolution(profile, nSamples, 2 * glm::pi<double>());
 }
+
+CompoundEntity::~CompoundEntity()
+{
+	for (Abs_Entity* el : gObjects)
+		delete el;
+}
+
+void CompoundEntity::render(const glm::mat4& modelViewMat) const
+{
+	/*
+	* Se multiplica la matriz modelViewMat recibida por la matriz de modelado que la entidad compuesta 
+	* tiene por ser una entidad
+	*/
+	mat4 aMat = modelViewMat * mModelMat;
+
+	for (Abs_Entity* e : gObjects)
+		e->render(aMat);
+}
+
+void CompoundEntity::load()
+{
+	for (Abs_Entity* obj : gObjects)
+		obj->load();
+}
+
+void CompoundEntity::unload()
+{
+	for (Abs_Entity* obj : gObjects)
+		obj->unload();
+}
+
+void CompoundEntity::addEntity(Abs_Entity* ae)
+{
+	gObjects.push_back(ae);
+}

@@ -34,8 +34,8 @@ public:
 	void setTexture(Texture* tex) { mTexture = tex; }
 
 	// load or unload entity data into the GPU
-	void load();
-	void unload();
+	virtual void load();
+	virtual void unload();
 
 protected:
 	Mesh* mMesh = nullptr; // the mesh
@@ -229,6 +229,27 @@ class Cone : public ColorMaterialEntity
 public:
 	// La R es la parte de arriba y la r la de abajo
 	explicit Cone(GLdouble h, GLdouble r, GLdouble R, GLuint nRings, GLuint nSamples, const glm::dvec4& color = glm::dvec4(0, 1, 0, 1));
+};
+
+class CompoundEntity : public Abs_Entity
+{
+public:
+
+	CompoundEntity(const CompoundEntity& e) = delete;            // no copy constructor
+	CompoundEntity& operator=(const CompoundEntity& e) = delete; // no copy assignment
+
+	virtual ~CompoundEntity();
+
+	void render(const glm::mat4& modelViewMat) const override; // abstract method
+	void update() override {};
+
+	void load() override;
+	void unload() override;
+
+	void addEntity(Abs_Entity* ae);
+
+protected:
+	std::vector<Abs_Entity*> gObjects;
 };
 
 #endif //_H_Entities_H_
