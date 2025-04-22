@@ -218,4 +218,10 @@ public:
 	explicit Sphere(GLdouble radius, GLuint nParallels, GLuint nMeridians, const glm::dvec4& color = glm::dvec4(0, 1, 0, 1));
 };
 
+class Disk : public ColorMaterialEntity
+{
+public:
+	explicit Disk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples, const glm::dvec4& color = glm::dvec4(0, 1, 0, 1));
+};
+
 #endif //_H_Entities_H_

@@ -566,7 +566,7 @@ Sphere::Sphere(GLdouble radius, GLuint nParallels, GLuint nMeridians, const glm:
 {
 	std::vector<glm::vec2> profile(nParallels);
 
-	double delta = 2 * glm::pi<double>() / nParallels;
+	double delta = glm::pi<double>() / nParallels;
 	double teta = -glm::pi<double>() / 2.0;
 
 	for (int i = 0; i < nParallels; ++i) {
@@ -575,4 +575,18 @@ Sphere::Sphere(GLdouble radius, GLuint nParallels, GLuint nMeridians, const glm:
 	}
 
 	mMesh = IndexMesh::generateByRevolution(profile, nMeridians, 2 * glm::pi<double>());
+}
+
+Disk::Disk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples, const glm::dvec4& color)
+	: ColorMaterialEntity(color)
+{
+	std::vector<glm::vec2> profile(nRings);
+
+	double dist = (R - r) / nRings;
+
+	for (int i = 0; i < nRings; ++i) {
+		profile[i] = { r + i * dist, 0 };
+	}
+
+	mMesh = IndexMesh::generateByRevolution(profile, nSamples, 2 * glm::pi<double>());
 }
