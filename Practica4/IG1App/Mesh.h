@@ -77,6 +77,8 @@ public:
 	void unload() override;
 	void draw() const override;
 
+	void buildNormalVectors();
+
 protected:
 	std::vector<GLuint> vIndexes;
 

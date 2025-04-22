@@ -52,29 +52,29 @@ Mesh::load()
 			glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vec4), nullptr);
 			glEnableVertexAttribArray(1);
 		}
-	}
 
-	if (vTexCoords.size() > 0) {
-		glGenBuffers(1, &mTCO);
-		glBindBuffer(GL_ARRAY_BUFFER, mTCO);
-		glBufferData(GL_ARRAY_BUFFER,
-			vTexCoords.size() * sizeof(vec2),
-			vTexCoords.data(), GL_STATIC_DRAW);
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE,
-			sizeof(vec2), nullptr);
-		glEnableVertexAttribArray(2);
-	}
+		if (vTexCoords.size() > 0) {
+			glGenBuffers(1, &mTCO);
+			glBindBuffer(GL_ARRAY_BUFFER, mTCO);
+			glBufferData(GL_ARRAY_BUFFER,
+				vTexCoords.size() * sizeof(vec2),
+				vTexCoords.data(), GL_STATIC_DRAW);
+			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE,
+				sizeof(vec2), nullptr);
+			glEnableVertexAttribArray(2);
+		}
 
-	if (vNormals.size() > 0) // upload normals
-	{
-		glGenBuffers(1, &mNBO);
-		glBindBuffer(GL_ARRAY_BUFFER, mNBO);
-		glBufferData(GL_ARRAY_BUFFER,
-			vNormals.size() * sizeof(vec3),
-			vNormals.data(), GL_STATIC_DRAW);
-		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE,
-			sizeof(vec3), nullptr);
-		glEnableVertexAttribArray(3);
+		if (vNormals.size() > 0) // upload normals
+		{
+			glGenBuffers(1, &mNBO);
+			glBindBuffer(GL_ARRAY_BUFFER, mNBO);
+			glBufferData(GL_ARRAY_BUFFER,
+				vNormals.size() * sizeof(vec3),
+				vNormals.data(), GL_STATIC_DRAW);
+			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE,
+				sizeof(vec3), nullptr);
+			glEnableVertexAttribArray(3);
+		}
 	}
 }
 
@@ -93,11 +93,14 @@ Mesh::unload()
 		}
 	}
 
-	if (mTCO != NONE) glDeleteBuffers(1, &mTCO);
+	if (mTCO != NONE) {
+		glDeleteBuffers(1, &mTCO);
+		mTCO = NONE;
+	}
 
 	if (mNBO != NONE) {
 		glDeleteBuffers(1, &mNBO);
-		// mNBO = NONE ???
+		mNBO = NONE;
 	}
 }
 
@@ -214,8 +217,8 @@ Mesh::generateRectangle(GLdouble w, GLdouble h)
 
 	mesh->vVertices.reserve(mesh->mNumVertices);
 
-	// Orden importante para a�adir el color luego 
-	// (en este caso los v�rtices hacen un zig-zag, es decir, una �Z�)
+	// Orden importante para añadir el color luego 
+	// (en este caso los vértices hacen un zig-zag, es decir, una "Z")
 	mesh->vVertices.emplace_back(-w / 2, h / 2, 0.0);
 	mesh->vVertices.emplace_back(-w / 2, -h / 2, 0.0);
 	mesh->vVertices.emplace_back(w / 2, h / 2, 0.0);
@@ -239,8 +242,6 @@ Mesh::generateRGBRectangle(GLdouble w, GLdouble h)
 	mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
 	// Z axis color: blue
 	mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
-
-
 
 	return mesh;
 }
@@ -328,7 +329,6 @@ Mesh::generateRGBCubeTriangles(GLdouble length)
 			mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
 		}
 		else mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
-
 	}
 
 	return mesh;
@@ -463,7 +463,6 @@ Mesh* Mesh::generateStar3DTexCor(GLdouble re, GLuint np, GLdouble h)
 
 	mesh->vTexCoords.emplace_back(0.0, 1.0);
 
-
 	return mesh;
 }
 
@@ -496,7 +495,7 @@ void IndexMesh::unload()
 
 	if (mIBO != NONE) {
 		glDeleteBuffers(1, &mIBO);
-		// mIBO = NONE ???
+		mIBO = NONE;
 	}
 }
 
@@ -510,40 +509,46 @@ void IndexMesh::draw() const
 	);
 }
 
+void IndexMesh::buildNormalVectors()
+{
+	for (int i = 0; i < vVertices.size(); )
+}
+
 IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile, GLuint nSamples, GLfloat angleMax)
 {
 	IndexMesh* mesh = new IndexMesh;
 	mesh->mPrimitive = GL_TRIANGLE_STRIP;
-
 	int tamPerfil = profile.size();
-	mesh->vVertices.reserve(nSamples * tamPerfil);
+	mesh->vVertices.reserve((nSamples + 1) * tamPerfil);
 
-	// Genera los vértices de las muestras
-	GLdouble theta1 = 2 * numbers::pi / nSamples;
-
-	for (int i = 0; i <= nSamples; ++i) // Creando vértices en muestra i-ésima
+	// Generate vertices
+	GLdouble theta1 = angleMax / nSamples;
+	for (int i = 0; i <= nSamples; ++i)
 	{
-		GLdouble c = cos(i * theta1), s = sin(i * theta1);
-		GLdouble c2 = cos((i + 1) * theta1), s2 = sin((i + 1) * theta1);
-
-		for (auto p : profile) // rota el perfil
+		GLdouble theta = i * theta1;
+		GLdouble c = cos(theta), s = sin(theta);
+		for (auto p : profile)
 		{
 			mesh->vVertices.emplace_back(p.x * c, p.y, -p.x * s);
-			mesh->vVertices.emplace_back(p.x * c2, p.y, -p.x * s2);
 		}
 	}
 
-	for (int i = 0; i < nSamples; ++i) // caras i a i + 1
-		for (int j = 0; j < tamPerfil - 1; ++j) // una cara
+	// Generate indices for triangle strips
+	for (int i = 0; i < nSamples; ++i)
+	{
+		for (int j = 0; j < tamPerfil; ++j)
 		{
-			if (profile[j].x != 0.0) // triángulo inferior
-				for (auto [s, t] : { pair{i, j}, pair{i, j + 1}, pair{i + 1, j} })
-					mesh->vIndexes.push_back(s * tamPerfil + t);
-
-			if (profile[j + 1].x != 0.0) // triángulo superior
-				for (auto [s, t] : { pair{i, j + 1}, pair{i + 1, j + 1}, pair{i + 1, j} })
-					mesh->vIndexes.push_back(s * tamPerfil + t);
+			// Zigzag between profiles i and i+1
+			mesh->vIndexes.push_back(i * tamPerfil + j);
+			mesh->vIndexes.push_back((i + 1) * tamPerfil + j);
 		}
+		// Add degenerate triangles to connect strips
+		if (i < nSamples - 1)
+		{
+			mesh->vIndexes.push_back((i + 1) * tamPerfil + (tamPerfil - 1));
+			mesh->vIndexes.push_back((i + 1) * tamPerfil);
+		}
+	}
 
 	mesh->mNumVertices = mesh->vVertices.size();
 	return mesh;
@@ -573,7 +578,6 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble length)
 	mesh->vVertices.emplace_back(length / 2, -length / 2, length / 2);  // 7
 
 	// Indexes
-	// 
 	// Back face
 	mesh->vIndexes.push_back(0);
 	mesh->vIndexes.push_back(1);
@@ -629,7 +633,6 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble length)
 	mesh->vIndexes.push_back(7);
 
 	// Normals (following the cube drawing)
-
 	mesh->vNormals.push_back(glm::normalize(glm::vec3(1, 1, -1))); // 0
 	mesh->vNormals.push_back(glm::normalize(glm::vec3(1, -1, -1))); // 1
 	mesh->vNormals.push_back(glm::normalize(glm::vec3(-1, 1, -1))); // 2

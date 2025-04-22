@@ -28,6 +28,7 @@ public:
 	void unload();
 
 	virtual void printscreen() {};
+	virtual void showNormals() {};
 
 protected:
 	void destroy();
