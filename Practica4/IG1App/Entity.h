@@ -224,4 +224,11 @@ public:
 	explicit Disk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples, const glm::dvec4& color = glm::dvec4(0, 1, 0, 1));
 };
 
+class Cone : public ColorMaterialEntity
+{
+public:
+	// La R es la parte de arriba y la r la de abajo
+	explicit Cone(GLdouble h, GLdouble r, GLdouble R, GLuint nRings, GLuint nSamples, const glm::dvec4& color = glm::dvec4(0, 1, 0, 1));
+};
+
 #endif //_H_Entities_H_

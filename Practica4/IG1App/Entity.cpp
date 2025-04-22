@@ -590,3 +590,24 @@ Disk::Disk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples, const glm::dv
 
 	mMesh = IndexMesh::generateByRevolution(profile, nSamples, 2 * glm::pi<double>());
 }
+
+Cone::Cone(GLdouble h, GLdouble r, GLdouble R, GLuint nRings, GLuint nSamples, const glm::dvec4& color)
+	: ColorMaterialEntity(color)
+{
+	int nVetexes = nRings + 2;
+	// La R es la parte de arriba y la r la de abajo
+	std::vector<glm::vec2> profile(nVetexes);
+
+	profile[0] = { 0, 0 };
+
+	double distX = (R - r) / nRings; // Orden de la resta importante
+	double distY = h / nRings;
+
+	for (int i = 0; i < nRings; ++i) {
+		profile[i+1] = { r + i * distX, i * distY };
+	}
+
+	profile[nVetexes - 1] = { 0, h };
+
+	mMesh = IndexMesh::generateByRevolution(profile, nSamples, 2 * glm::pi<double>());
+}
