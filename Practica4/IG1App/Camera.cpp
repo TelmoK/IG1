@@ -31,7 +31,11 @@ Camera::uploadVM() const
 
 	Shader* lShader = Shader::get("simple_light");
 	lShader->use();
-	lShader->setUniform("lightDir", glm::vec4(glm::normalize(glm::vec3(mViewMat * glm::vec4(-1, -1, -1, 0))), 0.0f));
+
+	// Transform light direction to view space
+	glm::vec3 worldLightDir = glm::normalize(glm::vec3(-1, -1, -1));
+	glm::vec3 viewLightDir = glm::vec3(mViewMat * glm::vec4(worldLightDir, 0.0));
+	lShader->setUniform("lightDir", glm::vec4(viewLightDir, 0.0f));
 }
 
 void
@@ -98,7 +102,7 @@ Camera::setPM()
 	else {
 		// Me gusta más esto: (también está en la diapositivas)
 		double aspect = mViewPort->width() / (double)mViewPort->height();
-		double fovy = glm::radians(60.0);
+		constexpr double fovy = glm::radians(60.0);
 		mProjMat = glm::perspective(fovy, aspect, mNearVal, mFarVal);
 
 		// Que esto: 

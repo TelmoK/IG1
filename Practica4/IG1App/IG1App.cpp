@@ -446,6 +446,9 @@ IG1App::key(unsigned int key)
 			mCameras[2]->set2D();
 		}
 		break;
+	case 'n':
+		mScenes[mCurrentScene]->showNormals();
+		break;
 	case 'u':
 		mUpdateEnable = !mUpdateEnable;
 		break;
