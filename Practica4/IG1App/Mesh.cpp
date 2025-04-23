@@ -84,14 +84,17 @@ Mesh::unload()
 {
 	if (mVAO != NONE) {
 		glDeleteVertexArrays(1, &mVAO);
-		glDeleteBuffers(1, &mVBO);
 		mVAO = NONE;
-		mVBO = NONE;
+	}
 
-		if (mCBO != NONE) {
-			glDeleteBuffers(1, &mCBO);
-			mCBO = NONE;
-		}
+	if (mVBO != NONE) {
+		glDeleteBuffers(1, &mVBO);
+		mVBO = NONE;
+	}
+
+	if (mCBO != NONE) {
+		glDeleteBuffers(1, &mCBO);
+		mCBO = NONE;
 	}
 
 	if (mTCO != NONE) {
@@ -585,10 +588,11 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 	mesh->vVertices.reserve(nSamples * tamPerfil);
 
 	// Genera los vértices de las muestras
-	GLdouble theta1 = 2 * numbers::pi / nSamples;
+	GLdouble theta1 = 2 * numbers::pi / static_cast<double>(nSamples);
 
 	for (int i = 0; i <= nSamples; ++i) {  // muestra i-ésima
 		GLdouble c = cos(i * theta1), s = sin(i * theta1);
+
 		for (auto p : profile) {  // rota el perfil
 			mesh->vVertices.emplace_back(p.x * c, p.y, -p.x * s);
 		}

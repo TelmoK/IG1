@@ -544,11 +544,11 @@ Toros::Toros(GLdouble R, GLdouble r, GLuint nPoints, GLuint nSamples)
 	std::vector<glm::vec2> profile(nPoints);
 
 	double delta = 2 * glm::pi<double>() / nPoints;
-	double teta = -glm::pi<double>() / 2.0;
+	double teta = glm::pi<double>() / 2.0;
 
 	for (int i = 0; i < nPoints; ++i) {
 		profile[i] = { r * cos(teta) + R, r * sin(teta) };
-		teta += delta;
+		teta -= delta;
 	}
 
 	mMesh = IndexMesh::generateByRevolution(profile, nSamples, 2 * glm::pi<double>());
@@ -565,12 +565,12 @@ Sphere::Sphere(GLdouble radius, GLuint nParallels, GLuint nMeridians, const glm:
 {
 	std::vector<glm::vec2> profile(nParallels);
 
-	double delta = glm::pi<double>() / nParallels;
-	double teta = -glm::pi<double>() / 2.0;
+	double delta = glm::pi<double>() / static_cast<double>(nParallels);
+	double teta = glm::pi<double>() / 2.0;
 
 	for (int i = 0; i < nParallels; ++i) {
 		profile[i] = { radius * cos(teta), radius * sin(teta) };
-		teta += delta;
+		teta -= delta;
 	}
 
 	mMesh = IndexMesh::generateByRevolution(profile, nMeridians, 2 * glm::pi<double>());
