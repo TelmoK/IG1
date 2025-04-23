@@ -682,9 +682,9 @@ void WingAdvancedTIE::render(const glm::mat4& modelViewMat) const
 
 TieFighter::TieFighter()
 {
-	addEntity(new Sphere(40, 30, 40, glm::vec4(0, 65, 106, 255)));
+	addEntity(new Sphere(40, 30, 40));
 
-	Cone* wingConnector = new Cone(100, 5, 5, 30, 30, glm::vec4(0, 65, 106, 255));
+	Cone* wingConnector = new Cone(100, 8, 8, 30, 30);
 
 	glm::mat4 rot = glm::rotate(glm::mat4(1), glm::radians(90.0f), vec3(1, 0, 0));
 	glm::mat4 trans = glm::translate(glm::mat4(1), glm::vec3(0, 0, -50));
@@ -709,4 +709,23 @@ TieFighter::TieFighter()
 	lWing->setModelMat(trans);
 
 	addEntity(lWing);
+
+	// Nose
+	Cone* shipNose = new Cone(52, 10, 10, 30, 30);
+
+	rot = glm::rotate(glm::mat4(1), glm::radians(90.0f), vec3(0, 0, 1));
+
+	shipNose->setModelMat(rot);
+
+	addEntity(shipNose);
+
+	// Nose Disk
+	Disk* shipNoseDisk = new Disk(15, 0, 5, 40);
+
+	rot = glm::rotate(glm::mat4(1), glm::radians(90.0f), vec3(0, 0, 1));
+	trans = glm::translate(glm::mat4(1), glm::vec3(-53, 0, 0));
+
+	shipNoseDisk->setModelMat(trans * rot);
+
+	addEntity(shipNoseDisk);
 }
