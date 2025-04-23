@@ -655,6 +655,32 @@ WingAdvancedTIE::WingAdvancedTIE()
 	mTexture->load("../assets/images/noche.jpg", 122);
 }
 
+void WingAdvancedTIE::render(const glm::mat4& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+
+		mShader->use();
+
+		mShader->setUniform("modulate", mModulate);
+		upload(aMat);
+
+		glDepthMask(GL_FALSE);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		if (mTexture != nullptr) mTexture->bind();
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		mMesh->render();
+
+		if (mTexture != nullptr) mTexture->unbind();
+
+		glDepthMask(GL_TRUE);
+		glDisable(GL_BLEND);
+	}
+}
+
 TieFighter::TieFighter()
 {
 	addEntity(new Sphere(40, 30, 40, glm::dvec4(0, 65, 106, 255)));

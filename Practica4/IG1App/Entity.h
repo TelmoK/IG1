@@ -257,6 +257,7 @@ class WingAdvancedTIE : public EntityWithTexture // Apartado 66
 {
 public:
 	explicit WingAdvancedTIE();
+	void render(const glm::mat4& modelViewMat) const override;
 };
 
 class TieFighter : public CompoundEntity
