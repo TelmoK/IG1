@@ -1,4 +1,5 @@
 #include "Mesh.h"
+#include <iostream>
 
 using namespace std;
 using namespace glm;
@@ -471,16 +472,16 @@ Mesh* Mesh::generateWingAdvancedTIE(GLdouble panelW, GLdouble panelH)
 	Mesh* mesh = new Mesh();
 
 	mesh->mPrimitive = GL_TRIANGLE_STRIP;
-	
+
 	mesh->mNumVertices = 8;
 	mesh->vVertices.reserve(mesh->mNumVertices);
 
-	double edgeWingAng = glm::radians<double>(45);
+	constexpr double edgeWingAng = glm::radians<double>(45);
 
-	mesh->vVertices.emplace_back( panelW / 2, -panelH * (0.5 + glm::sin(edgeWingAng)), 0);
+	mesh->vVertices.emplace_back(panelW / 2, -panelH * (0.5 + glm::sin(edgeWingAng)), 0);
 	mesh->vVertices.emplace_back(-panelW / 2, -panelH * (0.5 + glm::sin(edgeWingAng)), 0);
 
-	mesh->vVertices.emplace_back( panelW / 2, -panelH / 2, -panelH * glm::cos(edgeWingAng));
+	mesh->vVertices.emplace_back(panelW / 2, -panelH / 2, -panelH * glm::cos(edgeWingAng));
 	mesh->vVertices.emplace_back(-panelW / 2, -panelH / 2, -panelH * glm::cos(edgeWingAng));
 
 	mesh->vVertices.emplace_back(panelW / 2, panelH / 2, -panelH * glm::cos(edgeWingAng));
@@ -503,11 +504,12 @@ Mesh* Mesh::generateWingAdvancedTIE(GLdouble panelW, GLdouble panelH)
 
 	mesh->vTexCoords.emplace_back(1.0, 1.0);
 	mesh->vTexCoords.emplace_back(0.0, 1.0);
-	
+
 	return mesh;
 }
 
-// INDEX MESH
+
+// INDEX MESH =======================================================================================================================================
 
 IndexMesh::IndexMesh()
 	: mIBO(NONE)
@@ -552,7 +554,25 @@ void IndexMesh::draw() const
 
 void IndexMesh::buildNormalVectors()
 {
-	//for (int i = 0; i < vVertices.size(); )
+	vNormals.resize(mNumVertices, glm::vec3(0.0f)); // Initialize normals to zero
+
+	for (int i = 0; i < vIndexes.size(); i += 3) {
+		glm::vec3 normal = glm::normalize(glm::cross(
+			vVertices[vIndexes[i + 1]] - vVertices[vIndexes[i]],
+			vVertices[vIndexes[i + 2]] - vVertices[vIndexes[i]]
+		));
+		vNormals[vIndexes[i]] += normal;
+		vNormals[vIndexes[i + 1]] += normal;
+		vNormals[vIndexes[i + 2]] += normal;
+	}
+
+	for (auto& n : vNormals) {
+		n = glm::normalize(n);
+	}
+
+	for (auto& n : vNormals) {
+		std::cout << "Normalized: " << n.x << ", " << n.y << ", " << n.z << std::endl;
+	}
 }
 
 IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile, GLuint nSamples, GLfloat angleMax)
@@ -598,90 +618,31 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 IndexMesh* IndexMesh::generateIndexedBox(GLdouble length)
 {
 	IndexMesh* mesh = new IndexMesh();
-
 	mesh->mPrimitive = GL_TRIANGLES;
-
 	mesh->mNumVertices = 8;
 	mesh->vVertices.reserve(mesh->mNumVertices);
-	mesh->vNormals.resize(mesh->mNumVertices, glm::vec3(0.0f)); // Initialize normals to zero
 
-	GLdouble theta = numbers::pi / 2;
-
-	// Back face (in plane XY)
+	// Vertices
 	mesh->vVertices.emplace_back(length / 2, length / 2, -length / 2);  // 0
 	mesh->vVertices.emplace_back(length / 2, -length / 2, -length / 2); // 1
 	mesh->vVertices.emplace_back(-length / 2, length / 2, -length / 2); // 2
-	mesh->vVertices.emplace_back(-length / 2, -length / 2, -length / 2);// 3
-	// Front face
+	mesh->vVertices.emplace_back(-length / 2, -length / 2, -length / 2); // 3
 	mesh->vVertices.emplace_back(-length / 2, length / 2, length / 2);  // 4
 	mesh->vVertices.emplace_back(-length / 2, -length / 2, length / 2); // 5
 	mesh->vVertices.emplace_back(length / 2, length / 2, length / 2);   // 6
 	mesh->vVertices.emplace_back(length / 2, -length / 2, length / 2);  // 7
 
 	// Indexes
-	// Back face
-	mesh->vIndexes.push_back(0);
-	mesh->vIndexes.push_back(1);
-	mesh->vIndexes.push_back(2);
+	mesh->vIndexes = {
+		0, 1, 2,  2, 1, 3,  // Back
+		4, 5, 6,  6, 5, 7,  // Front
+		2, 3, 4,  4, 3, 5,  // Left
+		6, 7, 0,  0, 7, 1,  // Right
+		2, 4, 0,  0, 4, 6,  // Top
+		1, 5, 3,  7, 5, 1   // Bottom
+	};
 
-	mesh->vIndexes.push_back(2);
-	mesh->vIndexes.push_back(1);
-	mesh->vIndexes.push_back(3);
-
-	// Front face
-	mesh->vIndexes.push_back(4);
-	mesh->vIndexes.push_back(5);
-	mesh->vIndexes.push_back(6);
-
-	mesh->vIndexes.push_back(6);
-	mesh->vIndexes.push_back(5);
-	mesh->vIndexes.push_back(7);
-
-	// Left face
-	mesh->vIndexes.push_back(2);
-	mesh->vIndexes.push_back(3);
-	mesh->vIndexes.push_back(4);
-
-	mesh->vIndexes.push_back(4);
-	mesh->vIndexes.push_back(3);
-	mesh->vIndexes.push_back(5);
-
-	// Right face
-	mesh->vIndexes.push_back(6);
-	mesh->vIndexes.push_back(7);
-	mesh->vIndexes.push_back(0);
-
-	mesh->vIndexes.push_back(0);
-	mesh->vIndexes.push_back(7);
-	mesh->vIndexes.push_back(1);
-
-	// Up face
-	mesh->vIndexes.push_back(2);
-	mesh->vIndexes.push_back(4);
-	mesh->vIndexes.push_back(0);
-
-	mesh->vIndexes.push_back(0);
-	mesh->vIndexes.push_back(4);
-	mesh->vIndexes.push_back(6);
-
-	// Bottom face
-	mesh->vIndexes.push_back(3);
-	mesh->vIndexes.push_back(5);
-	mesh->vIndexes.push_back(1);
-
-	mesh->vIndexes.push_back(1);
-	mesh->vIndexes.push_back(5);
-	mesh->vIndexes.push_back(7);
-
-	// Normals (following the cube drawing)
-	mesh->vNormals.push_back(glm::normalize(glm::vec3(1, 1, -1))); // 0
-	mesh->vNormals.push_back(glm::normalize(glm::vec3(1, -1, -1))); // 1
-	mesh->vNormals.push_back(glm::normalize(glm::vec3(-1, 1, -1))); // 2
-	mesh->vNormals.push_back(glm::normalize(glm::vec3(-1, -1, -1))); // 3
-	mesh->vNormals.push_back(glm::normalize(glm::vec3(-1, 1, 1))); // 4
-	mesh->vNormals.push_back(glm::normalize(glm::vec3(-1, -1, 1))); // 5
-	mesh->vNormals.push_back(glm::normalize(glm::vec3(1, 1, 1))); // 6
-	mesh->vNormals.push_back(glm::normalize(glm::vec3(1, -1, 1))); // 7
+	mesh->buildNormalVectors();
 
 	return mesh;
 }
