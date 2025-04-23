@@ -11,7 +11,7 @@ void Scene7::init()
 
 	// Graphics objects (entities) of the scene
 	gObjects.push_back(new RGBAxes(400.0));
-	gObjects.push_back(new Toros(200, 100));
+	gObjects.push_back(new Toros(200, 50));
 
 }
 

@@ -67,19 +67,19 @@ public:
 class SingleColorEntity : public Abs_Entity // Apartado 3
 {
 protected:
-	glm::dvec4 mColor;
+	glm::vec4 mColor;
 
 public:
-	explicit SingleColorEntity(const glm::dvec4& color = glm::dvec4(1));
+	explicit SingleColorEntity(const glm::vec4& color = glm::vec4(1));
 	void render(const glm::mat4& modelViewMat) const override;
-	glm::dvec4 getColor() const;
-	void setColor(const glm::dvec4& color);
+	glm::vec4 getColor() const;
+	void setColor(const glm::vec4& color);
 };
 
 class RegularPolygon : public SingleColorEntity // Apartado 4
 {
 public:
-	explicit RegularPolygon(GLuint num, GLdouble r, const glm::dvec4& color);
+	explicit RegularPolygon(GLuint num, GLdouble r, const glm::vec4& color);
 };
 
 class RGBTriangle : public EntityWithColors // Apartado 6
@@ -188,47 +188,46 @@ public:
 	void render(const glm::mat4& modelViewMat) const override;
 };
 
-class Toros: public SingleColorEntity 
+class ColorMaterialEntity : public SingleColorEntity
+{
+public:
+	explicit ColorMaterialEntity(const glm::vec4& color);
+	void render(const glm::mat4& modelViewMat) const override;
+
+	void toggleShowNormals();
+private:
+	bool mShowNormals = false;
+};
+
+class Toros: public ColorMaterialEntity
 {
 public:
 	explicit Toros(GLdouble R, GLdouble r, GLuint nPoints = 40, GLuint nSamples = 40);
 };
 
-class ColorMaterialEntity : public SingleColorEntity
-{
-public:
-	explicit ColorMaterialEntity(const glm::dvec4& color);
-	void render(const glm::mat4& modelViewMat) const override;
-
-	void toggleShowNormals();
-
-private:
-	bool mShowNormals = false;
-};
-
 class IndexedBox : public ColorMaterialEntity
 {
 public:
-	explicit IndexedBox(const glm::dvec4& color = glm::dvec4(0, 1, 0, 1));
+	explicit IndexedBox(GLdouble length, const glm::vec4& color = glm::vec4(0, 1, 0, 1));
 };
 
 class Sphere : public ColorMaterialEntity
 {
 public:
-	explicit Sphere(GLdouble radius, GLuint nParallels, GLuint nMeridians, const glm::dvec4& color = glm::dvec4(0, 1, 0, 1));
+	explicit Sphere(GLdouble radius, GLuint nParallels, GLuint nMeridians, const glm::vec4& color = glm::vec4(0, 1, 0, 1));
 };
 
 class Disk : public ColorMaterialEntity
 {
 public:
-	explicit Disk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples, const glm::dvec4& color = glm::dvec4(0, 1, 0, 1));
+	explicit Disk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples, const glm::vec4& color = glm::vec4(0, 1, 0, 1));
 };
 
 class Cone : public ColorMaterialEntity
 {
 public:
 	// La R es la parte de arriba y la r la de abajo
-	explicit Cone(GLdouble h, GLdouble r, GLdouble R, GLuint nRings, GLuint nSamples, const glm::dvec4& color = glm::dvec4(0, 1, 0, 1));
+	explicit Cone(GLdouble h, GLdouble r, GLdouble R, GLuint nRings, GLuint nSamples, const glm::vec4& color = glm::vec4(0, 1, 0, 1));
 };
 
 class CompoundEntity : public Abs_Entity

@@ -27,15 +27,12 @@ Camera::Camera(Viewport* vp)
 void
 Camera::uploadVM() const
 {
-	Shader::setUniform4All("modelView", mViewMat);
+	glm::vec4 worldLightDir = glm::vec4(-1, -1, -1, 0);
+	glm::vec4 viewLightDir = glm::normalize(mViewMat * worldLightDir);
 
 	Shader* lShader = Shader::get("simple_light");
 	lShader->use();
-
-	// Transform light direction to view space
-	glm::vec3 worldLightDir = glm::normalize(glm::vec3(-1, -1, -1));
-	glm::vec3 viewLightDir = glm::vec3(mViewMat * glm::vec4(worldLightDir, 0.0));
-	lShader->setUniform("lightDir", glm::vec4(viewLightDir, 0.0f));
+	lShader->setUniform("lightDir", viewLightDir);
 }
 
 void
