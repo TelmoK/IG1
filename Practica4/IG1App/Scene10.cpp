@@ -15,14 +15,14 @@ void Scene10::init()
 
 	gObjects.push_back(new Sphere(300.0, 20, 30, glm::dvec4(1, 0.91, 0, 1)));
 
-	inventedNode = new CompoundEntity();
+	orbInventedNode = new CompoundEntity();
 
 	TieFighter* fighter = new TieFighter();
 
-	inventedNode->addEntity(fighter);
+	orbInventedNode->addEntity(fighter);
 
 	fighter->setWPos(glm::vec3(0, 340,0));
-	gObjects.push_back(inventedNode);
+	gObjects.push_back(orbInventedNode);
 
 }
 
@@ -33,5 +33,5 @@ void Scene10::rotate()
 
 void Scene10::orbit()
 {
-	inventedNode->setModelMat(glm::rotate(inventedNode->modelMat(), glm::radians(3.0f), glm::vec3(0, 0, 1)));
+	orbInventedNode->setModelMat(glm::rotate(orbInventedNode->modelMat(), glm::radians(3.0f), glm::vec3(0, 0, 1)));
 }

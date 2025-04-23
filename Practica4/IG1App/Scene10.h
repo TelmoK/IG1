@@ -13,6 +13,7 @@ public:
 
 private:
 
-	CompoundEntity* inventedNode;
+	CompoundEntity* orbInventedNode;
+	CompoundEntity* rotInventedNode;
 };
 
