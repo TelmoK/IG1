@@ -457,7 +457,11 @@ IG1App::key(unsigned int key)
 		mUpdateEnable = !mUpdateEnable;
 		break;
 	case 'f':
-		mScenes[mCurrentScene]->printscreen();
+		mScenes[mCurrentScene]->rotate();
+		//mScenes[mCurrentScene]->printscreen();
+		break;
+	case 'g':
+		mScenes[mCurrentScene]->orbit();
 		break;
 	default:
 		if (key >= '0' && key <= '9') {

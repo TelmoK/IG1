@@ -30,6 +30,9 @@ public:
 	virtual void printscreen() {};
 	virtual void showNormals() {};
 
+	virtual void rotate() {}
+	virtual void orbit() {}
+
 protected:
 	void destroy();
 	void setGL();
