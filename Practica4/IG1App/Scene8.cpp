@@ -10,8 +10,6 @@ void Scene8::init()
 	//gObjects.push_back(new Toros(200, 50));
 	//gObjects.push_back(new Disk(50, 250, 5, 40));
 	//gObjects.push_back(new Cone(300, 250, 0, 5, 40));
-	//gObjects.push_back(new WingAdvancedTIE());
-	//gObjects.push_back(new TieFighter());
 
 	//gObjects.push_back(new IndexedBox(300));
 }
