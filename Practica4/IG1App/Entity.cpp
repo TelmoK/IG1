@@ -547,7 +547,7 @@ Toros::Toros(GLdouble R, GLdouble r, GLuint nPoints, GLuint nSamples)
 	double teta = glm::pi<double>() / 2.0;
 
 	// i <= nPoints to emplace the first vertex again
-	for (int i = 0; i <= nPoints; ++i) {
+	for (int i = 0; i < nPoints; ++i) {
 		profile[i] = { r * cos(teta) + R, r * sin(teta) };
 		teta -= delta;
 	}

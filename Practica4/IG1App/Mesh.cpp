@@ -619,19 +619,6 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 
 	for (int i = 0; i < nSamples; ++i) {  // muestra i-ésima
 		GLdouble c = cos(i * theta1), s = sin(i * theta1);
-
-
-		//if (i != 0) { // When its not the first sample we cant pick a vertex at same point of an existing one
-		//	for (int profileIdx = 0; )
-
-		//}
-		//else { // Only for the first sample
-		//	for (auto p : profile) {  // rota el perfil
-		//		mesh->vVertices.emplace_back(p.x * c, p.y, -p.x * s);
-		//	}
-		//}
-
-
 		for (auto p : profile) {  // rota el perfil
 			mesh->vVertices.emplace_back(p.x * c, p.y, -p.x * s);
 		}
@@ -639,32 +626,34 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 
 	// Genera los índices para formar los triángulos
 	for (int i = 0; i < nSamples - 1; ++i) { // caras entre i e i+1
+		int max = tamPerfil - 1;
 		for (int j = 0; j < tamPerfil - 1; ++j) { // una cara vertical
 			if (profile[j].x != 0.0) { // triángulo inferior
-				for (auto [s, t] : { std::pair{i, j}, {i, j + 1}, {i + 1, j} }) {
-					mesh->vIndexes.push_back(s * tamPerfil + t);
+				for (auto [s, t] : { std::pair{i, j}, {i, (j + 1)}, {i + 1, j} }) {
+					mesh->vIndexes.push_back(s * tamPerfil + t%max);
 				}
 			}
 
-			if (profile[j + 1].x != 0.0) { // triángulo superior
-				for (auto [s, t] : { std::pair{i, j + 1}, {i + 1, j + 1}, {i + 1, j} }) {
-					mesh->vIndexes.push_back(s * tamPerfil + t);
+			if (profile[(j + 1)%max].x != 0.0) { // triángulo superior
+				for (auto [s, t] : { std::pair{i, (j + 1)}, {i + 1, (j + 1)}, {i + 1, j} }) {
+					mesh->vIndexes.push_back(s * tamPerfil + t%max);
 				}
 			}
 		}
 	}
-
+	//done = false;
 	// For conecting the the last sample with the first without repeating vertices
 	for (int j = 0; j < tamPerfil - 1; ++j) { // una cara vertical
+		int max = tamPerfil - 1;
 		if (profile[j].x != 0.0) { // triángulo inferior
-			for (auto [s, t] : { std::pair {nSamples - 1, j}, {nSamples - 1, j + 1}, {0, j}, }) {
-				mesh->vIndexes.push_back(s * tamPerfil + t);
+			for (auto [s, t] : { std::pair {nSamples - 1, j}, {nSamples - 1, (j + 1)}, {0, j} }) {
+				mesh->vIndexes.push_back(s * tamPerfil + t%max);
 			}
 		}
 
-		if (profile[j + 1].x != 0.0) { // triángulo superior
-			for (auto [s, t] : { std::pair{nSamples - 1, j + 1}, {0, j + 1}, {0, j} }) {
-				mesh->vIndexes.push_back(s * tamPerfil + t);
+		if (profile[(j + 1) % max].x != 0.0) { // triángulo superior
+			for (auto [s, t] : { std::pair{nSamples - 1,  (j + 1)}, {0, (j + 1)}, {0, j} }) {
+				mesh->vIndexes.push_back(s * tamPerfil + t%max);
 			}
 		}
 	}
