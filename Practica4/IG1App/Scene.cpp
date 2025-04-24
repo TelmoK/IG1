@@ -43,6 +43,8 @@ Scene::destroy()
 void
 Scene::load()
 {
+	setColor(); // background color
+
 	for (Abs_Entity* obj : gObjects)
 		obj->load();
 
@@ -53,6 +55,7 @@ Scene::load()
 void
 Scene::unload()
 {
+
 	for (Abs_Entity* obj : gObjects)
 		obj->unload();
 
@@ -64,7 +67,7 @@ void
 Scene::setGL()
 {
 	// OpenGL basic setting
-	glClearColor(0.6, 0.7, 0.8, 1.0); // background color (alpha=1 -> opaque)
+	setColor(); // background color
 	glEnable(GL_DEPTH_TEST);          // enable Depth test
 }
 void
@@ -72,6 +75,11 @@ Scene::resetGL()
 {
 	glClearColor(.0, .0, .0, .0); // background color (alpha=1 -> opaque)
 	glDisable(GL_DEPTH_TEST);     // disable Depth test
+}
+
+void Scene::setColor()
+{
+	glClearColor(0.6, 0.7, 0.8, 1.0); // background color (alpha=1 -> opaque)
 }
 
 void

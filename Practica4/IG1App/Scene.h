@@ -37,6 +37,7 @@ protected:
 	void destroy();
 	void setGL();
 	void resetGL();
+	virtual void setColor();
 
 	std::vector<Abs_Entity*> gObjects; // Entities (graphic objects) of the scene
 	std::vector<Abs_Entity*> gTranslucidObjs; // Entities (translucid objects) of the scene

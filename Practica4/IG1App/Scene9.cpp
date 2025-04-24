@@ -8,3 +8,8 @@ void Scene9::init()
 
 	gObjects.push_back(new TieFighter());
 }
+
+void Scene9::setColor()
+{
+	glClearColor(.0, .0, .0, .0);
+}

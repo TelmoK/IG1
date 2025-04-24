@@ -7,4 +7,7 @@ public:
 	Scene9() = default;
 
 	void init() override;
+
+protected:
+	void setColor() override;
 };
