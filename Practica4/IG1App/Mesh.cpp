@@ -626,17 +626,17 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 
 	// Genera los índices para formar los triángulos
 	for (int i = 0; i < nSamples - 1; ++i) { // caras entre i e i+1
-		int max = tamPerfil - 1;
+		/*int max = tamPerfil - 1*/;
 		for (int j = 0; j < tamPerfil - 1; ++j) { // una cara vertical
 			if (profile[j].x != 0.0) { // triángulo inferior
 				for (auto [s, t] : { std::pair{i, j}, {i, (j + 1)}, {i + 1, j} }) {
-					mesh->vIndexes.push_back(s * tamPerfil + t%max);
+					mesh->vIndexes.push_back(s * tamPerfil + t/*%max*/);
 				}
 			}
 
-			if (profile[(j + 1)%max].x != 0.0) { // triángulo superior
+			if (profile[(j + 1)/*%max*/].x != 0.0) { // triángulo superior
 				for (auto [s, t] : { std::pair{i, (j + 1)}, {i + 1, (j + 1)}, {i + 1, j} }) {
-					mesh->vIndexes.push_back(s * tamPerfil + t%max);
+					mesh->vIndexes.push_back(s * tamPerfil + t/*%max*/);
 				}
 			}
 		}
@@ -647,13 +647,13 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 		int max = tamPerfil - 1;
 		if (profile[j].x != 0.0) { // triángulo inferior
 			for (auto [s, t] : { std::pair {nSamples - 1, j}, {nSamples - 1, (j + 1)}, {0, j} }) {
-				mesh->vIndexes.push_back(s * tamPerfil + t%max);
+				mesh->vIndexes.push_back(s * tamPerfil + t/*%max*/);
 			}
 		}
 
-		if (profile[(j + 1) % max].x != 0.0) { // triángulo superior
+		if (profile[(j + 1)/*%max*/].x != 0.0) { // triángulo superior
 			for (auto [s, t] : { std::pair{nSamples - 1,  (j + 1)}, {0, (j + 1)}, {0, j} }) {
-				mesh->vIndexes.push_back(s * tamPerfil + t%max);
+				mesh->vIndexes.push_back(s * tamPerfil + t/*%max*/);
 			}
 		}
 	}
