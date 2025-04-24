@@ -28,6 +28,11 @@ void Scene10::init()
 
 }
 
+void Scene10::setColor()
+{
+	glClearColor(.0, .0, .0, .0);
+}
+
 void Scene10::rotate()
 {
 	// Rotamos la nave sobre sí misma rotando respecto a su vector up (eje Y)

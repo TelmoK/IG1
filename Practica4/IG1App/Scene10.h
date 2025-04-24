@@ -11,6 +11,8 @@ public:
 	void rotate() override;
 	void orbit() override;
 
+	void setColor() override;
+
 private:
 
 	CompoundEntity* orbInventedNode;
