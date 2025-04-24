@@ -559,17 +559,43 @@ void IndexMesh::buildNormalVectors()
 {
 	vNormals.resize(mNumVertices, glm::vec3(0.0f)); // Initialize normals to zero
 
+	std::vector<std::vector<glm::vec3>> normalsPerVertices;
+	normalsPerVertices.resize(vVertices.size());
+
+
 	for (int i = 0; i < vIndexes.size(); i += 3) {
-		glm::vec3 v0 = vVertices[vIndexes[i]];
-		glm::vec3 v1 = vVertices[vIndexes[i + 1]];
-		glm::vec3 v2 = vVertices[vIndexes[i + 2]];
+		int inx0 = vIndexes[i];
+		int inx1 = vIndexes[i+1];
+		int inx2 = vIndexes[i+2];
+		glm::vec3 v0 = vVertices[inx0];
+		glm::vec3 v1 = vVertices[inx1];
+		glm::vec3 v2 = vVertices[inx2];
 
 		glm::vec3 normal = glm::cross(v1 - v0, v2 - v0);
+
+		//normalsPerVertices[inx0].push_back(normal);
+		//normalsPerVertices[inx1].push_back(normal);
+		//normalsPerVertices[inx2].push_back(normal);
 
 		vNormals[vIndexes[i]] += normal;
 		vNormals[vIndexes[i + 1]] += normal;
 		vNormals[vIndexes[i + 2]] += normal;
 	}
+
+	//for (int vertexIndex = 0; vertexIndex < normalsPerVertices.size(); ++vertexIndex) {
+	//	const auto& normals = normalsPerVertices[vertexIndex];
+	//	for (int i = 0; i < normals.size(); ++i) {
+	//		int j = 0;
+	//		bool duplicated = false;
+	//		while (j < i && !duplicated) {
+	//			if (normals[i] == normals[j]) duplicated = true;
+	//			++j;
+	//		}
+	//		if (!duplicated) {
+	//			vNormals[vertexIndex] += normals[i];
+	//		}
+	//	}
+	//}
 
 	for (auto& n : vNormals) {
 		n = glm::normalize(n);
@@ -587,11 +613,24 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 	int tamPerfil = profile.size();
 	mesh->vVertices.reserve(nSamples * tamPerfil);
 
+
 	// Genera los vértices de las muestras
 	GLdouble theta1 = 2 * numbers::pi / static_cast<double>(nSamples);
 
-	for (int i = 0; i <= nSamples; ++i) {  // muestra i-ésima
+	for (int i = 0; i < nSamples; ++i) {  // muestra i-ésima
 		GLdouble c = cos(i * theta1), s = sin(i * theta1);
+
+
+		//if (i != 0) { // When its not the first sample we cant pick a vertex at same point of an existing one
+		//	for (int profileIdx = 0; )
+
+		//}
+		//else { // Only for the first sample
+		//	for (auto p : profile) {  // rota el perfil
+		//		mesh->vVertices.emplace_back(p.x * c, p.y, -p.x * s);
+		//	}
+		//}
+
 
 		for (auto p : profile) {  // rota el perfil
 			mesh->vVertices.emplace_back(p.x * c, p.y, -p.x * s);
@@ -599,7 +638,7 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 	}
 
 	// Genera los índices para formar los triángulos
-	for (int i = 0; i < nSamples; ++i) { // caras entre i e i+1
+	for (int i = 0; i < nSamples - 1; ++i) { // caras entre i e i+1
 		for (int j = 0; j < tamPerfil - 1; ++j) { // una cara vertical
 			if (profile[j].x != 0.0) { // triángulo inferior
 				for (auto [s, t] : { std::pair{i, j}, {i, j + 1}, {i + 1, j} }) {
@@ -611,6 +650,21 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 				for (auto [s, t] : { std::pair{i, j + 1}, {i + 1, j + 1}, {i + 1, j} }) {
 					mesh->vIndexes.push_back(s * tamPerfil + t);
 				}
+			}
+		}
+	}
+
+	// For conecting the the last sample with the first without repeating vertices
+	for (int j = 0; j < tamPerfil - 1; ++j) { // una cara vertical
+		if (profile[j].x != 0.0) { // triángulo inferior
+			for (auto [s, t] : { std::pair {nSamples - 1, j}, {nSamples - 1, j + 1}, {0, j}, }) {
+				mesh->vIndexes.push_back(s * tamPerfil + t);
+			}
+		}
+
+		if (profile[j + 1].x != 0.0) { // triángulo superior
+			for (auto [s, t] : { std::pair{nSamples - 1, j + 1}, {0, j + 1}, {0, j} }) {
+				mesh->vIndexes.push_back(s * tamPerfil + t);
 			}
 		}
 	}
@@ -648,16 +702,16 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble length)
 		5, 3, 1,  1, 7, 5   // Bottom
 	};
 
-	//mesh->buildNormalVectors();
+	mesh->buildNormalVectors();
 
-	mesh->vNormals.push_back(glm::normalize(glm::vec3(1, 1, -1))); // 0
-	mesh->vNormals.push_back(glm::normalize(glm::vec3(1, -1, -1))); // 1
-	mesh->vNormals.push_back(glm::normalize(glm::vec3(-1, 1, -1))); // 2
-	mesh->vNormals.push_back(glm::normalize(glm::vec3(-1, -1, -1))); // 3
-	mesh->vNormals.push_back(glm::normalize(glm::vec3(-1, 1, 1))); // 4
-	mesh->vNormals.push_back(glm::normalize(glm::vec3(-1, -1, 1))); // 5
-	mesh->vNormals.push_back(glm::normalize(glm::vec3(1, 1, 1))); // 6
-	mesh->vNormals.push_back(glm::normalize(glm::vec3(1, -1, 1))); // 6
+	//mesh->vNormals.push_back(glm::normalize(glm::vec3(1, 1, -1))); // 0
+	//mesh->vNormals.push_back(glm::normalize(glm::vec3(1, -1, -1))); // 1
+	//mesh->vNormals.push_back(glm::normalize(glm::vec3(-1, 1, -1))); // 2
+	//mesh->vNormals.push_back(glm::normalize(glm::vec3(-1, -1, -1))); // 3
+	//mesh->vNormals.push_back(glm::normalize(glm::vec3(-1, 1, 1))); // 4
+	//mesh->vNormals.push_back(glm::normalize(glm::vec3(-1, -1, 1))); // 5
+	//mesh->vNormals.push_back(glm::normalize(glm::vec3(1, 1, 1))); // 6
+	//mesh->vNormals.push_back(glm::normalize(glm::vec3(1, -1, 1))); // 6
 
 	return mesh;
 }

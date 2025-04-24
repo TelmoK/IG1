@@ -541,12 +541,13 @@ void ColorMaterialEntity::render(const glm::mat4& modelViewMat) const
 Toros::Toros(GLdouble R, GLdouble r, GLuint nPoints, GLuint nSamples)
 	: ColorMaterialEntity(glm::vec4(1, 0, 0, 1))
 {
-	std::vector<glm::vec2> profile(nPoints);
+	std::vector<glm::vec2> profile(nPoints + 1);
 
-	double delta = 2 * glm::pi<double>() / nPoints;
+	double delta = 2 * glm::pi<double>() / static_cast<double>(nPoints);
 	double teta = glm::pi<double>() / 2.0;
 
-	for (int i = 0; i < nPoints; ++i) {
+	// i <= nPoints to emplace the first vertex again
+	for (int i = 0; i <= nPoints; ++i) {
 		profile[i] = { r * cos(teta) + R, r * sin(teta) };
 		teta -= delta;
 	}
@@ -563,12 +564,12 @@ IndexedBox::IndexedBox(GLdouble length, const glm::vec4& color)
 Sphere::Sphere(GLdouble radius, GLuint nParallels, GLuint nMeridians, const glm::vec4& color)
 	: ColorMaterialEntity(color)
 {
-	std::vector<glm::vec2> profile(nParallels);
+	std::vector<glm::vec2> profile(nParallels + 1); // So the circunference is complete we need to add an extra vertex
 
 	double delta = glm::pi<double>() / static_cast<double>(nParallels);
 	double teta = glm::pi<double>() / 2.0;
 
-	for (int i = 0; i < nParallels; ++i) {
+	for (int i = 0; i <= nParallels; ++i) {
 		profile[i] = { radius * cos(teta), radius * sin(teta) };
 		teta -= delta;
 	}
@@ -607,6 +608,8 @@ Cone::Cone(GLdouble h, GLdouble r, GLdouble R, GLuint nRings, GLuint nSamples, c
 	}
 
 	profile[nVetexes - 1] = { 0, h };
+
+	std::reverse(profile.begin(), profile.end());
 
 	mMesh = IndexMesh::generateByRevolution(profile, nSamples, 2 * glm::pi<double>());
 }
