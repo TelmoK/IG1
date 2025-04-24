@@ -31,7 +31,7 @@ void Scene10::init()
 void Scene10::rotate()
 {
 	// Rotamos la nave sobre sí misma rotando respecto a su vector up (eje Y)
-	rotInventedNode->setModelMat(glm::rotate(rotInventedNode->modelMat(), glm::radians(3.0f), glm::vec3(0, 1, 0)));
+	rotInventedNode->setModelMat(glm::rotate(rotInventedNode->modelMat(), glm::radians(-3.0f), glm::vec3(0, 1, 0)));
 }
 
 void Scene10::orbit()
@@ -42,5 +42,5 @@ void Scene10::orbit()
 	// Z (porque es perpendicular a la dirección a la que mira la nave inicialmente, que es el eje X)
 	glm::vec3 rotatedOrbitAxis = glm::vec3(rotInventedNode->modelMat() * glm::vec4(0, 0, 1, 0));
 
-	orbInventedNode->setModelMat(glm::rotate(orbInventedNode->modelMat(), glm::radians(3.0f), rotatedOrbitAxis));
+	orbInventedNode->setModelMat(glm::rotate(orbInventedNode->modelMat(), glm::radians(-3.0f), rotatedOrbitAxis));
 }

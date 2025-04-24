@@ -713,7 +713,7 @@ TieFighter::TieFighter()
 	// Nose
 	Cone* shipNose = new Cone(52, 10, 10, 30, 30, glm::dvec4(0, 0.25, 0.41, 1));
 
-	rot = glm::rotate(glm::mat4(1), glm::radians(90.0f), vec3(0, 0, 1));
+	rot = glm::rotate(glm::mat4(1), glm::radians(-90.0f), vec3(0, 0, 1));
 
 	shipNose->setModelMat(rot);
 
@@ -723,7 +723,7 @@ TieFighter::TieFighter()
 	Disk* shipNoseDisk = new Disk(15, 0, 5, 40, glm::dvec4(0, 0.25, 0.41, 1));
 
 	rot = glm::rotate(glm::mat4(1), glm::radians(90.0f), vec3(0, 0, 1));
-	trans = glm::translate(glm::mat4(1), glm::vec3(-53, 0, 0));
+	trans = glm::translate(glm::mat4(1), glm::vec3(53, 0, 0));
 
 	shipNoseDisk->setModelMat(trans * rot);
 

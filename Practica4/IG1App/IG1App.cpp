@@ -110,14 +110,14 @@ IG1App::init()
 
 	// SCENES -------------------------------------------------------
 	mScenes.push_back(new Scene7); // 0
-	mScenes.push_back(new Scene1);
+	mScenes.push_back(new Scene1); // 1
 	mScenes.push_back(new Scene2); // 2
-	mScenes.push_back(new Scene3);
-	mScenes.push_back(new Scene4);
-	mScenes.push_back(new Scene7);
-	mScenes.push_back(new Scene8);
-	mScenes.push_back(new Scene9);
-	mScenes.push_back(new Scene10);
+	mScenes.push_back(new Scene3); // 3
+	mScenes.push_back(new Scene4); // 4
+	mScenes.push_back(new Scene7); // 5
+	mScenes.push_back(new Scene8); // 6
+	mScenes.push_back(new Scene9); // 7
+	mScenes.push_back(new Scene10);// 8
 
 	// For two different scenes displaying
 	multipleScenes.push_back(0); // index Scene6 de mScenes
