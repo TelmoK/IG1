@@ -30,6 +30,7 @@ void Scene10::init()
 
 void Scene10::rotate()
 {
+	// Rotamos la nave sobre sí misma rotando respecto a su vector up (eje Y)
 	rotInventedNode->setModelMat(glm::rotate(rotInventedNode->modelMat(), glm::radians(3.0f), glm::vec3(0, 1, 0)));
 }
 
