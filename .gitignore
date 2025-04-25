@@ -18,8 +18,8 @@
 *.pch
 
 # Compiled Dynamic libraries
-*.so
-*.dylib
+# *.so
+# *.dylib
 
 # Fortran module files
 *.mod
@@ -65,7 +65,7 @@ x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
-[Bb]in/
+# [Bb]in/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
