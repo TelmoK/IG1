@@ -12,6 +12,7 @@ Scene::init()
 
 	// allocate memory and load resources
 	// Lights
+
 	// Textures
 
 	// Graphics objects (entities) of the scene
@@ -63,6 +64,13 @@ Scene::unload()
 		tobj->unload();
 }
 
+void Scene::uploadLights() const // pode dar problema
+{
+	for(Abs_Entity* e : gObjects)
+		for (Light* l : gLights)
+			l->upload(*Shader::get("light"), e->modelMat());
+}
+
 void
 Scene::setGL()
 {
@@ -86,6 +94,7 @@ void
 Scene::render(Camera const& cam) const
 {
 	cam.upload();
+	uploadLights();
 
 	for (Abs_Entity* el : gObjects)
 		el->render(cam.viewMat());

@@ -269,7 +269,8 @@ public:
 class EntityWithMaterial : public ColorMaterialEntity
 {
 public:
-	explicit EntityWithMaterial();
+	explicit EntityWithMaterial(const glm::vec4& color);
+	void render(const glm::mat4& modelViewMat) const override;
 	void setMaterial(const Material& m) { mMaterial = m; }
 
 protected:

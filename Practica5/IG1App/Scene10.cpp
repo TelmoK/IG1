@@ -8,6 +8,7 @@ void Scene10::init()
 
 	// allocate memory and load resources
 	// Lights
+	gLights.push_back(new DirLight(1));
 	// Textures
 
 	// Graphics objects (entities) of the scene

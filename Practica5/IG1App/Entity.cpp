@@ -733,6 +733,16 @@ TieFighter::TieFighter()
 	addEntity(shipNoseDisk);
 }
 
-EntityWithMaterial::EntityWithMaterial()
+EntityWithMaterial::EntityWithMaterial(const glm::vec4& color)
+	: ColorMaterialEntity(color)
 {
+	mShader = Shader::get("light");
+}
+
+void EntityWithMaterial::render(const glm::mat4& modelViewMat) const
+{
+	mShader->use();
+	mMaterial.upload(*mShader);
+	upload(modelViewMat * mModelMat);
+	mMesh->render();
 }

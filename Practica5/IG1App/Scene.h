@@ -6,6 +6,7 @@
 
 #include "Camera.h"
 #include "Entity.h"
+#include "Light.h"
 
 #include <vector>
 
@@ -27,6 +28,8 @@ public:
 	void load();
 	void unload();
 
+	void uploadLights() const;
+
 	virtual void printscreen() {};
 	virtual void showNormals() {};
 
@@ -42,6 +45,7 @@ protected:
 	std::vector<Abs_Entity*> gObjects; // Entities (graphic objects) of the scene
 	std::vector<Abs_Entity*> gTranslucidObjs; // Entities (translucid objects) of the scene
 	std::vector<Texture*> gTextures; // Texturas de la escena
+	std::vector<Light*> gLights; // Luces de la escena
 };
 
 #endif //_H_Scene_H_

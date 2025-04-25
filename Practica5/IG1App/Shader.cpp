@@ -2,6 +2,7 @@
 #include <map>
 #include <memory>
 #include <filesystem>
+#include <iostream>
 
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
@@ -17,6 +18,7 @@ constexpr const char* SHADERS_ROOT = "../assets/shaders/";
 
 Shader::Shader(const string& name)
 {
+	std::cout << name << std::endl;
 	GLuint vertex, fragment;
 
 	// Name can be either a plain identifier or a colon-separated name pair
