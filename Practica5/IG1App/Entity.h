@@ -7,6 +7,7 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "Texture.h"
+#include "Material.h"
 
 class Abs_Entity // abstract class
 {
@@ -263,6 +264,16 @@ class TieFighter : public CompoundEntity
 {
 public:
 	explicit TieFighter();
+};
+
+class EntityWithMaterial : public ColorMaterialEntity
+{
+public:
+	explicit EntityWithMaterial();
+	void setMaterial(const Material& m) { mMaterial = m; }
+
+protected:
+	Material mMaterial;
 };
 
 #endif //_H_Entities_H_

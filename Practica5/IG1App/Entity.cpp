@@ -732,3 +732,7 @@ TieFighter::TieFighter()
 
 	addEntity(shipNoseDisk);
 }
+
+EntityWithMaterial::EntityWithMaterial()
+{
+}
