@@ -565,8 +565,8 @@ void IndexMesh::buildNormalVectors()
 
 	for (int i = 0; i < vIndexes.size(); i += 3) {
 		int inx0 = vIndexes[i];
-		int inx1 = vIndexes[i+1];
-		int inx2 = vIndexes[i+2];
+		int inx1 = vIndexes[i + 1];
+		int inx2 = vIndexes[i + 2];
 		glm::vec3 v0 = vVertices[inx0];
 		glm::vec3 v1 = vVertices[inx1];
 		glm::vec3 v2 = vVertices[inx2];
@@ -625,35 +625,19 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 	}
 
 	// Genera los índices para formar los triángulos
-	for (int i = 0; i < nSamples - 1; ++i) { // caras entre i e i+1
+	for (int i = 0; i < nSamples; ++i) { // caras entre i e i+1
 		/*int max = tamPerfil - 1*/;
 		for (int j = 0; j < tamPerfil - 1; ++j) { // una cara vertical
 			if (profile[j].x != 0.0) { // triángulo inferior
-				for (auto [s, t] : { std::pair{i, j}, {i, (j + 1)}, {i + 1, j} }) {
+				for (auto [s, t] : { std::pair{i % nSamples, j}, {i % nSamples, (j + 1)}, {(i + 1) % nSamples, j} }) {
 					mesh->vIndexes.push_back(s * tamPerfil + t/*%max*/);
 				}
 			}
 
 			if (profile[(j + 1)/*%max*/].x != 0.0) { // triángulo superior
-				for (auto [s, t] : { std::pair{i, (j + 1)}, {i + 1, (j + 1)}, {i + 1, j} }) {
+				for (auto [s, t] : { std::pair{i % nSamples, (j + 1)}, {(i + 1) % nSamples, (j + 1)}, {(i + 1) % nSamples, j} }) {
 					mesh->vIndexes.push_back(s * tamPerfil + t/*%max*/);
 				}
-			}
-		}
-	}
-	//done = false;
-	// For conecting the the last sample with the first without repeating vertices
-	for (int j = 0; j < tamPerfil - 1; ++j) { // una cara vertical
-		int max = tamPerfil - 1;
-		if (profile[j].x != 0.0) { // triángulo inferior
-			for (auto [s, t] : { std::pair {nSamples - 1, j}, {nSamples - 1, (j + 1)}, {0, j} }) {
-				mesh->vIndexes.push_back(s * tamPerfil + t/*%max*/);
-			}
-		}
-
-		if (profile[(j + 1)/*%max*/].x != 0.0) { // triángulo superior
-			for (auto [s, t] : { std::pair{nSamples - 1,  (j + 1)}, {0, (j + 1)}, {0, j} }) {
-				mesh->vIndexes.push_back(s * tamPerfil + t/*%max*/);
 			}
 		}
 	}
