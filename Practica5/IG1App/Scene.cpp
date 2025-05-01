@@ -39,6 +39,9 @@ Scene::destroy()
 
 	for (Texture* tx : gTextures)
 		delete tx;
+
+	for (Light* l : gLights)
+		delete l;
 }
 
 void
@@ -62,6 +65,10 @@ Scene::unload()
 
 	for (Abs_Entity* tobj : gTranslucidObjs)
 		tobj->unload();
+
+	for (Abs_Entity* e : gObjects)
+		for (Light* l : gLights)
+			l->unload(*Shader::get("light"));
 }
 
 void Scene::uploadLights() const // pode dar problema
@@ -94,6 +101,7 @@ void
 Scene::render(Camera const& cam) const
 {
 	cam.upload();
+
 	uploadLights();
 
 	for (Abs_Entity* el : gObjects)
