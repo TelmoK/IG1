@@ -125,50 +125,6 @@ void EntityWithTexture::render(const glm::mat4& modelViewMat) const
 }
 
 
-/* ---------------------COLOR MATERIAL ENTITY--------------------- */
-
-ColorMaterialEntity::ColorMaterialEntity(const glm::vec4& color)
-	: SingleColorEntity(color)
-{
-	mShader = Shader::get("simple_light");
-}
-
-void ColorMaterialEntity::render(const glm::mat4& modelViewMat) const
-{
-	if (mMesh != nullptr) {
-		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
-
-		assert(mShader == Shader::get("simple_light"));
-		mShader->use();
-		mShader->setUniform("color", mColor);
-		mShader->setUniform("lightDir", glm::normalize(glm::vec4(modelViewMat * vec4(-1, -1, -1, 0))));
-		upload(aMat);
-
-		mMesh->render();
-	}
-
-	if (mShowNormals) {
-		renderNormals(modelViewMat);
-	}
-}
-
-void ColorMaterialEntity::renderNormals(const glm::mat4& modelViewMat) const
-{
-	mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
-
-	Shader* nShader = Shader::get("normals");
-	nShader->use();
-	nShader->setUniform("modelView", aMat);
-
-	mMesh->render();
-}
-
-void ColorMaterialEntity::toggleShowNormals()
-{
-	mShowNormals = !mShowNormals;
-}
-
-
 /* ---------------------COMPOUND ENTITY--------------------- */
 
 CompoundEntity::~CompoundEntity()
@@ -210,10 +166,10 @@ void CompoundEntity::addEntity(Abs_Entity* ae)
 /* ---------------------ENTITY WITH MATERIAL--------------------- */
 
 EntityWithMaterial::EntityWithMaterial(const glm::vec4& color)
-	: ColorMaterialEntity(color)
-	//, mMaterial(color)
+	: SingleColorEntity(color)
+	, mMaterial(color)
 {
-	mShader = Shader::get("light");	
+	mShader = Shader::get("light");
 }
 
 void EntityWithMaterial::render(const glm::mat4& modelViewMat) const
@@ -230,7 +186,33 @@ void EntityWithMaterial::render(const glm::mat4& modelViewMat) const
 		mMesh->render();
 	}
 
-	//if (mShowNormals) {
-	//	renderNormals(modelViewMat);
-	//}
+	if (mShowNormals)
+	{
+		renderNormals(modelViewMat);
+	}
+}
+
+void EntityWithMaterial::toggleShowNormals()
+{
+	mShowNormals = !mShowNormals;
+}
+
+void EntityWithMaterial::renderNormals(const glm::mat4& modelViewMat) const
+{
+	mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+
+	Shader* nShader = Shader::get("normals");
+	nShader->use();
+	nShader->setUniform("modelView", aMat);
+
+	mMesh->render();
+}
+
+
+/* ---------------------COLOR MATERIAL ENTITY--------------------- */
+
+// Subclase trivial = sin nada
+ColorMaterialEntity::ColorMaterialEntity(const glm::vec4& color)
+	: EntityWithMaterial(color)
+{
 }

@@ -3,14 +3,13 @@
 
 void Scene3::init()
 {
-	setGL(); // OpenGL settings
+	Scene::init();
 
 	// allocate memory and load resources
 	// Lights
 	// Textures
 
 	// Graphics objects (entities) of the scene
-	gObjects.push_back(new RGBAxes(400.0));
 	gObjects.push_back(new Cube(100.0, glm::vec4(1, 1, 0, 1)));
 
 }

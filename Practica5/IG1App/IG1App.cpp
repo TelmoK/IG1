@@ -465,6 +465,9 @@ IG1App::key(unsigned int key)
 	case 'g':
 		mScenes[mCurrentScene]->orbit();
 		break;
+	case 'r':
+		mScenes[mCurrentScene]->toggleLight();
+		break;
 	default:
 		if (key >= '0' && key <= '9') {
 			if (!changeScene(key - '0')) {

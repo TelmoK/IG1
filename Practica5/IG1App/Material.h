@@ -20,6 +20,14 @@ public:
 
 	void setCopper();
 
+	void setGold();
+	void setSilver();
+	void setEmerald();
+	void setRuby();
+	void setPearl();
+	void setPlasticRed();
+	void setObsidian();
+
 protected:
 	// Coeficientes de reflexión
 	glm::vec3 ambient = {0.2, 0.2, 0.2};

@@ -4,17 +4,17 @@
 
 void Scene10::init()
 {
-	setGL(); // OpenGL settings
+	Scene::init();
 
 	// allocate memory and load resources
 	// Lights
-	// gLights.push_back(new DirLight(1));
+	SpotLight* spotlight = new SpotLight();
+	gLights.push_back(spotlight);
 	// Textures
 
 	// Graphics objects (entities) of the scene
-	gObjects.push_back(new RGBAxes(400.0));
 
-	gObjects.push_back(new Sphere(300, 20, 30, glm::vec4(1, 0.91, 0, 1)));
+	gObjects.push_back(new Sphere(150, 20, 30, glm::vec4(1, 0.91, 0, 1)));
 
 	orbInventedNode = new CompoundEntity();
 	rotInventedNode = new CompoundEntity();
@@ -24,8 +24,11 @@ void Scene10::init()
 	rotInventedNode->addEntity(fighter);
 	orbInventedNode->addEntity(rotInventedNode);
 
-	fighter->setWPos(glm::vec3(0, 340,0));
+	fighter->setWPos(glm::vec3(0, 220, 0));
 	gObjects.push_back(orbInventedNode);
+
+	spotlight->setPosition(glm::vec3(0, 170, 0));
+	spotlight->setDirection(glm::vec3(0) - glm::vec3(0, 220, 0));
 
 }
 

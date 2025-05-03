@@ -557,7 +557,7 @@ void WingAdvancedTIE::render(const glm::mat4& modelViewMat) const
 
 TieFighter::TieFighter()
 {
-	addEntity(new Sphere(40, 30, 40, glm::dvec4(0, 0.25, 0.41, 1)));
+	addEntity(new Sphere(30, 30, 40, glm::dvec4(0, 0.25, 0.41, 1)));
 
 	Cone* wingConnector = new Cone(100, 8, 8, 30, 30, glm::dvec4(0, 0.25, 0.41, 1));
 
@@ -603,14 +603,4 @@ TieFighter::TieFighter()
 	shipNoseDisk->setModelMat(trans * rot);
 
 	addEntity(shipNoseDisk);
-}
-
-
-/* MATERIAL ENTITIES -----------------------------------------------------------------*/
-
-SphereWithMaterial::SphereWithMaterial(GLdouble radius, GLuint nParallels, GLuint nMeridians)
-	: ColorMaterialEntity()
-	, Sphere(radius, nParallels, nMeridians)
-	, EntityWithMaterial()
-{
 }

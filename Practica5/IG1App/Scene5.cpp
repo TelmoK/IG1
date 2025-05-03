@@ -3,7 +3,7 @@
 
 void Scene5::init()
 {
-	setGL(); // OpenGL settings
+	Scene::init();
 
 	// allocate memory and load resources
 	// Lights
@@ -16,6 +16,5 @@ void Scene5::init()
 	gTextures.push_back(txBoxInt);
 
 	// Graphics objects (entities) of the scene
-	gObjects.push_back(new RGBAxes(400.0));
 	gObjects.push_back(new BoxOutline(txBox, txBoxInt, false, 200));
 }

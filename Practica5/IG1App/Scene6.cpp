@@ -4,7 +4,7 @@
 
 void Scene6::init()
 {
-	setGL(); // OpenGL settings
+	Scene::init();
 
 	// allocate memory and load resources
 	
@@ -79,7 +79,6 @@ void Scene6::init()
 
 
 	// Graphics objects (entities) of the scene ------------------------------------
-	gObjects.push_back(new RGBAxes(400.0));
 
 	Ground* ground = new Ground(txGround, false, groundWidth, groundHeight, rw, rh);
 	gObjects.push_back(ground);

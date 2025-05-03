@@ -134,7 +134,7 @@ public:
 	explicit IndexedBox(GLdouble length, const glm::vec4& color = glm::vec4(1));
 };
 
-class Sphere : public virtual ColorMaterialEntity
+class Sphere : public ColorMaterialEntity
 {
 public:
 	explicit Sphere(GLdouble radius, GLuint nParallels, GLuint nMeridians, const glm::vec4& color = glm::vec4(1));
@@ -167,16 +167,4 @@ class TieFighter : public CompoundEntity
 {
 public:
 	explicit TieFighter();
-};
-
-
-/* ---------------------ENTITY WITH MATERIAL--------------------- */
-
-// ATENTION: multiple inheritance!
-class SphereWithMaterial : public EntityWithMaterial, public Sphere
-{
-public:
-	explicit SphereWithMaterial(GLdouble radius, GLuint nParallels, GLuint nMeridians);
-
-	using EntityWithMaterial::render; // Disambiguates render() and silences the dominance warning
 };

@@ -87,21 +87,6 @@ protected:
 
 
 
-class ColorMaterialEntity : public SingleColorEntity
-{
-public:
-	explicit ColorMaterialEntity(const glm::vec4& color = glm::vec4(1));
-	void render(const glm::mat4& modelViewMat) const override;
-
-	void renderNormals(const glm::mat4& modelViewMat) const;
-	void toggleShowNormals();
-
-protected:
-	bool mShowNormals = false;
-};
-
-
-
 class CompoundEntity : public Abs_Entity
 {
 public:
@@ -125,15 +110,27 @@ protected:
 
 
 
-class EntityWithMaterial : public virtual ColorMaterialEntity // classes inherited virtually must be constructed at most-derived class if constructor is not default !
+class EntityWithMaterial : public SingleColorEntity
 {
 public:
 	explicit EntityWithMaterial(const glm::vec4& color = glm::vec4(1));
 	void render(const glm::mat4& modelViewMat) const override;
 	void setMaterial(const Material& m) { mMaterial = m; }
 
+	void toggleShowNormals();
+	void renderNormals(const glm::mat4& modelViewMat) const;
+
 protected:
+	bool mShowNormals = false;
 	Material mMaterial;
+};
+
+
+
+class ColorMaterialEntity : public EntityWithMaterial
+{
+public:
+	explicit ColorMaterialEntity(const glm::vec4& color = glm::vec4(1));
 };
 
 #endif //_H_Entities_H_

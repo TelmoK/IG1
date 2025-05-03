@@ -2,29 +2,35 @@
 
 void Scene11::init()
 {
-	setGL(); // OpenGL settings
+	Scene::init();
 
 	// allocate memory and load resources
 	// Lights
-	gLights.push_back(new DirLight());
+
+	//DirLight* dirlight = new DirLight();
+	////DirLightSimple* dirlight = new DirLightSimple();
+	////dirlight->setDirection(glm::vec3(1, 1, 1));
+	//gLights.push_back(dirlight);
+
 	// Textures
 
 	//Materials
-	Material copper_material; // needs to call setCopper() to initialize parameters. These parameters are used to set the uniforms at th render of the entity when called mMaterial.upload
+	Material copper_material(glm::vec4(1, 1, 0, 1)); // needs to call setCopper() to initialize parameters. These parameters are used to set the uniforms at th render of the entity when called mMaterial.upload
 	copper_material.setCopper();
 
-	// Graphics objects (entities) of the scene
-	gObjects.push_back(new RGBAxes(400.0));
+	Material ruby_material;
+	ruby_material.setGold();
 
-	Sphere* s = new Sphere(50, 20, 30, glm::vec4(1, 1, 0, 1));
+	// Graphics objects (entities) of the scene
+
+	Sphere* s = new Sphere(50, 20, 30);
 	s->setWPos(glm::vec3(0, 0, 150));
+	s->setMaterial(ruby_material);
 	gObjects.push_back(s);
 
 
-	SphereWithMaterial* swm = new SphereWithMaterial(50, 20, 30);
-	swm->setWPos(glm::vec3(150, 0, 0));
-
-	swm->setMaterial(copper_material);
-
-	gObjects.push_back(swm);
+	Sphere* copperSphere = new Sphere(50, 20, 30);
+	copperSphere->setWPos(glm::vec3(150, 0, 0));
+	copperSphere->setMaterial(copper_material);
+	gObjects.push_back(copperSphere);
 }

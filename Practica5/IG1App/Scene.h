@@ -36,6 +36,8 @@ public:
 	virtual void rotate() {}
 	virtual void orbit() {}
 
+	virtual void toggleLight();
+
 protected:
 	void destroy();
 	void setGL();
@@ -47,7 +49,10 @@ protected:
 	std::vector<Texture*> gTextures; // Texturas de la escena
 	std::vector<Light*> gLights; // Luces de la escena
 
-	bool _showNormals = false;
+	DirLight* mGlobalLight = nullptr;
+	bool mLightOn = true;
+
+	bool mShowNormals = false;
 };
 
 #endif //_H_Scene_H_

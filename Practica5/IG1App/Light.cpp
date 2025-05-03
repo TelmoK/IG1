@@ -97,3 +97,11 @@ void SpotLight::upload(Shader& shader, glm::mat4 const& modelViewMat) const
 	shader.setUniform(lightID + ".cutOff", cutoff);
 	shader.setUniform(lightID + ".outerCutOff", outerCutoff);
 }
+
+DirLightSimple::DirLightSimple(int id)
+	: DirLight(id)
+{
+	ambient = { 0.25, 0.25, 0.25 };
+	diffuse = { 0.6, 0.6, 0.6 };
+	specular = { 0, 0.2, 0 };
+}

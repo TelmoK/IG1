@@ -12,6 +12,9 @@ Scene::init()
 
 	// allocate memory and load resources
 	// Lights
+	mGlobalLight = new DirLight();
+	mGlobalLight->setDirection(glm::vec3(-1, -1, -1));
+	gLights.push_back(mGlobalLight);
 
 	// Textures
 
@@ -23,6 +26,11 @@ Scene::~Scene()
 {
 	destroy();
 	resetGL();
+}
+
+void Scene::toggleLight()
+{
+	mLightOn = !mLightOn;
 }
 
 void
@@ -85,6 +93,10 @@ void Scene::uploadLights(Camera const& cam) const
 	// ! Lights are used to set shader parameters !
 	for (Light* l : gLights)
 		l->upload(*s, cam.viewMat()); // We upload the shader
+
+	if (!mLightOn) {
+		mGlobalLight->unload(*s);
+	}
 }
 
 void Scene::showNormals()

@@ -30,9 +30,13 @@ protected:
 	bool bEnabled;
 
 	// Atributos lumínicos y geométrico de la fuente de luz
-	glm::vec3 ambient = {0.1, 0.1, 0.1};
-	glm::vec3 diffuse = {0.5, 0.5, 0.5};
-	glm::vec3 specular = {0.5, 0.5, 0.5};
+	//glm::vec3 ambient = {0.1, 0.1, 0.1};
+	//glm::vec3 diffuse = {0.5, 0.5, 0.5};
+	//glm::vec3 specular = {0.5, 0.5, 0.5};
+
+	glm::vec3 ambient = { 0.3f, 0.3f, 0.3f }; // Brighter base even in shadow
+	glm::vec3 diffuse = { 1.0f, 1.0f, 1.0f }; // Full white diffuse light
+	glm::vec3 specular = { 1.0f, 1.0f, 1.0f }; // For strong highlights
 };
 
 class DirLight : public Light {
@@ -91,6 +95,15 @@ protected:
 	glm::vec3 direction = {0, 0, -1};
 	GLfloat cutoff = 60, outerCutoff = 120;
 	GLfloat exp = 0; // no sé si se usa
+};
+
+
+// ADDED LIGHTS
+
+class DirLightSimple : public DirLight
+{
+public:
+	explicit DirLightSimple(int id = 0);
 };
 
 #endif //_H_Light_H_
