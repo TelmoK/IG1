@@ -8,13 +8,13 @@ void Scene10::init()
 
 	// allocate memory and load resources
 	// Lights
-	gLights.push_back(new DirLight(1));
+	// gLights.push_back(new DirLight(1));
 	// Textures
 
 	// Graphics objects (entities) of the scene
 	gObjects.push_back(new RGBAxes(400.0));
 
-	gObjects.push_back(new Sphere(300.0, 20, 30, glm::dvec4(1, 0.91, 0, 1)));
+	gObjects.push_back(new Sphere(300, 20, 30, glm::vec4(1, 0.91, 0, 1)));
 
 	orbInventedNode = new CompoundEntity();
 	rotInventedNode = new CompoundEntity();
@@ -36,16 +36,16 @@ void Scene10::setColor()
 
 void Scene10::rotate()
 {
-	// Rotamos la nave sobre sí misma rotando respecto a su vector up (eje Y)
+	// Rotamos la nave sobre sï¿½ misma rotando respecto a su vector up (eje Y)
 	rotInventedNode->setModelMat(glm::rotate(rotInventedNode->modelMat(), glm::radians(-3.0f), glm::vec3(0, 1, 0)));
 }
 
 void Scene10::orbit()
 {
 	// Por defecto se orbita sobre el eje Z pero hay que rotar este eje cunado rotamos la nave
-	// para que se mantenga la dirección de rotación correcta, por lo que aplicamos la misma 
-	// matriz de modelado rotada del ficticio de rotación sobre un vector en la dirección del eje
-	// Z (porque es perpendicular a la dirección a la que mira la nave inicialmente, que es el eje X)
+	// para que se mantenga la direcciï¿½n de rotaciï¿½n correcta, por lo que aplicamos la misma 
+	// matriz de modelado rotada del ficticio de rotaciï¿½n sobre un vector en la direcciï¿½n del eje
+	// Z (porque es perpendicular a la direcciï¿½n a la que mira la nave inicialmente, que es el eje X)
 	glm::vec3 rotatedOrbitAxis = glm::vec3(rotInventedNode->modelMat() * glm::vec4(0, 0, 1, 0));
 
 	orbInventedNode->setModelMat(glm::rotate(orbInventedNode->modelMat(), glm::radians(-3.0f), rotatedOrbitAxis));

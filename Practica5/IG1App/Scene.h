@@ -5,7 +5,7 @@
 #include <glm/glm.hpp>
 
 #include "Camera.h"
-#include "Entity.h"
+#include "EntityRenderable.h"
 #include "Light.h"
 
 #include <vector>
@@ -31,7 +31,7 @@ public:
 	void uploadLights(Camera const& cam) const;
 
 	virtual void printscreen() {};
-	virtual void showNormals() {};
+	virtual void showNormals();
 
 	virtual void rotate() {}
 	virtual void orbit() {}
@@ -46,6 +46,8 @@ protected:
 	std::vector<Abs_Entity*> gTranslucidObjs; // Entities (translucid objects) of the scene
 	std::vector<Texture*> gTextures; // Texturas de la escena
 	std::vector<Light*> gLights; // Luces de la escena
+
+	bool _showNormals = false;
 };
 
 #endif //_H_Scene_H_

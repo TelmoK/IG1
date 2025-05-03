@@ -11,6 +11,6 @@ void Scene3::init()
 
 	// Graphics objects (entities) of the scene
 	gObjects.push_back(new RGBAxes(400.0));
-	gObjects.push_back(new Cube(100.0));
+	gObjects.push_back(new Cube(100.0, glm::vec4(1, 1, 0, 1)));
 
 }

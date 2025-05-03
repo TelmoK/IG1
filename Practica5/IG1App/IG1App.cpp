@@ -119,7 +119,6 @@ IG1App::init()
 	mScenes.push_back(new Scene8); // 6
 	mScenes.push_back(new Scene9); // 7
 	mScenes.push_back(new Scene10);// 8
-	mScenes.push_back(new Scene11);// 9
 
 
 	// For two different scenes displaying

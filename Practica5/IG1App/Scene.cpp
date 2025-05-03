@@ -72,12 +72,11 @@ Scene::unload()
 	for (Abs_Entity* tobj : gTranslucidObjs)
 		tobj->unload();
 
-	for (Abs_Entity* e : gObjects)
-		for (Light* l : gLights)
-			l->unload(*Shader::get("light"));
+	for (Light* l : gLights)
+		l->unload(*Shader::get("light"));
 }
 
-void Scene::uploadLights(Camera const& cam) const // pode dar problema
+void Scene::uploadLights(Camera const& cam) const
 {
 	Shader* s = Shader::get("light"); // We get the shader: a pointer to the shader "light" so we can use it = set as a context to setUniforms = upload uniform data
 	s->use();
@@ -86,6 +85,14 @@ void Scene::uploadLights(Camera const& cam) const // pode dar problema
 	// ! Lights are used to set shader parameters !
 	for (Light* l : gLights)
 		l->upload(*s, cam.viewMat()); // We upload the shader
+}
+
+void Scene::showNormals()
+{
+	for (auto* o : gObjects) {
+		if (dynamic_cast<ColorMaterialEntity*>(o))
+			dynamic_cast<ColorMaterialEntity*>(o)->toggleShowNormals();
+	}
 }
 
 void
@@ -113,8 +120,9 @@ Scene::render(Camera const& cam) const
 	cam.upload();
 	uploadLights(cam);
 
-	for (Abs_Entity* el : gObjects)
+	for (Abs_Entity* el : gObjects) {
 		el->render(cam.viewMat());
+	}
 
 	for (Abs_Entity* tel : gTranslucidObjs)
 		tel->render(cam.viewMat());
