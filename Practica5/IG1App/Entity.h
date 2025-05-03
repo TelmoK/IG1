@@ -200,6 +200,17 @@ private:
 	bool mShowNormals = false;
 };
 
+class EntityWithMaterial : public ColorMaterialEntity
+{
+public:
+	explicit EntityWithMaterial(const glm::vec4& color);
+	void render(const glm::mat4& modelViewMat) const override;
+	void setMaterial(const Material& m) { mMaterial = m; }
+
+protected:
+	Material mMaterial;
+};
+
 class Toros: public ColorMaterialEntity
 {
 public:
@@ -212,7 +223,7 @@ public:
 	explicit IndexedBox(GLdouble length, const glm::vec4& color = glm::vec4(0, 1, 0, 1));
 };
 
-class Sphere : public ColorMaterialEntity
+class Sphere : public EntityWithMaterial
 {
 public:
 	explicit Sphere(GLdouble radius, GLuint nParallels, GLuint nMeridians, const glm::vec4& color = glm::vec4(0, 1, 0, 1));
@@ -266,15 +277,6 @@ public:
 	explicit TieFighter();
 };
 
-class EntityWithMaterial : public ColorMaterialEntity
-{
-public:
-	explicit EntityWithMaterial(const glm::vec4& color);
-	void render(const glm::mat4& modelViewMat) const override;
-	void setMaterial(const Material& m) { mMaterial = m; }
 
-protected:
-	Material mMaterial;
-};
 
 #endif //_H_Entities_H_

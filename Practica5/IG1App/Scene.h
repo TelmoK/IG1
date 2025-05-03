@@ -28,7 +28,7 @@ public:
 	void load();
 	void unload();
 
-	void uploadLights() const;
+	void uploadLights(Camera const& cam) const;
 
 	virtual void printscreen() {};
 	virtual void showNormals() {};

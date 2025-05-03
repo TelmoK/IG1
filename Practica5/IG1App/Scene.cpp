@@ -37,11 +37,17 @@ Scene::destroy()
 	for (Abs_Entity* tel : gTranslucidObjs)
 		delete tel;
 
+	gTranslucidObjs.clear();
+
 	for (Texture* tx : gTextures)
 		delete tx;
 
+	gTextures.clear();
+
 	for (Light* l : gLights)
 		delete l;
+
+	gLights.clear();
 }
 
 void
@@ -71,11 +77,15 @@ Scene::unload()
 			l->unload(*Shader::get("light"));
 }
 
-void Scene::uploadLights() const // pode dar problema
+void Scene::uploadLights(Camera const& cam) const // pode dar problema
 {
-	for(Abs_Entity* e : gObjects)
-		for (Light* l : gLights)
-			l->upload(*Shader::get("light"), e->modelMat());
+	Shader* s = Shader::get("light"); // We get the shader: a pointer to the shader "light" so we can use it = set as a context to setUniforms = upload uniform data
+	s->use();
+
+	//for(Abs_Entity* e : gObjects) // Objects don't have light. Light interact with objects, but are "owned" by the scene. 
+	// ! Lights are used to set shader parameters !
+	for (Light* l : gLights)
+		l->upload(*s, cam.viewMat()); // We upload the shader
 }
 
 void
@@ -101,8 +111,7 @@ void
 Scene::render(Camera const& cam) const
 {
 	cam.upload();
-
-	uploadLights();
+	uploadLights(cam);
 
 	for (Abs_Entity* el : gObjects)
 		el->render(cam.viewMat());

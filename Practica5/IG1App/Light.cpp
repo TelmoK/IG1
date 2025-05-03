@@ -20,6 +20,7 @@ Light::~Light()
 
 void Light::upload(Shader& shader, glm::mat4 const& modelViewMat) const
 {
+	// NOTE: Light, as such, is global. That means it doens't take the view matrix into account, because it's invariant across coordinate spaces.
 	// Transfer light properties to the GPU
 	shader.setUniform(lightID + ".enabled", bEnabled);
 	shader.setUniform(lightID + ".ambient", ambient);
@@ -57,7 +58,8 @@ DirLight::DirLight(int id)
 void DirLight::upload(Shader& shader, glm::mat4 const& modelViewMat) const
 {
 	Light::upload(shader, modelViewMat);
-	shader.setUniform(lightID + ".direction", normalize(vec3(modelViewMat * direction)));
+	
+	shader.setUniform(lightID + ".direction", normalize(vec3(modelViewMat * direction))); // NOTE: DirLight DOES take the view matrix into account, because the direction needs to be transformed from the world space to eye space
 }
 
 PosLight::PosLight(int id)
@@ -68,8 +70,8 @@ PosLight::PosLight(int id)
 void PosLight::upload(Shader& shader, glm::mat4 const& modelViewMat) const
 {
 	Light::upload(shader, modelViewMat);
-
-	shader.setUniform(lightID + ".position", vec3(modelViewMat * position));
+	
+	shader.setUniform(lightID + ".position", vec3(modelViewMat * position)); // NOTE: PosLight DOES take the view matrix into account, because the direction needs to be transformed from the world space to eye space
 	shader.setUniform(lightID + ".constant", constant);
 	shader.setUniform(lightID + ".linear", linear);
 	shader.setUniform(lightID + ".quadratic", quadratic);
@@ -90,8 +92,8 @@ void SpotLight::setCutoff(float inner, float outer)
 void SpotLight::upload(Shader& shader, glm::mat4 const& modelViewMat) const
 {
 	PosLight::upload(shader, modelViewMat);
-
-	shader.setUniform(lightID + ".direction", vec3(modelViewMat * vec4(direction, 0.0)));
+	
+	shader.setUniform(lightID + ".direction", vec3(modelViewMat * vec4(direction, 0.0))); // NOTE: SpotLight DOES take the view matrix into account, because the direction needs to be transformed from the world space to eye space
 	shader.setUniform(lightID + ".cutOff", cutoff);
 	shader.setUniform(lightID + ".outerCutOff", outerCutoff);
 }

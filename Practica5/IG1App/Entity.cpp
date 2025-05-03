@@ -562,7 +562,7 @@ IndexedBox::IndexedBox(GLdouble length, const glm::vec4& color)
 }
 
 Sphere::Sphere(GLdouble radius, GLuint nParallels, GLuint nMeridians, const glm::vec4& color)
-	: ColorMaterialEntity(color)
+	: EntityWithMaterial(color)
 {
 	std::vector<glm::vec2> profile(nParallels + 1); // So the circunference is complete we need to add an extra vertex
 
@@ -737,12 +737,22 @@ EntityWithMaterial::EntityWithMaterial(const glm::vec4& color)
 	: ColorMaterialEntity(color)
 {
 	mShader = Shader::get("light");
+	mShader->use(); // Need to use() because material sets uniforms. So to transfer data from material to shader uniform the shader must be "active"
+
+	setMaterial(Material(glm::vec4(1, 0, 0, 1)));
+	mMaterial.setCopper();
+	mMaterial.upload(*mShader);
 }
 
 void EntityWithMaterial::render(const glm::mat4& modelViewMat) const
 {
-	mShader->use();
-	mMaterial.upload(*mShader);
-	upload(modelViewMat * mModelMat);
-	mMesh->render();
+	if (mMesh != nullptr)
+	{
+		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+
+		mShader->use();
+		upload(aMat); // = mShader->setUniform("modelView", aMat);
+
+		mMesh->render();
+	}
 }
