@@ -160,6 +160,8 @@ class WingAdvancedTIE : public EntityWithTexture
 {
 public:
 	explicit WingAdvancedTIE();
+	~WingAdvancedTIE();
+
 	void render(const glm::mat4& modelViewMat) const override;
 };
 
