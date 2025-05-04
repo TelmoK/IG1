@@ -105,3 +105,21 @@ DirLightSimple::DirLightSimple(int id)
 	diffuse = { 0.6, 0.6, 0.6 };
 	specular = { 0, 0.2, 0 };
 }
+
+PosLightXY::PosLightXY(int id)
+{
+	ambient = { 0.25, 0.25, 0.25 };
+	diffuse = { 1.0, 1.0, 0.0 };
+	specular = { 0, 0.2, 0 };
+
+	setPosition(glm::vec3(200, 200, 0)); // positive XY plane
+}
+
+SpotLightYZ::SpotLightYZ(int id)
+{
+	ambient = { 0.25, 0.25, 0.25 };
+	diffuse = { 0.6, 0.6, 0.6 };
+	specular = { 0, 0.2, 0 };
+
+	setPosition(glm::vec3(0, 200, 200)); // positive YZ plane
+}

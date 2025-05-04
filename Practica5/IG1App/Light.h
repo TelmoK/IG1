@@ -106,4 +106,17 @@ public:
 	explicit DirLightSimple(int id = 0);
 };
 
+class PosLightXY : public PosLight
+{
+public:
+	explicit PosLightXY(int id = 0);
+};
+
+class SpotLightYZ : public SpotLight
+{
+public:
+	explicit SpotLightYZ(int id = 0);
+};
+
+
 #endif //_H_Light_H_

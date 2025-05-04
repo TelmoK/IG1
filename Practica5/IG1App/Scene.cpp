@@ -14,7 +14,7 @@ Scene::init()
 	// Lights
 	mGlobalLight = new DirLight();
 	mGlobalLight->setDirection(glm::vec3(-1, -1, -1));
-	gLights.push_back(mGlobalLight);
+	gLights.push_back({ mGlobalLight, ON });
 
 	// Textures
 
@@ -26,11 +26,6 @@ Scene::~Scene()
 {
 	destroy();
 	resetGL();
-}
-
-void Scene::toggleLight()
-{
-	mLightOn = !mLightOn;
 }
 
 void
@@ -52,8 +47,8 @@ Scene::destroy()
 
 	gTextures.clear();
 
-	for (Light* l : gLights)
-		delete l;
+	for (auto& [light, state] : gLights)
+		delete light;
 
 	gLights.clear();
 }
@@ -80,8 +75,8 @@ Scene::unload()
 	for (Abs_Entity* tobj : gTranslucidObjs)
 		tobj->unload();
 
-	for (Light* l : gLights)
-		l->unload(*Shader::get("light"));
+	for (auto& [light, state] : gLights)
+		light->unload(*Shader::get("light"));
 }
 
 void Scene::uploadLights(Camera const& cam) const
@@ -91,12 +86,11 @@ void Scene::uploadLights(Camera const& cam) const
 
 	//for(Abs_Entity* e : gObjects) // Objects don't have light. Light interact with objects, but are "owned" by the scene. 
 	// ! Lights are used to set shader parameters !
-	for (Light* l : gLights)
-		l->upload(*s, cam.viewMat()); // We upload the shader
-
-	if (!mLightOn) {
-		mGlobalLight->unload(*s);
+	for (auto& [light, state] : gLights) {
+		if (state == ON)
+			light->upload(*s, cam.viewMat()); // We upload the shader
 	}
+
 }
 
 void Scene::showNormals()
@@ -105,6 +99,22 @@ void Scene::showNormals()
 		if (dynamic_cast<ColorMaterialEntity*>(o))
 			dynamic_cast<ColorMaterialEntity*>(o)->toggleShowNormals();
 	}
+}
+
+void Scene::toggleLight(Light* light)
+{
+	// Searches for the light requested to turn ON or OFF
+	for (auto& [plight, pstate] : gLights) {
+		if (plight == light) // change light state ON/OFF
+			pstate = !pstate;
+		if (pstate == OFF)
+			light->unload(*Shader::get("light")); // Unloads shader data if OFF
+	}
+}
+
+void Scene::toggleLightWithKey_R()
+{
+	toggleLight(mGlobalLight);
 }
 
 void

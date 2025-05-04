@@ -10,6 +10,12 @@
 
 #include <vector>
 
+
+enum {
+	OFF,
+	ON
+};
+
 class Scene
 {
 public:
@@ -36,7 +42,12 @@ public:
 	virtual void rotate() {}
 	virtual void orbit() {}
 
-	virtual void toggleLight();
+	void toggleLight(Light* light);
+
+	void toggleLightWithKey_R(); // Global. All scenes
+	virtual void toggleLightWithKey_T() {}
+	virtual void toggleLightWithKey_Y() {}
+	virtual void toggleLightWithKey_H() {}
 
 protected:
 	void destroy();
@@ -47,10 +58,9 @@ protected:
 	std::vector<Abs_Entity*> gObjects; // Entities (graphic objects) of the scene
 	std::vector<Abs_Entity*> gTranslucidObjs; // Entities (translucid objects) of the scene
 	std::vector<Texture*> gTextures; // Texturas de la escena
-	std::vector<Light*> gLights; // Luces de la escena
+	std::vector<std::pair<Light*, bool>> gLights; // Luces de la escena: {light, on/off}
 
 	DirLight* mGlobalLight = nullptr;
-	bool mLightOn = true;
 
 	bool mShowNormals = false;
 };

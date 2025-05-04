@@ -8,8 +8,19 @@ void Scene10::init()
 
 	// allocate memory and load resources
 	// Lights
-	SpotLight* spotlight = new SpotLight();
-	gLights.push_back(spotlight);
+
+	// Esta es la luz que se moverrá con el caza
+	mFighterLight = new SpotLight();
+	gLights.push_back( { mFighterLight, ON } );
+
+	// XY light fixed
+	mPosLightXY = new PosLightXY();
+	gLights.push_back( { mPosLightXY, ON } );
+
+	// YZ light fixed
+	mSpotLightYZ = new SpotLightYZ();
+	gLights.push_back({ mSpotLightYZ, ON });
+
 	// Textures
 
 	// Graphics objects (entities) of the scene
@@ -27,14 +38,30 @@ void Scene10::init()
 	fighter->setWPos(glm::vec3(0, 220, 0));
 	gObjects.push_back(orbInventedNode);
 
-	spotlight->setPosition(glm::vec3(0, 170, 0));
-	spotlight->setDirection(glm::vec3(0) - glm::vec3(0, 220, 0));
+	// Fighter light position and direction to change with it
+	mFighterLight->setPosition(glm::vec3(0, 170, 0));
+	mFighterLight->setDirection(glm::vec3(0) - glm::vec3(0, 220, 0));
 
 }
 
 void Scene10::setColor()
 {
 	glClearColor(.0, .0, .0, .0);
+}
+
+void Scene10::toggleLightWithKey_T()
+{
+	toggleLight(mPosLightXY);
+}
+
+void Scene10::toggleLightWithKey_Y()
+{
+	toggleLight(mSpotLightYZ);
+}
+
+void Scene10::toggleLightWithKey_H()
+{
+	toggleLight(mFighterLight);
 }
 
 void Scene10::rotate()
@@ -52,4 +79,10 @@ void Scene10::orbit()
 	glm::vec3 rotatedOrbitAxis = glm::vec3(rotInventedNode->modelMat() * glm::vec4(0, 0, 1, 0));
 
 	orbInventedNode->setModelMat(glm::rotate(orbInventedNode->modelMat(), glm::radians(-3.0f), rotatedOrbitAxis));
+
+	//newFighterLight_pos = 
+
+	//mFighterLight->setDirection(glm::vec3(0) - newFighterLight_pos);
 }
+
+
