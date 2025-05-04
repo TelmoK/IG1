@@ -114,13 +114,13 @@ Cube::render(mat4 const& modelViewMat) const
 
 		glEnable(GL_CULL_FACE); // Activa el renderizado solo para las caras visibles para la c?mara
 
-		//Error anterior con los vértices en sentido horario:
+		//Error anterior con los vï¿½rtices en sentido horario:
 		// glCullFace(GL_FRONT); // Tambi?n se puede hacer: glFrontFace(GL_CCW); 
 		glCullFace(GL_BACK);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		mMesh->render();
 
-		//Error anterior con los vértices en sentido horario:
+		//Error anterior con los vï¿½rtices en sentido horario:
 		//glCullFace(GL_BACK); // Tambi?n se puede hacer: glFrontFace(GL_CW); 
 		glCullFace(GL_FRONT);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
@@ -150,13 +150,13 @@ RGBCube::render(mat4 const& modelViewMat) const
 
 		glEnable(GL_CULL_FACE); // Activa el renderizado solo para las caras visibles para la c?mara
 
-		//Error anterior con los vértices en sentido horario:
+		//Error anterior con los vï¿½rtices en sentido horario:
 		// glCullFace(GL_FRONT); // Tambi?n se puede hacer: glFrontFace(GL_CCW); 
 		glCullFace(GL_BACK);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		mMesh->render();
 
-		//Error anterior con los vértices en sentido horario:
+		//Error anterior con los vï¿½rtices en sentido horario:
 		//glCullFace(GL_BACK); // Tambi?n se puede hacer: glFrontFace(GL_CW); 
 		glCullFace(GL_FRONT);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
@@ -204,7 +204,7 @@ void BoxOutline::render(const glm::mat4& modelViewMat) const
 
 		if (mTexture != nullptr) mTexture->bind();
 
-		//Error anterior con los vértices en sentido horario:
+		//Error anterior con los vï¿½rtices en sentido horario:
 		// glCullFace(GL_FRONT); // Tambi?n se puede hacer: glFrontFace(GL_CCW); 
 		glCullFace(GL_BACK);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -214,7 +214,7 @@ void BoxOutline::render(const glm::mat4& modelViewMat) const
 
 		if (mIteriorTexture != nullptr) mIteriorTexture->bind();
 
-		//Error anterior con los vértices en sentido horario:
+		//Error anterior con los vï¿½rtices en sentido horario:
 		//glCullFace(GL_BACK); // Tambi?n se puede hacer: glFrontFace(GL_CW); 
 		glCullFace(GL_FRONT);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -364,7 +364,7 @@ void BoxCover::render(const glm::mat4& modelViewMat) const
 
 		if (mTexture != nullptr) mTexture->bind();
 
-		//Error anterior con los vértices en sentido horario:
+		//Error anterior con los vï¿½rtices en sentido horario:
 		// glCullFace(GL_FRONT); // Tambi?n se puede hacer: glFrontFace(GL_CCW); 
 		glCullFace(GL_BACK);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -374,7 +374,7 @@ void BoxCover::render(const glm::mat4& modelViewMat) const
 
 		if (mIteriorTexture != nullptr) mIteriorTexture->bind();
 
-		//Error anterior con los vértices en sentido horario:
+		//Error anterior con los vï¿½rtices en sentido horario:
 		//glCullFace(GL_BACK); // Tambi?n se puede hacer: glFrontFace(GL_CW); 
 		glCullFace(GL_FRONT);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

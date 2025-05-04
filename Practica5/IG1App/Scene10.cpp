@@ -1,4 +1,5 @@
 #include "Scene10.h"
+#include <iostream>
 
 #include <glm/gtc/type_ptr.hpp>
 
@@ -31,24 +32,24 @@ void Scene10::init()
 	orbInventedNode = new CompoundEntity();
 	rotInventedNode = new CompoundEntity();
 
-	//lightReference = new CompoundEntity(); // to move light with fighter
+	lightReference = new CompoundEntity(); // to move light with fighter
 
-	TieFighter* fighter = new TieFighter();
+	fighter = new TieFighter();
+	fighter->setWPos(glm::vec3(0, 220, 0));
+	lightReference->setWPos(fighter->getWPos() - glm::vec3(0, 20, 0));
+	//lightReference->setWPos(glm::vec3(0, 200, 0));
+	mFighterLight->setPosition(lightReference->getWPos());
+	mFighterLight->setDirection(glm::vec3(0) - mFighterLight->getPosition());
 
-	//glm::vec3 lightPosition = fighter->getWPos() + glm::normalize(fighter->getWPos() - glm::vec3(0)) * 16.0f; // 16 = radius of tie fighter sphere to place it bellow
-	//lightReference->setWPos(lightPosition);
 
 	rotInventedNode->addEntity(fighter);
-	//rotInventedNode->addEntity(lightReference);
+	rotInventedNode->addEntity(lightReference);
 
 	orbInventedNode->addEntity(rotInventedNode);
 
-	fighter->setWPos(glm::vec3(0, 220, 0));
 	gObjects.push_back(orbInventedNode);
 
 	// Fighter light position and direction to change with it
-	//mFighterLight->setPosition(glm::vec3(0, 220, 0));
-	//mFighterLight->setDirection(glm::vec3(0) - glm::vec3(0, 220, 0));
 
 }
 
@@ -88,9 +89,21 @@ void Scene10::orbit()
 
 	orbInventedNode->setModelMat(glm::rotate(orbInventedNode->modelMat(), glm::radians(-3.0f), rotatedOrbitAxis));
 
-	//newFighterLight_pos = 
+	// Set the position of the light combining all matrices up to world:
+	glm::vec3 pos = glm::vec3(
+		orbInventedNode->modelMat() *
+		rotInventedNode->modelMat() *
+		lightReference->modelMat() *
+		glm::vec4(0, 0, 0, 1)); // modelMat()[3] is the postion xyz
 
-	//mFighterLight->setDirection(glm::vec3(0) - newFighterLight_pos);
+	glm::vec3 dir = glm::normalize(glm::vec3(
+		orbInventedNode->modelMat() *
+		rotInventedNode->modelMat() *
+		lightReference->modelMat() *
+		glm::vec4(0, 0, -1, 0)));  // local forward to world direction
+
+	mFighterLight->setPosition(pos);
+	mFighterLight->setDirection(dir);
 }
 
 

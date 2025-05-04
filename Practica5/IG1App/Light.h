@@ -62,6 +62,8 @@ public:
 	virtual void upload(Shader& shader, glm::mat4 const& modelViewMat) const override;
 
 	void setPosition(const glm::fvec3& dir);
+	const glm::vec3& getPosition();
+
 	void setAttenuation(GLfloat kc, GLfloat kl, GLfloat kq);
 
 protected:
@@ -73,6 +75,11 @@ protected:
 inline void
 PosLight::setPosition(const glm::vec3& pos) {
 	position = glm::vec4(pos, 1.0);
+}
+
+inline
+const glm::vec3& PosLight::getPosition() {
+	return position;
 }
 
 inline void
