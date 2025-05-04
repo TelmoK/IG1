@@ -467,10 +467,13 @@ IG1App::key(unsigned int key)
 		break;
 	case 'r':
 		mScenes[mCurrentScene]->toggleLightWithKey_R();
+		break;
 	case 't':
 		mScenes[mCurrentScene]->toggleLightWithKey_T();
+		break;
 	case 'y':
 		mScenes[mCurrentScene]->toggleLightWithKey_Y();
+		break;
 	case 'h':
 		mScenes[mCurrentScene]->toggleLightWithKey_H();
 		break;
