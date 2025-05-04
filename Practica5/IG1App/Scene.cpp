@@ -108,7 +108,7 @@ void Scene::toggleLight(Light* light)
 		if (plight == light) // change light state ON/OFF
 			pstate = !pstate;
 		if (pstate == OFF)
-			light->unload(*Shader::get("light")); // Unloads shader data if OFF
+			plight->unload(*Shader::get("light")); // Unloads shader data if OFF
 	}
 }
 
