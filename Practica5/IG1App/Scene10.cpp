@@ -9,38 +9,46 @@ void Scene10::init()
 	// allocate memory and load resources
 	// Lights
 
-	// Esta es la luz que se moverrá con el caza
-	mFighterLight = new SpotLight();
+	//Esta es la luz que se moverrá con el caza
+	mFighterLight = new SpotLight(getSpotLightID());
 	gLights.push_back( { mFighterLight, ON } );
 
-	// XY light fixed
-	mPosLightXY = new PosLightXY();
+	//// XY light fixed
+	mPosLightXY = new PosLightXY(getPosLightID());
 	gLights.push_back( { mPosLightXY, ON } );
 
-	// YZ light fixed
-	mSpotLightYZ = new SpotLightYZ();
+	//// YZ light fixed
+	mSpotLightYZ = new SpotLightYZ(getSpotLightID());
 	gLights.push_back({ mSpotLightYZ, ON });
 
 	// Textures
 
 	// Graphics objects (entities) of the scene
 
+	
 	gObjects.push_back(new Sphere(150, 20, 30, glm::vec4(1, 0.91, 0, 1)));
 
 	orbInventedNode = new CompoundEntity();
 	rotInventedNode = new CompoundEntity();
 
+	//lightReference = new CompoundEntity(); // to move light with fighter
+
 	TieFighter* fighter = new TieFighter();
 
+	//glm::vec3 lightPosition = fighter->getWPos() + glm::normalize(fighter->getWPos() - glm::vec3(0)) * 16.0f; // 16 = radius of tie fighter sphere to place it bellow
+	//lightReference->setWPos(lightPosition);
+
 	rotInventedNode->addEntity(fighter);
+	//rotInventedNode->addEntity(lightReference);
+
 	orbInventedNode->addEntity(rotInventedNode);
 
 	fighter->setWPos(glm::vec3(0, 220, 0));
 	gObjects.push_back(orbInventedNode);
 
 	// Fighter light position and direction to change with it
-	mFighterLight->setPosition(glm::vec3(0, 170, 0));
-	mFighterLight->setDirection(glm::vec3(0) - glm::vec3(0, 220, 0));
+	//mFighterLight->setPosition(glm::vec3(0, 220, 0));
+	//mFighterLight->setDirection(glm::vec3(0) - glm::vec3(0, 220, 0));
 
 }
 

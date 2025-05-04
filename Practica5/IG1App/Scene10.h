@@ -21,6 +21,7 @@ private:
 
 	CompoundEntity* orbInventedNode;
 	CompoundEntity* rotInventedNode;
+	// CompoundEntity* lightReference;
 
 	PosLightXY* mPosLightXY = nullptr;
 	SpotLightYZ* mSpotLightYZ = nullptr;

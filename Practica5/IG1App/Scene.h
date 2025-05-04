@@ -49,6 +49,10 @@ public:
 	virtual void toggleLightWithKey_Y() {}
 	virtual void toggleLightWithKey_H() {}
 
+	int getDirLightID();
+	int getSpotLightID();
+	int getPosLightID();
+
 protected:
 	void destroy();
 	void setGL();
@@ -59,6 +63,16 @@ protected:
 	std::vector<Abs_Entity*> gTranslucidObjs; // Entities (translucid objects) of the scene
 	std::vector<Texture*> gTextures; // Texturas de la escena
 	std::vector<std::pair<Light*, bool>> gLights; // Luces de la escena: {light, on/off}
+
+	// Max number of lights for each type (capped by shader)
+	const int NR_DIR_LIGHTS = 2;
+	const int NR_POS_LIGHTS = 4;
+	const int NR_SPOT_LIGHTS = 4;
+
+	// Current number of lights
+	int nDirLights = 0;
+	int nSpotLights = 0;
+	int nPosLights = 0;
 
 	DirLight* mGlobalLight = nullptr;
 

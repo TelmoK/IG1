@@ -84,7 +84,7 @@ PosLight::setAttenuation(GLfloat nkc, GLfloat nkl, GLfloat nkq) {
 
 class SpotLight : public PosLight {
 public:
-	SpotLight(const glm::vec3& pos = {0, 0, 0}, int id = 0);
+	SpotLight(int id = 0, const glm::vec3& pos = { 0, 0, 0 });
 
 	virtual void upload(Shader& shader, glm::mat4 const& modelViewMat) const override;
 	void setDirection(const glm::vec3& dir) { direction = dir; }
@@ -115,7 +115,7 @@ public:
 class SpotLightYZ : public SpotLight
 {
 public:
-	explicit SpotLightYZ(int id = 0);
+	explicit SpotLightYZ(int id = 0, const glm::vec3& pos = { 0, 0, 0 });
 };
 
 

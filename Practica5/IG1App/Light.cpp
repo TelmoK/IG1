@@ -77,7 +77,7 @@ void PosLight::upload(Shader& shader, glm::mat4 const& modelViewMat) const
 	shader.setUniform(lightID + ".quadratic", quadratic);
 }
 
-SpotLight::SpotLight(const glm::vec3& pos, int id)
+SpotLight::SpotLight(int id, const glm::vec3& pos)
 {
 	lightID = "spotLights[" + std::to_string(id) + "]";
 	position = glm::vec4(pos, 1.0);
@@ -107,6 +107,7 @@ DirLightSimple::DirLightSimple(int id)
 }
 
 PosLightXY::PosLightXY(int id)
+	: PosLight(id)
 {
 	ambient = { 0.25, 0.25, 0.25 };
 	diffuse = { 1.0, 1.0, 0.0 };
@@ -115,7 +116,8 @@ PosLightXY::PosLightXY(int id)
 	setPosition(glm::vec3(200, 200, 0)); // positive XY plane
 }
 
-SpotLightYZ::SpotLightYZ(int id)
+SpotLightYZ::SpotLightYZ(int id, const glm::vec3& pos)
+	: SpotLight(id, pos)
 {
 	ambient = { 0.25, 0.25, 0.25 };
 	diffuse = { 0.6, 0.6, 0.6 };

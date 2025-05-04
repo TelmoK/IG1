@@ -12,7 +12,7 @@ Scene::init()
 
 	// allocate memory and load resources
 	// Lights
-	mGlobalLight = new DirLight();
+	mGlobalLight = new DirLight(getDirLightID());
 	mGlobalLight->setDirection(glm::vec3(-1, -1, -1));
 	gLights.push_back({ mGlobalLight, ON });
 
@@ -87,8 +87,7 @@ void Scene::uploadLights(Camera const& cam) const
 	//for(Abs_Entity* e : gObjects) // Objects don't have light. Light interact with objects, but are "owned" by the scene. 
 	// ! Lights are used to set shader parameters !
 	for (auto& [light, state] : gLights) {
-		if (state == ON)
-			light->upload(*s, cam.viewMat()); // We upload the shader
+		light->upload(*s, cam.viewMat()); // We upload the shader
 	}
 
 }
@@ -105,16 +104,44 @@ void Scene::toggleLight(Light* light)
 {
 	// Searches for the light requested to turn ON or OFF
 	for (auto& [plight, pstate] : gLights) {
-		if (plight == light) // change light state ON/OFF
+		if (plight == light) {// change light state ON/OFF
 			pstate = !pstate;
-		if (pstate == OFF)
-			plight->unload(*Shader::get("light")); // Unloads shader data if OFF
+			plight->setEnabled(pstate);
+			return;
+		}
 	}
 }
 
 void Scene::toggleLightWithKey_R()
 {
 	toggleLight(mGlobalLight);
+}
+
+int Scene::getDirLightID()
+{
+	assert(nDirLights < NR_DIR_LIGHTS && "DIR light capacity exceeded!");
+
+	int aux = nDirLights;
+	nDirLights++;
+	return aux;
+}
+
+int Scene::getSpotLightID()
+{
+	assert(nSpotLights < NR_SPOT_LIGHTS && "SPOT light capacity exceeded!");
+
+	int aux = nSpotLights;
+	nSpotLights++;
+	return aux;
+}
+
+int Scene::getPosLightID()
+{
+	assert(nPosLights < NR_POS_LIGHTS && "POS light capacity exceeded!");
+
+	int aux = nPosLights;
+	nPosLights++;
+	return aux;
 }
 
 void
